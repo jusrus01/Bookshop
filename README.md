@@ -22,7 +22,7 @@ After this project should run fine.
 ## Development notes
 ### Application state in [initial commit](https://github.com/jusrus01/Bookshop/commit/7769906f8b0a9c017eab7898d26859d074111b91)
 I implemented authentication/authorization with the use of ASP.NET Core Identity framework that relies on Entity Framework Core.
-Implementation detais are not important, so I will just discuss usage.
+Implementation details are not important, so I will just discuss usage.
 
 ```c#
 using Bookshop.Contracts.Constants;

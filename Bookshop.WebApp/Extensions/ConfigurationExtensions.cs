@@ -42,6 +42,10 @@ namespace Bookshop.WebApp.Extensions
             services.AddScoped<IUserService, UserService>();
 
             // Add new services here, should be AddScope probably
+
+            // Register created services here for dependency injection
+            // like this: (if you use AddSingleton() it would be like a static class, usually we don't want that)
+            services.AddScoped<ISomekindOfService, SomekindOfService>();
         }
 
         public static void AddDefaultDatabase(this IServiceCollection services, IConfiguration configuration)

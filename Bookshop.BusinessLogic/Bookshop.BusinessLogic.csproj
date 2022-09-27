@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bookshop.Contracts\Bookshop.Contracts.csproj" />
+    <ProjectReference Include="..\Bookshop.DataLayer\Bookshop.DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

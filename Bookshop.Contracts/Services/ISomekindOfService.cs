@@ -5,6 +5,6 @@ namespace Bookshop.Contracts.Services
     public interface ISomekindOfService // We will use interfaces for dependency injection.
         // We could not use them, although usually everyone does :)
     {
-        void CreateStuff(CreateDemoDto createDemoDto);
+        Task CreateStuffAsync(CreateDemoDto createDemoDto);
     }
 }

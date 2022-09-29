@@ -73,4 +73,5 @@ Projects:
 there wont be any changes applied to database.
 - When creating Razor Page it has to be in Pages folder. Also naming matters (so make sure that methods have appropriate names, otherwise nothing will work). I used these projects
 as reference [1](https://github.com/simaosoares/WebAppIdentity/blob/master/Areas/Identity/Pages/Account/Register.cshtml.cs), [2](https://github.com/hinault/RazorDemo/blob/master/RazorDemo/Models/Student.cs)
+- Added a [demo branch](https://github.com/jusrus01/Bookshop/commits/demo) where I tried to show how I think things in here should be created. View commits from bottom to top.
 

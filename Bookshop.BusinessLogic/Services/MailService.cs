@@ -13,7 +13,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public MailService(IConfiguration configuration)
         {
-            _settings = configuration.GetSection("MailSettings")
+            _settings = configuration.GetSection("MailConfiguration")
                 .Get<MailConfiguration>();
         }
 

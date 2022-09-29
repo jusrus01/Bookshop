@@ -2,14 +2,14 @@ using Bookshop.Contracts.Services;
 using Bookshop.WebApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using AutoMapper;
+using Bookshop.WebApp.RazorPageModels;
 
 namespace Bookshop.WebApp.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class RegisterModel : BookshopPageModel
     {
 
         [BindProperty]
@@ -30,13 +30,14 @@ namespace Bookshop.WebApp.Pages.Account
             {
                 return Page();
             }
-
-            var registerDto = _mapper.Map<RegisterDto>(RegisterInput);
-            var isUserCreated = await _userService.RegisterAsync(registerDto);
-
-            if (!isUserCreated)
+           
+            try
             {
-                return Page();
+                await _userService.RegisterAsync(_mapper.Map<RegisterDto>(RegisterInput));
+            }
+            catch (Exception e)
+            {
+                return PageWithError(e.Message);
             }
 
             return RedirectToPage("Login");

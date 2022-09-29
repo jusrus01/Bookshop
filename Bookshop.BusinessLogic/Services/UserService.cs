@@ -9,18 +9,23 @@ namespace Bookshop.BusinessLogic.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IMailService _mailService;
 
-        public UserService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public UserService(
+            UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> signInManager,
+            IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mailService = mailService;
         }
 
-        public async Task<bool> RegisterAsync(RegisterDto registerDto)
+        public async Task RegisterAsync(RegisterDto registerDto)
         {
             if (await IsUserAlreadyRegisteredAsync(registerDto.Email))
             {
-                return false;
+                throw new Exception("User is already registered");
             }
 
             var newIdentityUser = new IdentityUser
@@ -33,27 +38,23 @@ namespace Bookshop.BusinessLogic.Services
 
             if (!identityResult.Succeeded)
             {
-                return false;
+                throw new Exception("Failed to create an account");
             }
 
             await _userManager.AddToRoleAsync(newIdentityUser, BookshopRoles.Client);
-
-            return true;
         }
 
-        public async Task<bool> SignInAsync(LoginDto loginDto)
+        public async Task SignInAsync(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
             if (user == null)
             {
-                return false;
+                throw new Exception("User does not exists");
             }
 
             await _signInManager.SignOutAsync();
             await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
-
-            return true;
         }
 
         public async Task SignOutAsync()

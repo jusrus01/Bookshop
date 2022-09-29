@@ -5,6 +5,11 @@
 
 <h1>Login</h1>
 
+@if (Model.HasError)
+{
+    <p>@Model.ErrorMessage</p>
+}
+
 <form method="post">
     <div class="row">
         <div class="col-md-8">

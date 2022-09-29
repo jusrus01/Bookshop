@@ -1,15 +1,15 @@
 using AutoMapper;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Services;
+using Bookshop.WebApp.RazorPageModels;
 using Bookshop.WebApp.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bookshop.WebApp.Pages.Account
 {
     [AllowAnonymous]
-    public class LoginModel : PageModel
+    public class LoginModel : BookshopPageModel
     {
         [BindProperty]
         public LoginViewModel LoginInput { get; set; } = new();
@@ -30,9 +30,14 @@ namespace Bookshop.WebApp.Pages.Account
                 return Page();
             }
 
-            var loginDto = _mapper.Map<LoginDto>(LoginInput);
-            
-            await _userService.SignInAsync(loginDto);
+            try
+            {
+                await _userService.SignInAsync(_mapper.Map<LoginDto>(LoginInput));
+            }
+            catch (Exception e)
+            {
+                return PageWithError(e.Message);
+            }
 
             return RedirectToPage("..//Index");
         }

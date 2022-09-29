@@ -11,10 +11,9 @@ namespace Bookshop.WebApp.Extensions
     {
         public static void AddIndentity(this IServiceCollection services)
         {
+            // Development settings
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                // Development settings
-
                 // Password settings
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
@@ -31,6 +30,9 @@ namespace Bookshop.WebApp.Extensions
                 // User settings
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
+
+                // Activate email confirmation
+                // options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<BookshopDbContext>()
             .AddDefaultTokenProviders();
@@ -40,8 +42,7 @@ namespace Bookshop.WebApp.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
-
-            // Add new services here, should be AddScope probably
+            services.AddScoped<IMailService, MailService>();
         }
 
         public static void AddDefaultDatabase(this IServiceCollection services, IConfiguration configuration)

@@ -14,7 +14,6 @@ namespace Bookshop.WebApp.Extensions
             // Development settings
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                // Password settings
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -22,17 +21,15 @@ namespace Bookshop.WebApp.Extensions
                 options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 1;
 
-                // Lockout settings
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
-                // User settings
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
 
                 // Activate email confirmation
-                // options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<BookshopDbContext>()
             .AddDefaultTokenProviders();

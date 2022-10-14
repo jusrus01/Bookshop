@@ -1,7 +1,9 @@
 ﻿using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Web;
 
 namespace Bookshop.BusinessLogic.Services
 {
@@ -10,15 +12,35 @@ namespace Bookshop.BusinessLogic.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IMailService _mailService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(
             UserManager<IdentityUser> userManager, 
             SignInManager<IdentityUser> signInManager,
-            IMailService mailService)
+            IMailService mailService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mailService = mailService;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task ConfirmEmailAsync(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new Exception("User does not exist");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Could not confirm email");
+            }
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)
@@ -42,6 +64,20 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             await _userManager.AddToRoleAsync(newIdentityUser, BookshopRoles.Client);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(newIdentityUser);
+
+            var encodedToken = HttpUtility.UrlEncode(token);
+
+            var request = _httpContextAccessor.HttpContext.Request;
+            var applicationPath = $"{request.Scheme}://{request.Host}";
+            var confirmationLink = $"{applicationPath}/Account/ConfirmEmail?token={encodedToken}&email={newIdentityUser.Email}";
+
+            await _mailService.SendEmailAsync(
+                "Confirm your account",
+                newIdentityUser.UserName,
+                newIdentityUser.Email,
+                confirmationLink);
         }
 
         public async Task SignInAsync(LoginDto loginDto)
@@ -54,7 +90,13 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             await _signInManager.SignOutAsync();
-            await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
+
+            var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
+            
+            if (!result.Succeeded)
+            {
+                throw new Exception("Account not confirmed");
+            }
         }
 
         public async Task SignOutAsync()

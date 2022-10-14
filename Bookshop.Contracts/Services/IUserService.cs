@@ -9,5 +9,7 @@ namespace Bookshop.Contracts.Services
         Task SignInAsync(LoginDto loginDto);
 
         Task SignOutAsync();
+
+        Task ConfirmEmailAsync(string token, string email);
     }
 }

@@ -1,4 +1,5 @@
 using Bookshop.Contracts.Constants;
+using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection;
@@ -7,7 +8,7 @@ async Task InitializeDefinedRolesAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
 
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
     var definedRoles = typeof(BookshopRoles)
         .GetFields(BindingFlags.Public | BindingFlags.Static);
@@ -16,7 +17,7 @@ async Task InitializeDefinedRolesAsync(WebApplication app)
     {
         if (!await roleManager.RoleExistsAsync(roleProperty.Name))
         {
-            await roleManager.CreateAsync(new IdentityRole(roleProperty.Name));
+            await roleManager.CreateAsync(new ApplicationRole(roleProperty.Name, DateTime.UtcNow));
         }
     }
 }

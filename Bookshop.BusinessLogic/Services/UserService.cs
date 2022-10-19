@@ -1,22 +1,24 @@
 ﻿using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Services;
+using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Web;
 
 namespace Bookshop.BusinessLogic.Services
 {
+    // TODO: Fill in new ApplicationUser model
     public class UserService : IUserService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMailService _mailService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(
-            UserManager<IdentityUser> userManager, 
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager,
             IMailService mailService,
             IHttpContextAccessor httpContextAccessor)
         {
@@ -50,7 +52,7 @@ namespace Bookshop.BusinessLogic.Services
                 throw new Exception("User is already registered");
             }
 
-            var newIdentityUser = new IdentityUser
+            var newIdentityUser = new ApplicationUser
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Email

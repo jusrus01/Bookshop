@@ -7,7 +7,7 @@ namespace Bookshop.WebApp.RazorPageModels
     [PageModel]
     public abstract class BookshopPageModel : PageModel
     {
-        public virtual string? ErrorMessage { get; set; }
+        public virtual string ErrorMessage { get; set; }
 
         public virtual bool HasError 
         { 

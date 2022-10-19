@@ -4,15 +4,16 @@ using Bookshop.Contracts.Services;
 using Microsoft.AspNetCore.Identity;
 using Bookshop.DataLayer;
 using Microsoft.EntityFrameworkCore;
+using Bookshop.DataLayer.Models;
 
 namespace Bookshop.WebApp.Extensions
 {
-    public static class ConfigurationExtensions
+    public static class DependencyInjection
     {
         public static void AddIndentity(this IServiceCollection services)
         {
             // Development settings
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;

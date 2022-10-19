@@ -16,6 +16,7 @@ Before running the project you should [create a database](https://support.mailes
 3. If at this point the solution compiles, you will need to do one more thing. Run command ```Update-Database -Project Bookshop.DataLayer -StartUpProject Bookshop.WebApp```
 in Package Manager Console (you can find it in VStudio menu by navigating to Tools > NuGet Package Manager > Package Manager Console).
 This command will apply current migration file.
+4. Install [Smtp4dev](https://github.com/rnwood/smtp4dev) for [email confirmation](https://github.com/jusrus01/Bookshop/commit/e2c6be2c39a3de2e5e901893a5427f09a5199453) to work (run it when creating new accounts).
 
 After this project should run fine.
 

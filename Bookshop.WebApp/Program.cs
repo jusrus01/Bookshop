@@ -1,4 +1,5 @@
 using Bookshop.Contracts.Constants;
+using Bookshop.Contracts.Options;
 using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,8 @@ void AddRequiredConfigurations(WebApplicationBuilder builder)
 {
     var configuration = builder.Configuration;
     var services = builder.Services;
+
+    services.Configure<MailOptions>(configuration.GetSection("MailConfiguration"));
 
     services.AddDefaultDatabase(configuration);
     services.AddIndentity();

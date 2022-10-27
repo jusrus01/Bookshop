@@ -1,6 +1,6 @@
-﻿namespace Bookshop.Contracts.DataTransferObjects.Mails
+﻿namespace Bookshop.Contracts.Options
 {
-    public class MailConfiguration
+    public class MailOptions
     {
         public bool UseSmtp4Dev { get; set; }
 

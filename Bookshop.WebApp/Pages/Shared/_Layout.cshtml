@@ -4,9 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Bookshop.WebApp</title>
+
+    @* Global styles *@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bookshop.WebApp.styles.css" asp-append-version="true" />
+
+    @* Import specific style files like this: https://stackoverflow.com/questions/5021552/how-to-reference-a-css-file-on-a-razor-view *@
+    @RenderSection("Styles", false)
 </head>
 <body>
     <header>
@@ -65,5 +70,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
 </body>
 </html>

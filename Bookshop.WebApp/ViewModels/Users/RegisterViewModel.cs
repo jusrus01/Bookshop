@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bookshop.WebApp.Models.Users
+namespace Bookshop.WebApp.PageModels.Users
 {
     public class RegisterViewModel
     {

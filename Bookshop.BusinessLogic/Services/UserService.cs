@@ -88,7 +88,7 @@ namespace Bookshop.BusinessLogic.Services
 
             if (user == null)
             {
-                throw new Exception("User does not exists");
+                throw new Exception("User not found");
             }
 
             await _signInManager.SignOutAsync();

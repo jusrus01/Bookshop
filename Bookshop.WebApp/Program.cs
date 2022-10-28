@@ -1,3 +1,5 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.Options;
 using Bookshop.DataLayer.Models;
@@ -36,6 +38,13 @@ void AddRequiredConfigurations(WebApplicationBuilder builder)
 
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+    services.AddNotyf(options =>
+    {
+        options.DurationInSeconds = 5;
+        options.IsDismissable = true;
+        options.Position = NotyfPosition.BottomRight;
+    });
+
     services.AddRazorPages();
 }
 
@@ -54,6 +63,8 @@ void UseRequiredConfigurations(WebApplication app)
     app.UseAuthentication();
 
     app.UseAuthorization();
+
+    app.UseNotyf();
 
     app.MapRazorPages();
 }

@@ -1,10 +1,11 @@
 using Bookshop.Contracts.Services;
-using Bookshop.WebApp.Models.Users;
+using Bookshop.WebApp.PageModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using AutoMapper;
-using Bookshop.WebApp.RazorPageModels;
+using Bookshop.WebApp.PageModels;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Bookshop.WebApp.Pages.Account
 {
@@ -18,7 +19,9 @@ namespace Bookshop.WebApp.Pages.Account
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public RegisterModel(IUserService userService, IMapper mapper)
+        public RegisterModel(IUserService userService, IMapper mapper, INotyfService notyfService)
+            :
+            base(notyfService)
         {
             _userService = userService;
             _mapper = mapper;

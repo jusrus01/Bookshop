@@ -1,5 +1,6 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Bookshop.Contracts.Services;
-using Bookshop.WebApp.RazorPageModels;
+using Bookshop.WebApp.PageModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Account
@@ -8,7 +9,7 @@ namespace Bookshop.WebApp.Pages.Account
     {
         private readonly IUserService _userService;
 
-        public ConfirmEmailModel(IUserService userService)
+        public ConfirmEmailModel(IUserService userService) : base(null)
         {
             _userService = userService;
         }

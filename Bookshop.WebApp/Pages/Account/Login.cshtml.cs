@@ -1,7 +1,8 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Services;
-using Bookshop.WebApp.RazorPageModels;
+using Bookshop.WebApp.PageModels;
 using Bookshop.WebApp.ViewModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,10 @@ namespace Bookshop.WebApp.Pages.Account
 
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-
-        public LoginModel(IUserService userService, IMapper mapper)
+        
+        public LoginModel(IUserService userService, IMapper mapper, INotyfService notyfService)
+            :
+            base(notyfService)
         {
             _userService = userService;
             _mapper = mapper;

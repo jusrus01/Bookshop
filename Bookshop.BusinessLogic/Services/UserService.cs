@@ -55,7 +55,12 @@ namespace Bookshop.BusinessLogic.Services
             var newIdentityUser = new ApplicationUser
             {
                 Email = registerDto.Email,
-                UserName = registerDto.Email
+                UserName = registerDto.Email,
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                PhoneNumber = registerDto.PhoneNumber,
+                Address = registerDto.Address,
+                Created = DateTime.UtcNow
             };
 
             var identityResult = await _userManager.CreateAsync(newIdentityUser, registerDto.Password);

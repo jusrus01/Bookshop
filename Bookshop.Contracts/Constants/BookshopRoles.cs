@@ -2,10 +2,10 @@
 {
     public static class BookshopRoles
     {
-        public const string Client = nameof(Client);
+        public const string Client = "Client";
 
-        public const string Administrator = nameof(Administrator);
+        public const string Administrator = "Administrator";
 
-        public const string Manager = nameof(Manager);
+        public const string Manager = "Manager";
     }
 }

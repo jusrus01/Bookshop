@@ -2,10 +2,15 @@
 
 namespace Bookshop.DataLayer.Models
 {
+    // Make many-to-many...
+    // Will be able to show role tags.??
+
     // Overriding base values for clarity
     public class ApplicationUser : IdentityUser
     {
         public override string UserName { get; set; }
+
+        public string FirstName { get; set; }
 
         public string LastName { get; set; }
 

@@ -31,6 +31,13 @@ namespace Bookshop.WebApp.PageModels
             return base.Page();
         }
 
+        public virtual PageResult PageWithSuccess(string successMessage)
+        {
+            _notyfService.Success(successMessage);
+
+            return this.Page();
+        }
+
         public override PageResult Page()
         {
             ErrorMessage = null;

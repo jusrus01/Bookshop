@@ -8,7 +8,6 @@ using System.Web;
 
 namespace Bookshop.BusinessLogic.Services
 {
-    // TODO: Fill in new ApplicationUser model
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1,0 +1,14 @@
+﻿@page
+@using Bookshop.Contracts.Constants
+@model Bookshop.WebApp.Pages.Client.ProfileModel
+@{
+}
+
+
+@if (User.IsInRole(BookshopRoles.Administrator))
+{
+    <p>admin</p>
+}
+
+
+<h1>@Model.ClientOutput.Email</h1>

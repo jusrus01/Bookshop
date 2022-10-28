@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Bookshop.Contracts.DataTransferObjects.Clients;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.WebApp.PageModels.Users;
+using Bookshop.WebApp.ViewModels.Clients;
 using Bookshop.WebApp.ViewModels.Users;
 
 namespace Bookshop.WebApp.Mappings
@@ -25,8 +27,8 @@ namespace Bookshop.WebApp.Mappings
 
         public void DtoToViewModelMappings()
         {
-            #region Users
-
+            #region Clients
+            CreateMap<ClientDto, ClientViewModel>();
             #endregion
         }
     }

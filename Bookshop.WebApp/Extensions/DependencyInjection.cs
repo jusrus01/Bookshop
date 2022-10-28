@@ -41,6 +41,7 @@ namespace Bookshop.WebApp.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IClientService, ClientService>();
         }
 
         public static void AddDefaultDatabase(this IServiceCollection services, IConfiguration configuration)

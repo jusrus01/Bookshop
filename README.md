@@ -21,9 +21,9 @@ This command will apply current migration file.
 After this project should run fine.
 
 ## Development notes
-### Application state in [initial commit](https://github.com/jusrus01/Bookshop/commit/7769906f8b0a9c017eab7898d26859d074111b91)
-I implemented authentication/authorization with the use of ASP.NET Core Identity framework that relies on Entity Framework Core.
-Implementation details are not important, so I will just discuss usage.
+### ~~Application state in [initial commit](https://github.com/jusrus01/Bookshop/commit/7769906f8b0a9c017eab7898d26859d074111b91)~~
+~~I implemented authentication/authorization with the use of ASP.NET Core Identity framework that relies on Entity Framework Core.
+Implementation details are not important, so I will just discuss usage.~~
 
 ```c#
 using Bookshop.Contracts.Constants;
@@ -33,41 +33,50 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Bookshop.WebApp.Pages
 {
     // Only users that are authenticated and have these roles can access this Razor Page model
-    // (you dont have to use it on class if you don't want to, you can use them only on methods)
     [RolesAuthorize(BookshopRoles.Administrator, BookshopRoles.Client)]
     public class PrivacyModel : PageModel
     {
         public PrivacyModel()
         {
         }
+    }
+}
+```
+Apparently, we can only authorize the whole page with the authorization attribute. If you need to check whether or not the user has another role (and global page authorization is not enough), you can use ~~the **BookshopPageModel.UserHasRole()**~~ **ClaimsPrincipal.IsInRole()** function (also, all your newly created razor pages should inherit from **BookshopPageModel** instead of PagedModel). For example .cshtml:
+```c#
+@page
+@using Bookshop.Contracts.Constants
+@model Bookshop.WebApp.Pages.Client.ProfileModel
+@{
+}
 
-        [AllowAnonymous] // Will allow not authenticated user to call this function
-        public void OnGet()
-        {
-        }
-        
-        [RolesAuthorize(BookshopRoles.SomeKindOfRole)] // Can add other nested roles (not sure if this overrides above defined roles)
-        public void OnPost()
-        {
-        }
+
+@if (User.IsInRole(BookshopRoles.Administrator))
+{
+    <p>admin</p>
+}
+
+@if (User.IsInRole(BookshopRoles.Client))
+{
+    <p>client</p>
+}
+```
+Or in .cs files:
+```c#
+public void OnGetAsync()
+{
+    if (!User.IsInRole(BookshopRoles.Client))
+    {
+        // do something
+    }
+    else
+    {
+        // do something else
     }
 }
 ```
 
-Also, Login/Register forms are not very well created. I guess we will need to decide on some kind of design or something :)
-
-### Overview of project structure
-This probably is not the best project structure, however my main aim was that it would be simple to use.
-
-Projects:
-- Bookshop.Contracts, contains interfaces for services and DTOs.
-- Bookshop.DataLayer, contains entity models and DbContext.
-- Bookshop.BusinessLogic, should contain service implementations.
-- Bookshop.WebApp, contains Razor Pages, attributes and view models.
-
-...
-
-*Probably will discuss all of this IRL, since I am too lazy to type everything out :)*
+~~Also, Login/Register forms are not very well created. I guess we will need to decide on some kind of design or something :)~~
 
 ### Some other helpful notes
 - Using EF Core and applying database change (adding, editing, removing) you should always call DbContext.SaveChangesAsync() or DbContext.SaveChanges() afterwards, otherwise

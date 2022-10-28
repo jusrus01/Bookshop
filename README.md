@@ -69,25 +69,14 @@ public void OnGetAsync()
     {
         // do something
     }
-
-    // do something else
+    else
+    {
+        // do something else
+    }
 }
 ```
 
 ~~Also, Login/Register forms are not very well created. I guess we will need to decide on some kind of design or something :)~~
-
-### Overview of project structure
-This probably is not the best project structure, however my main aim was that it would be simple to use.
-
-Projects:
-- Bookshop.Contracts, contains interfaces for services and DTOs.
-- Bookshop.DataLayer, contains entity models and DbContext.
-- Bookshop.BusinessLogic, should contain service implementations.
-- Bookshop.WebApp, contains Razor Pages, attributes and view models.
-
-...
-
-*Probably will discuss all of this IRL, since I am too lazy to type everything out :)*
 
 ### Some other helpful notes
 - Using EF Core and applying database change (adding, editing, removing) you should always call DbContext.SaveChangesAsync() or DbContext.SaveChanges() afterwards, otherwise

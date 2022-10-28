@@ -42,7 +42,7 @@ namespace Bookshop.WebApp.Pages
     }
 }
 ```
-Apparently, we can only authorize the whole page with the authorization attribute. If you need to check whether or not the user has another role (and global page authorization is not enough), you can use the **BookshopPageModel.UserHasRole()** function (also, all your newly created razor pages should inherit from **BookshopPageModel** instead of PagedModel). For example .cshtml:
+Apparently, we can only authorize the whole page with the authorization attribute. If you need to check whether or not the user has another role (and global page authorization is not enough), you can use ~~the **BookshopPageModel.UserHasRole()**~~ **ClaimsPrincipal.IsInRole()** function (also, all your newly created razor pages should inherit from **BookshopPageModel** instead of PagedModel). For example .cshtml:
 ```c#
 @page
 @using Bookshop.Contracts.Constants
@@ -51,12 +51,12 @@ Apparently, we can only authorize the whole page with the authorization attribut
 }
 
 
-@if (Model.UserHasRole(BookshopRoles.Administrator))
+@if (User.IsInRole(BookshopRoles.Administrator))
 {
     <p>admin</p>
 }
 
-@if (Model.UserHasRole(BookshopRoles.Client))
+@if (User.IsInRole(BookshopRoles.Client))
 {
     <p>client</p>
 }
@@ -65,7 +65,7 @@ Or in .cs files:
 ```c#
 public void OnGetAsync()
 {
-    if (!UserHasRole(BookshopRoles.Client))
+    if (!User.IsInRole(BookshopRoles.Client))
     {
         // do something
     }

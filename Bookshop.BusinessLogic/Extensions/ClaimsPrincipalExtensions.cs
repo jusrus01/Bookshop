@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Bookshop.WebApp.Extensions
+namespace Bookshop.BusinessLogic.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {

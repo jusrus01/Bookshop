@@ -1,0 +1,101 @@
+﻿@page
+@using Bookshop.BusinessLogic.Extensions
+@using Bookshop.Contracts.Constants
+@model Bookshop.WebApp.Pages.Client.ListModel
+@{
+}
+
+@section Styles 
+{
+    <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
+}
+
+@*TODO: fix layout*@
+<h3>Clients</h3>
+
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-md-2">
+                Image
+            </div>
+
+            <div class="col-md-2">
+                Name
+            </div>
+
+            <div class="col-md-3">
+                Email
+            </div>
+
+            <div class="col-md-2">
+                Last login
+            </div>
+
+            <div class="col-md-3 text-center">
+                Actions
+            </div>
+        </div>
+    </li>
+    @foreach (var client in Model.Paged.Items)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="client-image" src="https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png"/>
+                </div>
+
+                <div class="col-md-2">
+                    @if (User.IsInRole(BookshopRoles.Administrator) || User.GetAuthenticatedUserId() == client.Id)
+                    {
+                        <a asp-area="" asp-page="/Client/Profile" asp-route-userId="@client.Id">@client.FirstName @client.LastName</a>
+                    }
+                    else
+                    {
+                        <span>@client.FirstName @client.LastName</span>
+                    }
+                </div>
+
+                <div class="col-md-3">
+                    @if (User.IsInRole(BookshopRoles.Administrator) || User.GetAuthenticatedUserId() == client.Id)
+                    {
+                        <span>@client.Email</span>
+                    }
+                    else
+                    {
+                        <span>Hidden</span>
+                    }
+                </div>
+
+                <div class="col-md-2">
+                    <span>@client.LastLogin</span>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-danger">Remove</button>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+<div class="pagination-container">
+    @if (!Model.Paged.PreviousPageIsEmpty)
+    {
+        <a class="btn btn-outline-primary" asp-page="/Client/List" asp-route-pageNumber="@Model.PreviousPage">Previous</a>
+    }
+    else
+    {
+        <button class="btn btn-outline-primary">Previous</button>
+    }
+
+    @if (!Model.Paged.NextPageIsEmpty)
+    {
+        <a class="btn btn-primary" asp-page="/Client/List" asp-route-pageNumber="@Model.NextPage">Next</a>
+    }
+    else
+    {
+        <button class="btn btn-primary">Next</button>
+    }
+</div>

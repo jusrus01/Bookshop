@@ -4,11 +4,40 @@
 @{
 }
 
-
-@if (User.IsInRole(BookshopRoles.Administrator))
+@section Styles 
 {
-    <p>admin</p>
+    <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
 }
 
+<div class="row justify-content-center">
+    <div class="col-md-4 text-center">
+        <img class="profile-image" src="https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png" />
+        @* TODO: Add pils for role display *@
+    </div>
 
-<h1>@Model.ClientOutput.Email</h1>
+    <div class="col-md-4">
+        <label asp-for="@Model.ClientOutput.FirstName"></label>
+        <p>@Model.ClientOutput.FirstName</p>
+         
+        <label asp-for="@Model.ClientOutput.FirstName"></label>
+        <p>@Model.ClientOutput.FirstName</p>
+
+        <label asp-for="@Model.ClientOutput.LastName"></label>
+        <p>@Model.ClientOutput.LastName</p>
+
+        <label asp-for="@Model.ClientOutput.Email"></label>
+        <p>@Model.ClientOutput.Email</p>
+
+        <label asp-for="@Model.ClientOutput.Address"></label>
+        <p>@Model.ClientOutput.Address</p>
+
+        <label asp-for="@Model.ClientOutput.PhoneNumber"></label>
+        <p>@Model.ClientOutput.PhoneNumber</p>
+            
+        <label asp-for="@Model.ClientOutput.Created"></label>
+        <p>@Model.ClientOutput.Created</p>
+
+        <label asp-for="@Model.ClientOutput.LastLogin"></label>
+        <p>@Model.ClientOutput.LastLogin</p>
+    </div>
+</div>

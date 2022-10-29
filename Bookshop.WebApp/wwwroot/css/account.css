@@ -62,3 +62,10 @@
     text-align: left !important;
     float: left;
 }
+
+/* Profile */
+.profile-image {
+    border-radius: 50px;
+    min-width: 250px;
+    max-width: 250px;
+}

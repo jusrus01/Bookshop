@@ -1,0 +1,51 @@
+﻿@page
+@using Bookshop.BusinessLogic.Extensions
+@model Bookshop.WebApp.Pages.Client.EditModel
+@{
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
+}
+
+ <div class="row justify-content-center">
+    <div class="col-md-4 text-center">
+        <div class="text-start my-2">
+            <span>Roles:</span>
+            <span class="role-indicator">Client</span>
+        </div>
+        <img class="profile-image" src="https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png" />
+            <div class="text-center">
+            <div class="mt-4">
+                @*Temporary*@
+                <a class="btn btn-success" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">Confirm</a>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <label>First name</label>
+        <input class="form-control" />
+
+        <label>Last name</label>
+        <input class="form-control" />
+
+        <label>Email</label>
+        <input class="form-control" />
+        
+        <label>Address</label>
+        <input class="form-control" />
+
+        <label>Phone number</label>
+        <input class="form-control" />
+
+        <label>Created</label>
+        <input class="form-control" />
+        
+        <label>Last login</label>
+        <input class="form-control" />
+    </div>
+</div>

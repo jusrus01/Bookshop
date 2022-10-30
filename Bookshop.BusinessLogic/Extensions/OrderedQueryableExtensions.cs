@@ -15,14 +15,14 @@ namespace Bookshop.BusinessLogic.Extensions
                 .Take(pageSize + 1)
                 .ToListAsync();
 
-            return new Paged<T>(items, page, pageSize);
+            return MapListToPaged(items, page, pageSize);
         }
 
         public static async Task<Paged<TDto>> ToPagedAsync<TModel, TDto>(
             this IOrderedQueryable<TModel> queryable,
             Expression<Func<TModel, TDto>> selector,
             int page,
-            int pageSize) 
+            int pageSize)
             where TModel : class
             where TDto : class
         {
@@ -31,7 +31,18 @@ namespace Bookshop.BusinessLogic.Extensions
                 .Select(selector)
                 .ToListAsync();
 
-            return new Paged<TDto>(items, page, pageSize);
+            return MapListToPaged(items, page, pageSize);
+        }
+
+        private static Paged<T> MapListToPaged<T>(IList<T> items, int page, int pageSize) where T : class
+        {
+            return new Paged<T>
+            {
+                Items = items.Count > pageSize ? items.SkipLast(1) : items,
+                NextPageIsEmpty = items.Count < pageSize,
+                PreviousPageIsEmpty = page <= 1,
+                Count = items.Count != 0 ? items.Count - 1 : 0
+            };
         }
     }
 }

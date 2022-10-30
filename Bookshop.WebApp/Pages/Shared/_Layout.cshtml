@@ -57,11 +57,17 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Logout">Logout</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">
+                                    <i class="fa-solid fa-user"></i>
+                                    Profile
+                                </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">Profile</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Logout">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    Logout
+                                </a>
                             </li>
                         }
                     </ul>

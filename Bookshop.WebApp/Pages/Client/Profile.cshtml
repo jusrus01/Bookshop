@@ -56,7 +56,7 @@
             <div class="mt-2">
                 @if (User.IsAdminOrOwner(Model.ClientOutput.Id))
                 {
-                    <button class="btn btn-secondary">View order history</button>
+                    <a class="btn btn-secondary" asp-area="" asp-page="/Client/Report">View order history</a>
                 }
             </div>
         </div>

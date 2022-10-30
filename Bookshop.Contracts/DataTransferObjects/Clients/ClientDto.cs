@@ -2,6 +2,8 @@
 {
     public class ClientDto
     {
+        public string Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -15,5 +17,7 @@
         public DateTime Created { get; set; }
 
         public DateTime LastLogin { get; set; }
+
+        public IEnumerable<string> Roles { get; set; }
     }
 }

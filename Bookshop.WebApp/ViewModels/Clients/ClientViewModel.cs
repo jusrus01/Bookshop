@@ -4,6 +4,8 @@ namespace Bookshop.WebApp.ViewModels.Clients
 {
     public class ClientViewModel
     {
+        public string Id { get; set; }
+
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
@@ -24,5 +26,8 @@ namespace Bookshop.WebApp.ViewModels.Clients
 
         [Display(Name = "Last login")]
         public DateTime LastLogin { get; set; }
+
+        [Display(Name = "Roles")]
+        public IEnumerable<string> Roles { get; set; }
     }
 }

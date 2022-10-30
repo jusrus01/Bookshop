@@ -4,6 +4,14 @@
     min-width: 25px;
 }
 
+.role-indicator {
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    background-color: dimgray;
+    padding: 3px 10px;
+}
+
 @media (max-width: 768px) {
     .actions-container {
         text-align: left !important;

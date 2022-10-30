@@ -17,3 +17,7 @@
         text-align: left !important;
     }
 }
+
+.active-report-item {
+    background-color: lightgray !important;
+}

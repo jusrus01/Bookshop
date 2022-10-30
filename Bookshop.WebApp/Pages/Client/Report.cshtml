@@ -2,8 +2,161 @@
 @model Bookshop.WebApp.Pages.Client.ReportModel
 @{
 }
-report something
+
 @section Styles
 {
     <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
 }
+
+<h3>Orders</h3>
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                Id
+            </div>
+
+            <div class="col-md-2 my-auto">
+                Order date
+            </div>
+
+            <div class="col-md-3 my-auto">
+                Order completion date
+            </div>
+
+            <div class="col-md-2 my-auto">
+                Bought books
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                Total price
+            </div>
+        </div>
+    </li>
+
+     <li class="list-group-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                1
+            </div>
+
+            <div class="col-md-2 my-auto">
+                2000-12-12
+            </div>
+
+            <div class="col-md-3 my-auto">
+                2000-12-23
+            </div>
+
+            <div class="col-md-2 my-auto">
+                2
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                24.24 €
+            </div>
+        </div>
+    </li>
+
+    <li class="list-group-item active-report-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                <b>Id</b>
+            </div>
+
+            <div class="col-md-2 my-auto">
+                <b>Author</b>
+            </div>
+
+            <div class="col-md-3 my-auto">
+                <b>Book title</b>
+            </div>
+
+            <div class="col-md-2 my-auto">
+                 <b>Pages</b>
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                <b>Price</b>
+            </div>
+        </div>
+    </li>
+
+      <li class="list-group-item active-report-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                1
+            </div>
+
+            <div class="col-md-2 my-auto">
+                Jake Blare
+            </div>
+
+            <div class="col-md-3 my-auto">
+                Help
+            </div>
+
+            <div class="col-md-2 my-auto">
+                199
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                12.12 €
+            </div>
+        </div>
+    </li>
+
+      <li class="list-group-item active-report-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                2
+            </div>
+
+            <div class="col-md-2 my-auto">
+                Will Smith
+            </div>
+
+            <div class="col-md-3 my-auto">
+                Please help
+            </div>
+
+            <div class="col-md-2 my-auto">
+                231
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                12.12 €
+            </div>
+        </div>
+    </li>
+
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-md-2 my-auto">
+                2
+            </div>
+
+            <div class="col-md-2 my-auto">
+                2000-12-12
+            </div>
+
+            <div class="col-md-3 my-auto">
+                2000-12-23
+            </div>
+
+            <div class="col-md-2 my-auto">
+                10
+            </div>
+            
+            <div class="col-md-3 my-auto">
+                69.420 €
+            </div>
+        </div>
+    </li>
+</ul>
+
+<div class="pagination-container">
+    <button class="btn btn-outline-primary">Previous</button>
+    <button class="btn btn-primary">Next</button>
+</div>

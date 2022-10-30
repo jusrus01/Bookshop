@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bookshop.WebApp.styles.css" asp-append-version="true" />
+    
 
     @* Import specific style files like this: https://stackoverflow.com/questions/5021552/how-to-reference-a-css-file-on-a-razor-view *@
     @RenderSection("Styles", false)
@@ -84,6 +85,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/6c9ada25ad.js" crossorigin="anonymous"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     @await Component.InvokeAsync("Notyf")

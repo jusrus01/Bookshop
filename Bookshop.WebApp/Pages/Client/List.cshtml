@@ -75,9 +75,29 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
 
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    <p>Are you sure you want to remove this client?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger">Remove</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </li>
@@ -103,3 +123,12 @@
         <button class="btn btn-primary">Next</button>
     }
 </div>
+
+@section Scripts
+{
+    <script>
+        $('button[data-toggle="modal"]').click(function (event) {
+            $('#removeModal').modal('show');
+        });
+    </script>
+}

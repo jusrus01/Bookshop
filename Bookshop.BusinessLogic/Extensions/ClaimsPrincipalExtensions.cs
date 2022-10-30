@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Bookshop.Contracts.Constants;
+using System.Security.Claims;
 
 namespace Bookshop.BusinessLogic.Extensions
 {
@@ -15,6 +16,11 @@ namespace Bookshop.BusinessLogic.Extensions
             }
 
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+
+        public static bool IsAdminOrOwner(this ClaimsPrincipal user, string userId)
+        {
+            return user.IsInRole(BookshopRoles.Administrator) || user.GetAuthenticatedUserId() == userId;
         }
     }
 }

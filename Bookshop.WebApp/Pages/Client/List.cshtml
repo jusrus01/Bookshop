@@ -10,11 +10,10 @@
     <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
 }
 
-@*TODO: fix layout*@
 <h3>Clients</h3>
 
 <ul class="list-group">
-    <li class="list-group-item">
+    <li class="list-group-item d-none d-md-block">
         <div class="row">
             <div class="col-md-2">
                 Image
@@ -32,7 +31,7 @@
                 Last login
             </div>
 
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center actions-container">
                 Actions
             </div>
         </div>
@@ -41,12 +40,12 @@
     {
         <li class="list-group-item">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2 my-auto">
                     <img class="client-image" src="https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png"/>
                 </div>
 
-                <div class="col-md-2">
-                    @if (User.IsInRole(BookshopRoles.Administrator) || User.GetAuthenticatedUserId() == client.Id)
+                <div class="col-md-2 my-auto">
+                    @if (User.IsAdminOrOwner(client.Id))
                     {
                         <a asp-area="" asp-page="/Client/Profile" asp-route-userId="@client.Id">@client.FirstName @client.LastName</a>
                     }
@@ -56,8 +55,8 @@
                     }
                 </div>
 
-                <div class="col-md-3">
-                    @if (User.IsInRole(BookshopRoles.Administrator) || User.GetAuthenticatedUserId() == client.Id)
+                <div class="col-md-3 my-auto">
+                    @if (User.IsAdminOrOwner(client.Id))
                     {
                         <span>@client.Email</span>
                     }
@@ -67,13 +66,18 @@
                     }
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2 my-auto">
                     <span>@client.LastLogin</span>
                 </div>
 
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary">Edit</button>
-                    <button class="btn btn-danger">Remove</button>
+                <div class="col-md-3 text-center actions-container">
+                    <button class="btn btn-primary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+
+                    <button class="btn btn-danger">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 </div>
             </div>
         </li>

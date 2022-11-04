@@ -7,22 +7,24 @@ using Bookshop.WebApp.PageModels;
 using Bookshop.WebApp.ViewModels.Clients;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bookshop.WebApp.Pages.Book
+namespace Bookshop.WebApp.Pages.Client
 {
     [RolesAuthorize(BookshopRoles.Client)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialClientViewModel>
     {
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
+        private readonly IBookService _bookService;
 
         private const int PageSize = 4;
 
-        public ListModel(IClientService clientService, IMapper mapper)
+        public ListModel(IClientService clientService, IMapper mapper, IBookService bookService)
             :
             base(null)
         {
             _mapper = mapper;
             _clientService = clientService;
+            _bookService = bookService;
         }
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)

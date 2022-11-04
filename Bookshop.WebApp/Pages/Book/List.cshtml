@@ -1,0 +1,41 @@
+﻿@page
+@model Bookshop.WebApp.Pages.Book.ListModel
+@{
+}
+@section Styles
+    {
+    <link href="@Url.Content("~/css/book.css")" rel="stylesheet" type="text/css" />
+}
+
+<h3>Books</h3>
+
+<ul class="list-group">
+    <li class="list-group-item d-none d-md-block">
+        <div class="row">
+            <div class="col-md-2">
+                ISBN
+            </div>
+
+            <div class="col-md-2">
+                Pavadinimas
+            </div>
+
+            <div class="col-md-2">
+                Autorius
+            </div>
+
+            <div class="col-md-2">
+                Kaina
+            </div>
+
+            <div class="col-md-2">
+                Nuolaida
+            </div>
+
+            <div class="col-md-2">
+                Daugiau
+            </div>
+        </div>
+    </li>
+
+    </ul>

@@ -7,7 +7,7 @@ using Bookshop.WebApp.PageModels;
 using Bookshop.WebApp.ViewModels.Clients;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bookshop.WebApp.Pages.Book
+namespace Bookshop.WebApp.Pages.Client
 {
     [RolesAuthorize(BookshopRoles.Client)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialClientViewModel>

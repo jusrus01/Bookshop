@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Bookshop.WebApp.ViewModels.Clients
+﻿namespace Bookshop.WebApp.ViewModels.Clients
 {
     public class PartialClientViewModel
     {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Order
 {
-   
+    [RolesAuthorize(BookshopRoles.Client)]
     public class ListModel
     {
         

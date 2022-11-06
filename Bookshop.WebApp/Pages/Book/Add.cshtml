@@ -1,0 +1,67 @@
+﻿@page
+@model Bookshop.WebApp.Pages.Book.AddModel
+@{
+}
+
+@section Styles
+    {
+        <link href="@Url.Content("~/css/book.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h3 style="text-align: center">Add book</h3>
+        <label>ISBN</label>
+        <input class="form-control" />
+
+        <label>Title</label>
+        <input class="form-control" />
+
+        <label>Author</label>
+        <input class="form-control" />
+
+        <label>Year</label>
+        <input class="form-control" />
+
+        <label>Pages</label>
+        <input class="form-control" />
+
+        <label>Description</label>
+        <input class="form-control" />
+
+        <label>Price</label>
+        <input class="form-control" />
+
+        <label>Discount</label>
+        <input class="form-control" />
+
+        <label>Genre</label>
+        <select name="genre">
+            <option> </option>
+            <option>Comedy</option>
+            <option>History</option>
+            <option>Fiction</option>
+            <option>Fantasy</option>
+        </select>
+
+        <br />
+        <div class="text-center">
+            <div class="mt-4">
+                @*Temporary*@
+                <a class="btn btn-primary" asp-area="" asp-page="/Book/List">Add book</a>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Book/List">Cancel</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    @section Scripts
+        {
+            <script>
+                $('button[data-toggle="modal"]').click(function (event) {
+                    $('#removeModal').modal('show');
+                });
+            </script>
+    }

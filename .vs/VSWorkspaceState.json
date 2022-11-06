@@ -3,8 +3,9 @@
     "",
     "\\Bookshop.WebApp",
     "\\Bookshop.WebApp\\Pages",
-    "\\Bookshop.WebApp\\Pages\\Book"
+    "\\Bookshop.WebApp\\Pages\\Book",
+    "\\Bookshop.WebApp\\Pages\\Order"
   ],
-  "SelectedNode": "\\Bookshop.WebApp\\Pages\\Book\\List.cshtml",
+  "SelectedNode": "\\Bookshop.WebApp\\Bookshop.WebApp.csproj",
   "PreviewInSolutionExplorer": false
 }

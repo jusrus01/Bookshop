@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bookshop.WebApp.Pages.Order
 {
-    public class AddModel : PageModel
+    public class ReportModel : PageModel
     {
         public void OnGet()
         {

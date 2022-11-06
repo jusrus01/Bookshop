@@ -18,10 +18,13 @@
         <option>Filter by title</option>
         <option>Filter by discount</option>
     </select>
-
-        <form action="/Book/Add" class="btn btn-primary">
-            <input class="btn btn-primary" value="Add order" style="width: 130px" name="submit" type="submit">
-        </form>
+    @if (User.IsInRole(BookshopRoles.Administrator))
+                {
+            <form action="/Book/Add" class="btn">
+                <input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
+            </form>
+                }
+        
     </div>
 </div>
 

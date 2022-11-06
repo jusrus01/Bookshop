@@ -9,7 +9,6 @@ namespace Bookshop.BusinessLogic.Extensions
         /// <returns>User id or null</returns>
         public static string GetAuthenticatedUserId(this ClaimsPrincipal user)
         {
-
             if (user == null || !user.Identity.IsAuthenticated)
             {
                 return null;

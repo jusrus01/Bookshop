@@ -30,9 +30,13 @@
             <div class="col-md-2">
                 Last login
             </div>
-             <div class="col-md-3 text-center actions-container">
-                Actions
-             </div>
+
+            @if (User.IsInRole(BookshopRoles.Administrator))
+            {
+                <div class="col-md-3 text-center actions-container">
+                    Actions
+                </div>
+            }
         </div>
     </li>
     @foreach (var client in Model.Paged.Items)
@@ -61,7 +65,7 @@
                     }
                     else
                     {
-                        <span>Hidden</span>
+                        <span>Insufficient permissions</span>
                     }
                 </div>
 
@@ -70,22 +74,11 @@
                 </div>
 
                 <div class="col-md-3 text-center actions-container">
-                    @if (User.IsAdminOrOwner(BookshopRoles.Administrator))
-                    {
-                        <a class="btn btn-primary" asp-area="" asp-page="/Client/Edit">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    }
-
                     @if (User.IsInRole(BookshopRoles.Administrator))
                     {
                         <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
-
-                        <a class="btn btn-secondary" asp-area="" asp-page="/Client/Report">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
-                        </a>
                     }
 
                     <!-- Modal -->

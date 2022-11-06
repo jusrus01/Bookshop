@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bookshop.WebApp.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         public IndexModel()
         {
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            return RedirectToPage("/Book/List");
         }
     }
 }

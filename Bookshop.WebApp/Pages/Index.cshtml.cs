@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bookshop.WebApp.Pages
@@ -8,6 +9,11 @@ namespace Bookshop.WebApp.Pages
     {
         public IndexModel()
         {
+        }
+
+        public IActionResult OnGet()
+        {
+            return RedirectToPage("/Book/List");
         }
     }
 }

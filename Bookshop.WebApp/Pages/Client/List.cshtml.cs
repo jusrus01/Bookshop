@@ -12,10 +12,10 @@ namespace Bookshop.WebApp.Pages.Client
     [RolesAuthorize(BookshopRoles.Client)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialClientViewModel>
     {
+        private const int PageSize = 4;
+
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
-
-        private const int PageSize = 4;
 
         public ListModel(IClientService clientService, IMapper mapper)
             :
@@ -27,11 +27,9 @@ namespace Bookshop.WebApp.Pages.Client
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)
         {
-            CurrentPage = pageNumber;
+            var clients = await _clientService.GetClientsPagedAsync(pageNumber, PageSize);
 
-            var clients = await _clientService.GetClientsPagedAsync(CurrentPage, PageSize);
-
-            Paged = _mapper.Map<Paged<PartialClientViewModel>>(clients);
+            SetPageItems(_mapper.Map<Paged<PartialClientViewModel>>(clients), pageNumber);
 
             return Page();
         }

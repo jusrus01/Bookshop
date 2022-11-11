@@ -9,11 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Client
 {
-    [RolesAuthorize(BookshopRoles.Client)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialClientViewModel>
     {
-        private const int PageSize = 4;
-
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
 
@@ -27,7 +25,7 @@ namespace Bookshop.WebApp.Pages.Client
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)
         {
-            var clients = await _clientService.GetClientsPagedAsync(pageNumber, PageSize);
+            var clients = await _clientService.GetClientsPagedAsync(pageNumber, pageSize: 4);
 
             SetPageItems(_mapper.Map<Paged<PartialClientViewModel>>(clients), pageNumber);
 

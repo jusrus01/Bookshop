@@ -7,7 +7,7 @@ namespace Bookshop.WebApp.Pages.Suppliers
 {
     public class ListModel : PageModel
     {
-        [RolesAuthorize(BookshopRoles.Manager)]
+        [AuthorizeAnyOfTheRoles(BookshopRoles.Manager)]
         public void OnGet()
         {
         }

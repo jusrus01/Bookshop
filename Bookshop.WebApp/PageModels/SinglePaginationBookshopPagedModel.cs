@@ -5,15 +5,11 @@ namespace Bookshop.WebApp.PageModels
 {
     public class SinglePaginationBookshopPagedModel<T> : BookshopPageModel where T : class
     {
-        public SinglePaginationBookshopPagedModel(INotyfService notyfService) 
-            : 
-            base(notyfService)
-        {
-        }
+        private Paged<T> _paged;
+        private int _currentPage;
 
-        protected int CurrentPage { get; set; }
-
-        public virtual Paged<T> Paged { get; set; }
+        public Paged<T> Paged { get => _paged; }
+        protected int CurrentPage { get => _currentPage; }
 
         public int NextPage
         {
@@ -41,6 +37,18 @@ namespace Bookshop.WebApp.PageModels
 
                 return previousPage;
             }
+        }
+
+        public SinglePaginationBookshopPagedModel(INotyfService notyfService) 
+            : 
+            base(notyfService)
+        {
+        }
+
+        public void SetPageItems(Paged<T> pagedItems, int page)
+        {
+            _currentPage = page;
+            _paged = pagedItems;
         }
     }
 }

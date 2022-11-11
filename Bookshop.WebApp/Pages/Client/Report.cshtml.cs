@@ -4,7 +4,7 @@ using Bookshop.WebApp.PageModels;
 
 namespace Bookshop.WebApp.Pages.Client
 {
-    [RolesAuthorize(BookshopRoles.Client)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Client)]
     public class ReportModel : BookshopPageModel
     {
         public ReportModel() : base(null)

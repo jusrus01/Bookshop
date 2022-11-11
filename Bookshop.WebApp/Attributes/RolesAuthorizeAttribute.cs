@@ -2,9 +2,9 @@
 
 namespace Bookshop.WebApp.Attributes
 {
-    public class RolesAuthorizeAttribute : AuthorizeAttribute
+    public class AuthorizeAnyOfTheRolesAttribute : AuthorizeAttribute
     {
-        public RolesAuthorizeAttribute(params string[] roles)
+        public AuthorizeAnyOfTheRolesAttribute(params string[] roles)
         {
             Roles = string.Join(",", roles);
         }

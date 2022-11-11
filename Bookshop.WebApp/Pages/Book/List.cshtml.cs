@@ -3,7 +3,7 @@ using Bookshop.WebApp.Attributes;
 
 namespace Bookshop.WebApp.Pages.Book
 {
-    [RolesAuthorize(BookshopRoles.Client)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Client)]
     public class ListModel
     {
     }

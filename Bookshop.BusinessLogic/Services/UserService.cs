@@ -12,6 +12,7 @@ namespace Bookshop.BusinessLogic.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        
         private readonly IMailService _mailService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -50,7 +51,21 @@ namespace Bookshop.BusinessLogic.Services
             {
                 throw new Exception("User is already registered");
             }
+           
+            var newUser = await CreateNewUserAsync(registerDto);
 
+            await _userManager.AddToRoleAsync(newUser, BookshopRoles.Client);
+
+            await SendConfirmationEmailAsync(newUser);
+        }
+
+        private async Task<bool> IsUserAlreadyRegisteredAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email) != null;
+        }
+
+        private async Task<ApplicationUser> CreateNewUserAsync(RegisterDto registerDto)
+        {
             var newIdentityUser = new ApplicationUser
             {
                 Email = registerDto.Email,
@@ -69,20 +84,23 @@ namespace Bookshop.BusinessLogic.Services
                 throw new Exception("Failed to create an account");
             }
 
-            await _userManager.AddToRoleAsync(newIdentityUser, BookshopRoles.Client);
+            return newIdentityUser;
+        }
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(newIdentityUser);
+        private async Task SendConfirmationEmailAsync(ApplicationUser user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var encodedToken = HttpUtility.UrlEncode(token);
 
             var request = _httpContextAccessor.HttpContext.Request;
             var applicationPath = $"{request.Scheme}://{request.Host}";
-            var confirmationLink = $"{applicationPath}/Account/ConfirmEmail?token={encodedToken}&email={newIdentityUser.Email}";
+            var confirmationLink = $"{applicationPath}/Account/ConfirmEmail?token={encodedToken}&email={user.Email}";
 
             await _mailService.SendEmailAsync(
                 "Confirm your account",
-                newIdentityUser.UserName,
-                newIdentityUser.Email,
+                user.UserName,
+                user.Email,
                 confirmationLink);
         }
 
@@ -108,11 +126,6 @@ namespace Bookshop.BusinessLogic.Services
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
-        }
-
-        private async Task<bool> IsUserAlreadyRegisteredAsync(string email)
-        {
-            return await _userManager.FindByEmailAsync(email) != null;
         }
     }
 }

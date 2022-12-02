@@ -90,18 +90,16 @@ namespace Bookshop.BusinessLogic.Services
         private async Task SendConfirmationEmailAsync(ApplicationUser user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
             var encodedToken = HttpUtility.UrlEncode(token);
-
             var request = _httpContextAccessor.HttpContext.Request;
             var applicationPath = $"{request.Scheme}://{request.Host}";
             var confirmationLink = $"{applicationPath}/Account/ConfirmEmail?token={encodedToken}&email={user.Email}";
 
-            await _mailService.SendEmailAsync(
+            _ = Task.Run(() => _mailService.SendEmailAsync(
                 "Confirm your account",
                 user.UserName,
                 user.Email,
-                confirmationLink);
+                confirmationLink));
         }
 
         public async Task SignInAsync(LoginDto loginDto)

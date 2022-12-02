@@ -20,7 +20,10 @@ async Task InitializeDefinedRolesAsync(WebApplication app)
     {
         if (!await roleManager.RoleExistsAsync(roleProperty.Name))
         {
-            await roleManager.CreateAsync(new ApplicationRole(roleProperty.Name, DateTime.UtcNow));
+            await roleManager.CreateAsync(new ApplicationRole
+            {
+                Name = roleProperty.Name,
+            });
         }
     }
 }

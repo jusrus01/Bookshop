@@ -1,5 +1,7 @@
-﻿using Bookshop.Contracts;
+﻿using Bookshop.BusinessLogic.Extensions;
+using Bookshop.Contracts;
 using Bookshop.Contracts.DataTransferObjects.Books;
+using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,15 +11,30 @@ namespace Bookshop.BusinessLogic.Services
     public class BookService : IBookService
     {
         private readonly DbSet<Book> _bookDbSet;
+        private readonly DbSet<Genre> _genreDbSet;
+        private readonly DbSet<Supplier> _supplierDbSet;
 
         public BookService(IUnitOfWork uow)
         {
             _bookDbSet = uow.GetDbSet<Book>();
+            _genreDbSet = uow.GetDbSet<Genre>();
+            _supplierDbSet = uow.GetDbSet<Supplier>();
         }
 
-        public Task<BookDto> GetBooktAsync(int bookId)
+        public async Task<Paged<PartialBookDto>> GetBooksPagedAsync(int page, int pageSize)
         {
-            throw new NotImplementedException();
+            return await _bookDbSet.OrderByDescending(book => book.Id)
+                .ToPagedAsync(book => new PartialBookDto
+                {
+                    ISBN = book.ISBN,
+                    Title = book.Title,
+                    Author = book.Author,
+                    Price = book.Price,
+                    Genre = book.Genre.Name,
+                    Discount = book.Discount
+                },
+                page,
+                pageSize);
         }
 
         public async Task<BookDto> GetBookAsync(int bookId)
@@ -43,6 +60,39 @@ namespace Bookshop.BusinessLogic.Services
                 AddedDate = DateTime.Now,
                 Discount = book.Discount,
                 Genre = book.Genre?.Name,
+            };
+        }
+
+        public async Task<GenreDto> GetGenreAsync(int genreId)
+        {
+            var genre = await _genreDbSet.SingleOrDefaultAsync(b => b.Id == genreId);
+
+
+            if (genre == null)
+            {
+                throw new Exception("Genre not found");
+            }
+
+            return new GenreDto
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            };
+        }
+
+        public async Task<AuthorDto> GetAuthorAsync(int authorId)
+        {
+            var author = await _supplierDbSet.SingleOrDefaultAsync(b => b.Id == authorId);
+
+            if (author == null)
+            {
+                throw new Exception("Genre not found");
+            }
+
+            return new AuthorDto
+            {
+                Id = author.Id,
+                Name = author.Name
             };
         }
     }

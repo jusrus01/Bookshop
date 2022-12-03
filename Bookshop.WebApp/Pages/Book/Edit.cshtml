@@ -1,4 +1,5 @@
-﻿@page
+﻿@page "{ID}"
+@using Bookshop.BusinessLogic.Extensions
 @model Bookshop.WebApp.Pages.Book.EditModel
 @{
 }
@@ -8,60 +9,30 @@
     <link href="@Url.Content("~/css/book.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <h3 style="text-align: center">Edit book</h3>
-        <label>ISBN</label>
-        <input class="form-control" />
+<h1>Edit book</h1>
+<form method="post" class="mt-3">
+    <input hiden asp-for="Book.Id"/>
 
-        <label>Title</label>
-        <input class="form-control" />
-
-        <label>Author</label>
-        <input class="form-control" />
-
-        <label>Year</label>
-        <input class="form-control" />
-
-        <label>Pages</label>
-        <input class="form-control" />
-
-        <label>Description</label>
-        <input class="form-control" />
-
-        <label>Price</label>
-        <input class="form-control" />
-
-        <label>Discount</label>
-        <input class="form-control" />
-
-        <label>Genre</label>
-        <select name="genre" class="form-control">
-            <option> </option>
-            <option>Comedy</option>
-            <option>History</option>
-            <option>Fiction</option>
-            <option>Fantasy</option>
-        </select>
-
-        <br />
-        <div class="text-center">
-            <div class="mt-4">
-                @*Temporary*@
-                <a class="btn btn-primary" asp-area="" asp-page="/Book/List">Save changes</a>
-                <a class="btn btn-secondary" asp-area="" asp-page="/Book/List">Cancel</a>
-            </div>
+    <div class="form-group row">
+        <label asp-for="Book.Title" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Book.Title" class="form-control" placeholder="Title"/>
         </div>
-
     </div>
 
+    <div class="form-group row">
+        <label asp-for="Book.Author" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="Book.Genre" class="col-sm-2 col-form-label">
+                    
+                        <option value="">Please select</option>
+                    </select>
+        </div>
+    </div>
+    <div class="mt-4">
+        @*Temporary*@
+        <a class="btn btn-primary" asp-area="" asp-page="/Book/List">Save changes</a>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Book/List">Cancel</a>
+    </div>
 
-
-    @section Scripts
-        {
-        <script>
-            $('button[data-toggle="modal"]').click(function (event) {
-                $('#removeModal').modal('show');
-            });
-        </script>
-    }
+</form>

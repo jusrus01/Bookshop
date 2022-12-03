@@ -41,6 +41,8 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<ClientDto, ClientViewModel>();
             CreateMap<PartialClientDto, PartialClientViewModel>();
             CreateMap<Paged<PartialClientDto>, Paged<PartialClientViewModel>>();
+            CreateMap<PartialBookDto, PartialBookViewModel>();
+            CreateMap<Paged<PartialBookDto>, Paged<PartialBookViewModel>>();
             #endregion
         }
     }

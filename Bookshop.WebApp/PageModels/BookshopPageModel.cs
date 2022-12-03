@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 
@@ -15,6 +16,8 @@ namespace Bookshop.WebApp.PageModels
         {
             get => ErrorMessage != null;
         }
+
+        public Book Book { get; set; }
 
         public BookshopPageModel(INotyfService notyfService)
         {

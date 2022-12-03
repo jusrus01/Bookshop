@@ -7,19 +7,22 @@ namespace Bookshop.BusinessLogic.Extensions
     {
         /// <param name="user">Logged in user</param>
         /// <returns>User id or null</returns>
-        public static string GetAuthenticatedUserId(this ClaimsPrincipal user)
+        public static string? GetAuthenticatedUserId(this ClaimsPrincipal user)
         {
-            if (user == null || !user.Identity.IsAuthenticated)
+            if (!IsAuthenticated(user))
             {
                 return null;
             }
-
+            
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public static bool IsAdminOrOwner(this ClaimsPrincipal user, string userId)
-        {
-            return user.IsInRole(BookshopRoles.Administrator) || user.GetAuthenticatedUserId() == userId;
-        }
+        public static bool IsAdminOrOwner(this ClaimsPrincipal user, string userId) =>
+            user.IsInRole(BookshopRoles.Administrator) ||user.GetAuthenticatedUserId() == userId;
+
+        private static bool IsAuthenticated(ClaimsPrincipal user) =>
+            user != null &&
+            user.Identity != null &&
+            user.Identity.IsAuthenticated;
     }
 }

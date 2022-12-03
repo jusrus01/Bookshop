@@ -1,7 +1,5 @@
-﻿using Bookshop.DataLayer.Contracts;
-using Bookshop.DataLayer.Extensions;
+﻿using Bookshop.DataLayer.Extensions;
 using Bookshop.DataLayer.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -17,7 +15,20 @@ namespace Bookshop.DataLayer
         }
 
         public DbSet<Genre> Genres { get; set; }
+
         public DbSet<Book> Books { get; set; }
+
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Storage> Storages { get; set; }
+        
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderState> OrderStates { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

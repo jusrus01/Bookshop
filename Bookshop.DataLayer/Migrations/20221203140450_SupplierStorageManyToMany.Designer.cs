@@ -4,6 +4,7 @@ using Bookshop.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookshop.DataLayer.Migrations
 {
     [DbContext(typeof(BookshopDbContext))]
-    partial class BookshopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221203140450_SupplierStorageManyToMany")]
+    partial class SupplierStorageManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9457));
+                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 4, 50, 230, DateTimeKind.Utc).AddTicks(4135));
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -74,7 +76,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9586));
+                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 4, 50, 230, DateTimeKind.Utc).AddTicks(4262));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -92,7 +94,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("LastLogin")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 975, DateTimeKind.Utc).AddTicks(1667));
+                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 4, 50, 230, DateTimeKind.Utc).AddTicks(5744));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -156,14 +158,12 @@ namespace Bookshop.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9660));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -204,25 +204,6 @@ namespace Bookshop.DataLayer.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Bookshop.DataLayer.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("Bookshop.DataLayer.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -240,88 +221,6 @@ namespace Bookshop.DataLayer.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("Bookshop.DataLayer.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClientComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClientId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CourierComment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9786));
-
-                    b.Property<DateTime>("ExpectedDelivery")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderMethod")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Sum")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId1");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Bookshop.DataLayer.Models.OrderState", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9880));
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrderStates");
-                });
-
             modelBuilder.Entity("Bookshop.DataLayer.Models.Rating", b =>
                 {
                     b.Property<int>("Id")
@@ -337,9 +236,7 @@ namespace Bookshop.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 3, 14, 51, 15, 974, DateTimeKind.Utc).AddTicks(9949));
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Score")
                         .HasMaxLength(10)
@@ -354,7 +251,7 @@ namespace Bookshop.DataLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("Bookshop.DataLayer.Models.Storage", b =>
@@ -385,7 +282,7 @@ namespace Bookshop.DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Storages");
+                    b.ToTable("Storage");
                 });
 
             modelBuilder.Entity("Bookshop.DataLayer.Models.Supplier", b =>
@@ -399,9 +296,6 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -412,8 +306,6 @@ namespace Bookshop.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.ToTable("Suppliers");
                 });
@@ -558,23 +450,6 @@ namespace Bookshop.DataLayer.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("Bookshop.DataLayer.Models.Order", b =>
-                {
-                    b.HasOne("Bookshop.DataLayer.Models.ApplicationUser", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId1");
-
-                    b.HasOne("Bookshop.DataLayer.Models.OrderState", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Status");
-                });
-
             modelBuilder.Entity("Bookshop.DataLayer.Models.Rating", b =>
                 {
                     b.HasOne("Bookshop.DataLayer.Models.Book", "Book")
@@ -590,17 +465,6 @@ namespace Bookshop.DataLayer.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Bookshop.DataLayer.Models.Supplier", b =>
-                {
-                    b.HasOne("Bookshop.DataLayer.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -24,6 +24,7 @@ namespace Bookshop.BusinessLogic.Services
         {
             var book = await _bookDbSet.SingleOrDefaultAsync(b => b.Id == bookId);
 
+
             if (book == null)
             {
                 throw new Exception("Book not found");
@@ -41,7 +42,7 @@ namespace Bookshop.BusinessLogic.Services
                 Price = book.Price,
                 AddedDate = DateTime.Now,
                 Discount = book.Discount,
-                Genre = book.Genre,
+                Genre = book.Genre?.Name,
             };
         }
     }

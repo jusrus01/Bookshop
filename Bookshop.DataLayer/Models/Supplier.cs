@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Bookshop.DataLayer.Models
+﻿namespace Bookshop.DataLayer.Models
 {
     public class Supplier
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -11,5 +11,11 @@ namespace Bookshop.DataLayer.Models
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
+
+        public City City { get; set; }
+
+        public int CityId { get; set; }
+
+        public IList<Storage> Storages { get; set; }
     }
 }

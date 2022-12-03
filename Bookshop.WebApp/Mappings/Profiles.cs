@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Clients;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Generics;

@@ -34,9 +34,7 @@ namespace Bookshop.WebApp.Pages.Client
             try
             {
                 var clientDto = await _clientService.GetClientAsync(userId);
-
                 ClientOutput = _mapper.Map<ClientViewModel>(clientDto);
-
                 return Page();
             }
             catch

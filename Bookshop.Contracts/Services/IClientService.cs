@@ -5,8 +5,10 @@ namespace Bookshop.Contracts.Services
 {
     public interface IClientService
     {
-        Task<ClientDto> GetClientAsync(string clientId);
+        Task DeleteAsync(string id);
 
-        Task<Paged<PartialClientDto>> GetClientsPagedAsync(int page, int pageSize);
+        Task<ClientDto> GetAsync(string id);
+
+        Task<Paged<PartialClientDto>> GetPagedAsync(int page, int pageSize);
     }
 }

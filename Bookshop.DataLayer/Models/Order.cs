@@ -3,7 +3,7 @@ using Bookshop.DataLayer.Contracts;
 
 namespace Bookshop.DataLayer.Models
 {
-    public class Order : ICreationTimestamp
+    public class Order : ICreationTimestamp, IKeyable
     {
         public int Id { get; set; }
 

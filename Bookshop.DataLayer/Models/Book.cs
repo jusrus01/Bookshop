@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bookshop.DataLayer.Models
 {
-    public class Book : ICreationTimestamp
+    public class Book : ICreationTimestamp, IKeyable
     {
         public int Id { get; set; }
 

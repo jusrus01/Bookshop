@@ -36,6 +36,12 @@ namespace Bookshop.DataLayer.Configurations
 
             builder.Property(model => model.LastLogin)
                 .HasDefaultValue(DateTime.UtcNow);
+
+            builder.HasMany(model => model.Orders)
+                .WithOne(model => model.User)
+                .HasForeignKey(model => model.UserId)
+                .HasPrincipalKey(model => model.Id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

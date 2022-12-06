@@ -34,7 +34,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(2218));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(562));
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -74,7 +74,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(2462));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(764));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -92,7 +92,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("LastLogin")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(6061));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(4796));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -163,7 +163,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(2594));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(1043));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -254,19 +254,13 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<string>("ClientComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClientId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CourierComment")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(2804));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(1262));
 
                     b.Property<DateTime>("ExpectedDelivery")
                         .HasColumnType("datetime2");
@@ -289,11 +283,14 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<double>("Sum")
                         .HasColumnType("float");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId1");
-
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -312,7 +309,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(2950));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(1412));
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -339,7 +336,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 6, 17, 35, 9, 565, DateTimeKind.Utc).AddTicks(3073));
+                        .HasDefaultValue(new DateTime(2022, 12, 6, 19, 49, 8, 921, DateTimeKind.Utc).AddTicks(1549));
 
                     b.Property<int>("Score")
                         .HasMaxLength(10)
@@ -560,19 +557,20 @@ namespace Bookshop.DataLayer.Migrations
 
             modelBuilder.Entity("Bookshop.DataLayer.Models.Order", b =>
                 {
-                    b.HasOne("Bookshop.DataLayer.Models.ApplicationUser", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId1");
-
                     b.HasOne("Bookshop.DataLayer.Models.OrderState", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("Bookshop.DataLayer.Models.ApplicationUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Status");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Bookshop.DataLayer.Models.Rating", b =>
@@ -667,6 +665,11 @@ namespace Bookshop.DataLayer.Migrations
                         .HasForeignKey("SuppliersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Bookshop.DataLayer.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

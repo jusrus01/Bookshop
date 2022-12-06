@@ -33,7 +33,7 @@ namespace Bookshop.WebApp.Pages.Client
         {
             try
             {
-                var clientDto = await _clientService.GetClientAsync(userId);
+                var clientDto = await _clientService.GetAsync(userId);
                 ClientOutput = _mapper.Map<ClientViewModel>(clientDto);
                 return Page();
             }

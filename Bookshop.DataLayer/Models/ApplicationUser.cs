@@ -14,5 +14,7 @@ namespace Bookshop.DataLayer.Models
         public DateTime Created { get; init; }
 
         public DateTime LastLogin { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

@@ -13,12 +13,17 @@ namespace Bookshop.BusinessLogic.Extensions
             {
                 return null;
             }
-            
-            return user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return GetUserId(user);
         }
+
+        public static bool IsSelf(this ClaimsPrincipal user, string id) => GetUserId(user) == id;
 
         public static bool IsAdminOrOwner(this ClaimsPrincipal user, string userId) =>
             user.IsInRole(BookshopRoles.Administrator) ||user.GetAuthenticatedUserId() == userId;
+
+        private static string GetUserId(ClaimsPrincipal user) => 
+            user.FindFirstValue(ClaimTypes.NameIdentifier);
 
         private static bool IsAuthenticated(ClaimsPrincipal user) =>
             user != null &&

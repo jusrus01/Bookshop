@@ -21,14 +21,15 @@ namespace Bookshop.BusinessLogic.Services
         public OrderService(IUnitOfWork uow)
         {
             _orderDBSet = uow.GetDbSet<Order>();
+
             _uow = uow;
         }
         public async Task<Paged<PartialOrderDto>> GetBooksPagedAsync(int page, int pageSize)
         {
-            return await _orderDBSet.OrderByDescending(order => order.Id)
+            return await _orderDBSet.Include(order => order.User).OrderByDescending(order => order.Id)
                 .ToPagedAsync(order => new PartialOrderDto
                 {
-                    ClientName = $"{order.Client.FirstName} {order.Client.LastName}",
+                    ClientName = $"{order.User.FirstName} {order.User.LastName}",
                     Created = order.Created,
                     Sum = order.Sum,
                     PostalCode = order.PostalCode

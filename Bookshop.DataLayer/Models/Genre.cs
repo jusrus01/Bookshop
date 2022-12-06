@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Bookshop.DataLayer.Contracts;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bookshop.DataLayer.Models
 {
-    public class Genre
+    public class Genre : IKeyable
     {
         [Key]
         public int Id { get; set; }

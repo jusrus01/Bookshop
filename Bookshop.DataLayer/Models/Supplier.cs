@@ -1,6 +1,8 @@
-﻿namespace Bookshop.DataLayer.Models
+﻿using Bookshop.DataLayer.Contracts;
+
+namespace Bookshop.DataLayer.Models
 {
-    public class Supplier
+    public class Supplier : IKeyable
     {
         public int Id { get; set; }
 

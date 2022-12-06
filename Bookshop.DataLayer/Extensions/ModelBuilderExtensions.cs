@@ -11,6 +11,7 @@ namespace Bookshop.DataLayer.Extensions
             foreach (var entityType in builder.Model.GetEntityTypes())
             {
                 Configure<ICreationTimestamp>(builder, entityType, ConfigureCreationTimestamp);
+                Configure<IKeyable>(builder, entityType, ConfigureKeyable);
             }
         }
 
@@ -27,6 +28,12 @@ namespace Bookshop.DataLayer.Extensions
             var entity = builder.Entity(clrType);
             entity.Property(nameof(ICreationTimestamp.Created))
                .HasDefaultValue(DateTime.UtcNow);
+        }
+
+        private static void ConfigureKeyable(ModelBuilder builder, Type clrType)
+        {
+            var entity = builder.Entity(clrType);
+            entity.HasKey(nameof(IKeyable.Id));
         }
     }
 }

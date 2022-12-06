@@ -2,7 +2,7 @@
 
 namespace Bookshop.DataLayer.Models
 {
-    public class Rating : ICreationTimestamp
+    public class Rating : ICreationTimestamp, IKeyable
     {
         public int Id { get; set; }
 

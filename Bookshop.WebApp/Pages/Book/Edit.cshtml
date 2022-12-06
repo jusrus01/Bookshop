@@ -11,15 +11,15 @@
 
 <h1>Edit book</h1>
 <form method="post" class="mt-3">
-    <input hiden asp-for="Book.Id"/>
+    @*<input hiden asp-for="Book.Id"/>*@
 
-    <div class="form-group row">
+@*    <div class="form-group row">
         <label asp-for="Book.Title" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input asp-for="Book.Title" class="form-control" placeholder="Title"/>
         </div>
     </div>
-
+*@
     <div class="mt-4">
         @*Temporary*@
         <button type="submit" class="btn btn-primary" asp-page="/Book/List">Save changes</button>

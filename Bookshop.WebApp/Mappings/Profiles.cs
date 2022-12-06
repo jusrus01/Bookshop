@@ -6,6 +6,7 @@ using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Generics;
 using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.PageModels.Users;
+using Bookshop.WebApp.ViewModels.Books;
 using Bookshop.WebApp.ViewModels.Clients;
 using Bookshop.WebApp.ViewModels.Users;
 
@@ -42,6 +43,7 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<PartialClientDto, PartialClientViewModel>();
             CreateMap<Paged<PartialClientDto>, Paged<PartialClientViewModel>>();
             CreateMap<PartialBookDto, PartialBookViewModel>();
+            CreateMap<BookDto, BookViewModel>();
             CreateMap<Paged<PartialBookDto>, Paged<PartialBookViewModel>>();
             #endregion
         }

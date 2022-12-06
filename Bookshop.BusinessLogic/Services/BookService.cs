@@ -13,12 +13,14 @@ namespace Bookshop.BusinessLogic.Services
         private readonly DbSet<Book> _bookDbSet;
         private readonly DbSet<Genre> _genreDbSet;
         private readonly DbSet<Supplier> _supplierDbSet;
+        private readonly IUnitOfWork _uow;
 
         public BookService(IUnitOfWork uow)
         {
             _bookDbSet = uow.GetDbSet<Book>();
             _genreDbSet = uow.GetDbSet<Genre>();
             _supplierDbSet = uow.GetDbSet<Supplier>();
+            _uow = uow;
         }
 
         public async Task<Paged<PartialBookDto>> GetBooksPagedAsync(int page, int pageSize)
@@ -39,7 +41,33 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<BookDto> GetBookAsync(int bookId)
         {
-            var book = await _bookDbSet.SingleOrDefaultAsync(b => b.Id == bookId);
+            var book = await _bookDbSet.Where(b => b.Id == bookId).FirstOrDefaultAsync();
+
+
+            if (book == null)
+            {
+                throw new Exception("Book not found");
+            }
+
+            return new BookDto
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+                Title = book.Title,
+                Author = book.Author,
+                Year = book.Year,
+                Pages = book.Pages,
+                Description = book.Description,
+                Price = book.Price,
+                AddedDate = DateTime.Now,
+                Discount = book.Discount,
+                Genre = book.Genre?.Name,
+            };
+        }
+
+        public async Task<BookDto> GetBookISBNAsync(string isbn)
+        {
+            var book = await _bookDbSet.Where(b => b.ISBN == isbn).FirstOrDefaultAsync();
 
 
             if (book == null)
@@ -94,6 +122,19 @@ namespace Bookshop.BusinessLogic.Services
                 Id = author.Id,
                 Name = author.Name
             };
+        }
+
+        public async Task DeleteBookAsync(int? id)
+        {
+            var book = await _bookDbSet.SingleOrDefaultAsync(b => b.Id == id);
+
+            if (book == null)
+            {
+                throw new Exception("No book founded");
+            }
+
+            _bookDbSet.Remove(book);
+            await _uow.SaveChangesAsync();
         }
     }
 }

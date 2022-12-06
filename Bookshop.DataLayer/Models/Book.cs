@@ -5,7 +5,6 @@ namespace Bookshop.DataLayer.Models
 {
     public class Book : ICreationTimestamp
     {
-        [Key]
         public int Id { get; set; }
 
         [Required, MaxLength(10)]

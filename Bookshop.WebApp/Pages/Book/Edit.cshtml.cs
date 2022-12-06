@@ -1,11 +1,8 @@
-using Bookshop.Contracts;
 using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.Services;
-using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bookshop.WebApp.Pages.Book
 {
@@ -13,16 +10,10 @@ namespace Bookshop.WebApp.Pages.Book
     public class EditModel : BookshopPageModel
     {
         private readonly IBookService _bookService;
-        private readonly DbSet<Supplier> _supplierDbSet;
 
-        public EditModel(IBookService bookService, IUnitOfWork uow) : base(null)
+        public EditModel(IBookService bookService) : base(null)
         {
             _bookService = bookService;
-            _supplierDbSet = uow.GetDbSet<Supplier>();
-        }
-
-        public EditModel() : base(null)
-        {
         }
 
         public IActionResult OnGet(int id)
@@ -36,12 +27,5 @@ namespace Bookshop.WebApp.Pages.Book
             return Page();
         }
 
-        public List<string> Authors()
-        {
-            List<string> authors = new List<string>();
-            authors.AddRange(_supplierDbSet.GetAsyncEnumerator().Current());
-
-            return authors;
-        }
     }
 }

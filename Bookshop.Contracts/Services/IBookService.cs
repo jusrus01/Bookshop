@@ -9,5 +9,7 @@ namespace Bookshop.Contracts.Services
         Task<Paged<PartialBookDto>> GetBooksPagedAsync(int page, int pageSize);
         Task<GenreDto> GetGenreAsync(int genreId);
         Task<AuthorDto> GetAuthorAsync(int authorId);
+        Task DeleteBookAsync(int? id);
+        Task<BookDto> GetBookISBNAsync(string isbn);
     }
 }

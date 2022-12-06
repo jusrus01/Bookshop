@@ -1,6 +1,7 @@
 ﻿
 @page
 @using Bookshop.Contracts.Constants
+@using Bookshop.Contracts.Services
 @model Bookshop.WebApp.Pages.Book.ListModel
 @{
 }
@@ -67,8 +68,6 @@
             </div>
             <div class="col-md-3">
             </div>
-            <div class="col-md-3">
-            </div>
         </div>
     </li>
     @foreach (var book in Model.Paged.Items)
@@ -77,7 +76,7 @@
             <div class="row">
                 <div class="col-md-2 my-auto">
                    
-                        <span>@book.ISBN</span>
+                        <span>  @book.ISBN</span>
                 </div>
 
                  <div class="col-md-2 my-auto">
@@ -103,27 +102,39 @@
 
                     <span>@book.Discount</span>
                 </div>
-                <div class="col-md-3">
 
-                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
-                    {
-                        <button class="btn btn-danger" data-toggle="reviewModal" data-target="#exampleModal" style="margin-right: 10px">
-                            <i class="fa fa-ellipsis-h"></i>
-                        </button>
-                    }
-                    @if (User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
-                    {
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-page="/Book/Edit" asp-route-ID="@book.Id">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    }
-
+                <div class="col-md-3 text-center actions-container">
                     @if (User.IsInRole(BookshopRoles.Administrator))
                     {
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="margin-right: 10px">
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     }
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    <p>Are you sure you want to remove this book?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post">
+                                        <input name="id" value="@book.Id" hidden/>
+                                        <button type="submit" class="btn btn-danger" onclick="close()">Remove</button>
+                                    </form>
+                                   <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+             
                 </div>
             </div>
         </li>
@@ -151,52 +162,8 @@
         }
     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
-                <button type="button" class="btn-close" onClick="closeWindow()">
-                </button>
-            </div>
-            <div class="modal-body text-start">
-                <p>Are you sure you want to remove this book?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onClick="closeWindow()">Remove</button>
-                <button type="button" class="btn btn-secondary" onClick="closeWindow()">Cancel</button>
-            </div>
-        </div>
-    </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
-                <button type="button" class="btn-close" onClick="closeWindow()">
-                </button>
-            </div>
-            <div class="modal-body text-start">
-                <p>ISBN : 978995549770</p>
-                <p>Title : If I Stay</p>
-                <p>Author : Gayle Formanr</p>
-                <p>Year : 209</p>
-                <p>Pages : 210</p>
-                <p>Description : 17-year-old Mia Hall is an aspiring concert cellist living in Portland, Oregon with her parents and younger brother Teddy. When school is closed one day on account of the snowy weather, the family decides to go for a morning drive, but ice on the roads causes their car to swerve into another lane, where a car crashes into theirs. Mia awakens to find the bodies of her parents, who have died upon impact. Mia comes across her own severely injured body and realizes she is having an out of body experience. She follows her physical body to the hospital, where she watches her extended family rushing to take care of her while her best friend Kim and her boyfriend Adam struggle to reach the hospital. </p>
-                <p>Price : 6.38</p>
-                <p>Discount : 50</p>
-                <p>Genre : Drama</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onClick="closeWindow()">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 @section Scripts
@@ -205,15 +172,5 @@
         $('button[data-toggle="modal"]').click(function (event) {
             $('#removeModal').modal('show');
         });
-
-        $('button[data-toggle="reviewModal"]').click(function (event) {
-            $('#reviewModal').modal('show');
-        });
-
-        function closeWindow() {
-            let new_window = open("/Book/List", '_self');
-            new_window.close();
-            return false;
-        }
     </script>
 }

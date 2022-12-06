@@ -31,5 +31,11 @@ namespace Bookshop.WebApp.Pages.Book
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            await _bookService.DeleteBookAsync(id);
+            return await OnGetAsync();
+        }
     }
 }

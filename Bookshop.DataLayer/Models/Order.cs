@@ -17,7 +17,7 @@ namespace Bookshop.DataLayer.Models
 
         public string ClientComment { get; set; }
 
-        public Bookshop.Contracts.Enums.OrderMethod OrderMethod { get; set; }
+        public OrderMethod OrderMethod { get; set; }
 
         public PaymentMethod PaymentMethod { get; set; }
 
@@ -27,9 +27,9 @@ namespace Bookshop.DataLayer.Models
 
         public string CourierComment { get; set; }
 
-        public ApplicationUser Client { get; set; }
+        public ApplicationUser User { get; set; }
 
-        public int ClientId { get; set; }
+        public string UserId { get; set; }
 
         public OrderState Status { get; set; }
 

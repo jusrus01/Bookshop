@@ -2,12 +2,14 @@
 using AutoMapper;
 using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Clients;
+using Bookshop.Contracts.DataTransferObjects.Orders;
 using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Generics;
 using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.PageModels.Users;
 using Bookshop.WebApp.ViewModels.Books;
 using Bookshop.WebApp.ViewModels.Clients;
+using Bookshop.WebApp.ViewModels.Orders;
 using Bookshop.WebApp.ViewModels.Users;
 
 namespace Bookshop.WebApp.Mappings
@@ -38,14 +40,15 @@ namespace Bookshop.WebApp.Mappings
 
         public void DtoToViewModelMappings()
         {
-            #region Clients
+            
             CreateMap<ClientDto, ClientViewModel>();
             CreateMap<PartialClientDto, PartialClientViewModel>();
             CreateMap<Paged<PartialClientDto>, Paged<PartialClientViewModel>>();
             CreateMap<PartialBookDto, PartialBookViewModel>();
             CreateMap<BookDto, BookViewModel>();
             CreateMap<Paged<PartialBookDto>, Paged<PartialBookViewModel>>();
-            #endregion
+            CreateMap<Paged<PartialOrderDto>, Paged<PartialOrderViewModel>>();
+            CreateMap<PartialOrderDto, PartialOrderViewModel>();
         }
     }
 }

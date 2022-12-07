@@ -12,12 +12,7 @@
 
     <div class="row">
         <div class="col">
-            <h3>Books</h3>
-        </div>
-        <div class="col text-end">
-            <form action="/Order/Add">
-                <input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
-            </form>
+            <h3>Orders</h3>
         </div>
     </div>
 
@@ -27,7 +22,7 @@
         @if (User.IsInRole(BookshopRoles.Administrator))
         {
             <form action="/Order/Add" class="btn">
-                <input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
+                <input class="btn btn-primary" value="Add order" style="width: 130px" name="submit" type="submit">
             </form>
         }
 
@@ -51,11 +46,19 @@
             <div class="col-md-2">
                 Postal Code
             </div>
-
-            <div class="col-md-3">
-            </div>
+            @if (User.IsInRole(BookshopRoles.Administrator))
+            {
+                <div class="col-md-3 text-center actions-container">
+                    Actions
+                </div>
+            }
         </div>
     </li>
+
+    @{
+        var index = 0;
+    }
+
     @foreach (var order in Model.Paged.Items)
     {
         <li class="list-group-item">
@@ -79,17 +82,16 @@
                     <span>@order.PostalCode</span>
                 </div>
 
-
                 <div class="col-md-3 text-center actions-container">
-                    @if (User.IsInRole(BookshopRoles.Administrator) || User.IsInRole(BookshopRoles.Client))
+                    @if (User.IsInRole(BookshopRoles.Administrator))
                     {
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     }
 
                     <!-- Modal -->
-                    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="removeModal@(index)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -98,7 +100,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body text-start">
-                                    <p>Are you sure you want to remove this book?</p>
+                                    <p>Are you sure you want to remove this client?</p>
                                 </div>
                                 <div class="modal-footer">
                                     <form method="post">
@@ -110,11 +112,13 @@
                             </div>
                         </div>
                     </div>
-
-
+                    @{
+                        index++;
+                    }
                 </div>
             </div>
         </li>
+
     }
 </ul>
 
@@ -142,12 +146,13 @@
 </div>
 
 
-
 @section Scripts
     {
     <script>
-        $('button[data-toggle="modal"]').click(function (event) {
-            $('#removeModal').modal('show');
-        });
+        for (let i = 0; i < @index; i++) {
+            $('#removeModalButton' + i).click(function (event) {
+                $('#removeModal' + i).modal('show');
+            });
+        }
     </script>
 }

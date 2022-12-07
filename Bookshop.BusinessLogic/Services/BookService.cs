@@ -34,7 +34,8 @@ namespace Bookshop.BusinessLogic.Services
                     Author = book.Author,
                     Price = book.Price,
                     Genre = book.Genre.Name,
-                    Discount = book.Discount
+                    Discount = book.Discount,
+                    PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
                 },
                 page,
                 pageSize);
@@ -50,6 +51,10 @@ namespace Bookshop.BusinessLogic.Services
                 throw new Exception("Book not found");
             }
 
+            var genre = await _genreDbSet.Where(b => b.Id == book.GenreId).FirstOrDefaultAsync();
+
+            var price = Math.Round(book.Price * (1 - book.Discount), 2);
+
             return new BookDto
             {
                 Id = book.Id,
@@ -61,8 +66,8 @@ namespace Bookshop.BusinessLogic.Services
                 Description = book.Description,
                 Price = book.Price,
                 AddedDate = DateTime.Now,
-                Discount = book.Discount,
-                Genre = book.Genre?.Name,
+                PriceWithDiscount = price,
+                Genre = genre.Name,
             };
         }
 

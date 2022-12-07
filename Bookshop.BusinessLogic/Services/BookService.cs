@@ -31,9 +31,9 @@ namespace Bookshop.BusinessLogic.Services
                     Id = book.Id,
                     ISBN = book.ISBN,
                     Title = book.Title,
-                    Author = book.Author,
+                    Author = _supplierDbSet.Where(b => b.Id == book.SupplierId).First().Name,
                     Price = book.Price,
-                    Genre = book.Genre.Name,
+                    Genre = _supplierDbSet.Where(b => b.Id == book.GenreId).First().Name,
                     Discount = book.Discount,
                     PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
                 },
@@ -60,14 +60,14 @@ namespace Bookshop.BusinessLogic.Services
                 Id = book.Id,
                 ISBN = book.ISBN,
                 Title = book.Title,
-                Author = book.Author,
+                Author = _supplierDbSet.Where(b => b.Id == book.SupplierId).First().Name,
                 Year = book.Year,
                 Pages = book.Pages,
                 Description = book.Description,
                 Price = book.Price,
                 AddedDate = DateTime.Now,
                 PriceWithDiscount = price,
-                Genre = genre.Name,
+                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
             };
         }
 
@@ -86,14 +86,14 @@ namespace Bookshop.BusinessLogic.Services
                 Id = book.Id,
                 ISBN = book.ISBN,
                 Title = book.Title,
-                Author = book.Author,
+                Author = _supplierDbSet.Where(b => b.Id == book.SupplierId).First().Name,
                 Year = book.Year,
                 Pages = book.Pages,
                 Description = book.Description,
                 Price = book.Price,
                 AddedDate = DateTime.Now,
                 Discount = book.Discount,
-                Genre = book.Genre?.Name,
+                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
             };
         }
 

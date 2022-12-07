@@ -43,6 +43,7 @@ namespace Bookshop.WebApp.Extensions
             services.AddScoped<IMailService, MailService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<OrderService>();
         }
 
         public static void AddDefaultDatabase(this IServiceCollection services, IConfiguration configuration)

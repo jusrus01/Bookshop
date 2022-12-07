@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="col-md-3 text-center actions-container">
-                    @if (User.IsInRole(BookshopRoles.Administrator) && !User.IsSelf(client.Id))
+                    @if (User.IsInRole(BookshopRoles.Administrator)  && !User.IsSelf(client.Id))
                     {
                         <button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-trash-can"></i>

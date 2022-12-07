@@ -11,6 +11,7 @@
         public string Description { get; set; }
         public double Price { get; set; }
         public DateTime AddedDate { get; set; }
+        public double PriceWithDiscount { get; set; }
         public double Discount { get; set; }
         public string Genre { get; set; }
     }

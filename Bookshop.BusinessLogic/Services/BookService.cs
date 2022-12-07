@@ -28,6 +28,7 @@ namespace Bookshop.BusinessLogic.Services
             return await _bookDbSet.OrderByDescending(book => book.Id)
                 .ToPagedAsync(book => new PartialBookDto
                 {
+                    Id = book.Id,
                     ISBN = book.ISBN,
                     Title = book.Title,
                     Author = book.Author,

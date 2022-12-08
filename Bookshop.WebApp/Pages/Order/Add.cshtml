@@ -1,35 +1,49 @@
 ﻿@page
-@model Bookshop.WebApp.Pages.Suppliers.AddModel
+@model Bookshop.WebApp.Pages.Orders.AddModel
 @{
 }
 
-
+@using Bookshop.BusinessLogic.Extensions
 @section Styles 
 {
     <link href="@Url.Content("~/css/order.css")" rel="stylesheet" type="text/css" />
 }
 
- <div class="row justify-content-center">
-    <div class="col-md-4">
-        <h3 style="text-align: center">Add order</h3>
-        <label>Customer</label>
-        <input class="form-control" />
+    <div class="text-center">
+        <form class="form-register" method="post">
+            <span class="book-logo">📚</span>
 
-        <label>Price</label>
-        <input class="form-control" />
+            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>
 
-        <label>Address</label>
-        <input class="form-control" />
-        
-        <label>Date of arrival</label>
-        <input class="form-control" />
-        <br/>
-        <div class="text-center">
-            <div class="mt-4">
-                @*Temporary*@
-                <a class="btn btn-primary" asp-area="" asp-page="/Order/List">Add order</a>
-                <a class="btn btn-secondary" asp-area="" asp-page="/Order/List">Cancel</a>
+            <div class="row">
+                <div class="col">
+                    <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
+                </div>
+                <div class="col">
+                    <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
+                </div>
             </div>
-        </div>
 
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
+            </div>
+
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
+            </div>
+
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.OrderMethod" class="form-control" placeholder="Order method" required>
+            </div>
+
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.PaymentMethod" class="form-control" placeholder="Payment method" required>
+            </div>
+
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Create a new account</button>
+        </form>
     </div>

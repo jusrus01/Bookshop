@@ -32,10 +32,11 @@ namespace Bookshop.WebApp.Mappings
 
         private void ViewModelToDtoMappings()
         {
-            #region Users
+          
             CreateMap<LoginViewModel, LoginDto>();
             CreateMap<RegisterViewModel, RegisterDto>();
-            #endregion
+            CreateMap<OrderViewModel, OrderDto>();
+
         }
 
         public void DtoToViewModelMappings()

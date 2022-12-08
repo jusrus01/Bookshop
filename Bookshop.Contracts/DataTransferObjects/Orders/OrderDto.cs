@@ -1,10 +1,13 @@
 ﻿using Bookshop.Contracts.Enums;
-using Bookshop.DataLayer.Models;
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Bookshop.WebApp.ViewModels.Orders
+namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
-    public class OrderViewModel
+    public class OrderDto
     {
         public int Id { get; set; }
 
@@ -24,9 +27,9 @@ namespace Bookshop.WebApp.ViewModels.Orders
 
         public DateTime PaymentDate { get; set; }
 
+
         public OrderStatus Status { get; set; }
         public string UserId { get; set; }
-
 
 
     }

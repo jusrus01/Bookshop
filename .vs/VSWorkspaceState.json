@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Bookshop.WebApp",
-    "\\Bookshop.WebApp\\Pages",
-    "\\Bookshop.WebApp\\Pages\\Book",
-    "\\Bookshop.WebApp\\Pages\\Order"
+    ""
   ],
-  "SelectedNode": "\\Bookshop.WebApp\\Bookshop.WebApp.csproj",
+  "SelectedNode": "\\Bookshop.sln",
   "PreviewInSolutionExplorer": false
 }

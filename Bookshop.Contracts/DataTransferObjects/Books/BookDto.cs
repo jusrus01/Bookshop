@@ -13,6 +13,7 @@
         public DateTime AddedDate { get; set; }
         public double PriceWithDiscount { get; set; }
         public double Discount { get; set; }
+        public string Supplier { get; set; }
         public string Genre { get; set; }
     }
 }

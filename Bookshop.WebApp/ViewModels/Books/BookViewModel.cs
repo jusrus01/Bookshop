@@ -12,6 +12,9 @@ namespace Bookshop.WebApp.ViewModels.Books
         [Display(Name = "Title")]
         public string Title { get; set; }
 
+        [Display(Name = "Supplier")]
+        public string Supplier { get; set; }
+
         [Display(Name = "Author")]
         public string Author { get; set; }
 

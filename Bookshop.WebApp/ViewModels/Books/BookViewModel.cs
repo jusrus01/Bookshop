@@ -4,7 +4,7 @@ namespace Bookshop.WebApp.ViewModels.Books
 {
     public class BookViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "ISBN")]
         public string ISBN { get; set; }
@@ -24,7 +24,7 @@ namespace Bookshop.WebApp.ViewModels.Books
         [Display(Name = "Pages")]
         public int Pages { get; set; }
 
-        [Display(Name = "Discount")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
         [Display(Name = "Price")]

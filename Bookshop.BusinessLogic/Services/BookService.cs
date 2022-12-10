@@ -34,7 +34,7 @@ namespace Bookshop.BusinessLogic.Services
                     Title = book.Title,
                     Author = book.Author,
                     Price = book.Price,
-                    Genre = _supplierDbSet.Where(b => b.Id == book.GenreId).First().Name,
+                    Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
                     Discount = book.Discount,
                     PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
                 },
@@ -80,9 +80,10 @@ namespace Bookshop.BusinessLogic.Services
 
         private async Task<Book> UpdateBookAsync(BookDto bookDto)
         {
+            _bookDbSet.Remove(await _bookDbSet.Where(b => b.Id == bookDto.Id).FirstOrDefaultAsync());
+            await _uow.SaveChangesAsync();
             var newBook = new Book
             {
-                Id = bookDto.Id,
                 ISBN = bookDto.ISBN,
                 Title = bookDto.Title,
                 Author = bookDto.Author,
@@ -91,11 +92,13 @@ namespace Bookshop.BusinessLogic.Services
                 Description = bookDto.Description,
                 Price = bookDto.Price,
                 Discount = bookDto.Discount,
-                GenreId = _genreDbSet.Where(b => b.Name == bookDto.Genre).First().Id,
-                SupplierId = _supplierDbSet.Where(b => b.Name == bookDto.Supplier).First().Id,
+                GenreId = int.Parse(bookDto.Genre),
+                SupplierId = int.Parse(bookDto.Supplier),
+                Genre = _genreDbSet.Where(b => b.Id == int.Parse(bookDto.Genre)).First(),
+                Supplier = _supplierDbSet.Where(b => b.Id == int.Parse(bookDto.Supplier)).FirstOrDefault(),
                 Created = DateTime.Now
             };
-            _bookDbSet.Update(newBook);
+            _bookDbSet.Add(newBook);
             await _uow.SaveChangesAsync();
             return newBook;
         }

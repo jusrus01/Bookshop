@@ -1,5 +1,6 @@
 ﻿using Bookshop.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Bookshop.DataLayer
 {
@@ -13,6 +14,11 @@ namespace Bookshop.DataLayer
         public UnitOfWork(BookshopDbContext context)
         {
             _context = context;
+        }
+
+        public DatabaseFacade GetDatabase()
+        {
+            return _context.Database;
         }
 
         public DbSet<T> GetDbSet<T>() where T : class

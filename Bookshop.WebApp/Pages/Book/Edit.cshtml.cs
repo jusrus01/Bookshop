@@ -47,12 +47,10 @@ namespace Bookshop.WebApp.Pages.Book
                 Genre = book.Genre
             };
 
-            if (_bookService.GetBookAsync(id) == null)
+            if (await _bookService.GetBookAsync(id) == null)
             {
                 return RedirectToPage("/notFound");
             }
-
-            _bookService.GetBookAsync(id);
 
             List<GenreDto> genres = await _bookService.GetGenres();
             List<SupplierDto> suppliers = await _bookService.GetSupplier();

@@ -249,9 +249,7 @@ namespace Bookshop.BusinessLogic.Services
                 Price = bookDto.Price,
                 Discount = bookDto.Discount,
                 GenreId = int.Parse(bookDto.Genre),
-                SupplierId = _supplierDbSet.Where(b => b.Name == bookDto.Supplier).First().Id,
-                Genre = _genreDbSet.Where(b => b.Id == int.Parse(bookDto.Genre)).First(),
-                Supplier = _supplierDbSet.Where(b => b.Name == bookDto.Supplier).FirstOrDefault(),
+                SupplierId = int.Parse(bookDto.Supplier),
                 Created = DateTime.Now
             };
             _bookDbSet.Add(newBook);

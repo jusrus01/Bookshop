@@ -19,7 +19,7 @@
     <div>
         <div class="col text-end">
 
-        @if (User.IsInRole(BookshopRoles.Administrator))
+        @if (User.IsInRole(BookshopRoles.Client))
         {
             <form action="/Order/Add" class="btn">
                 <input class="btn btn-primary" value="Add order" style="width: 130px" name="submit" type="submit">

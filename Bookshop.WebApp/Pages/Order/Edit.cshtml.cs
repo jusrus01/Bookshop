@@ -37,25 +37,6 @@ namespace Bookshop.WebApp.Pages.Orders
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            try
-            {
-                await _orderService.AddAsync(_mapper.Map<OrderDto>(OrderInput));
-            }
-            catch (Exception e)
-            {
-                return PageWithError(e.Message);
-            }
-
-            return RedirectToPage("List");
-        }
-
         public async Task<IActionResult> OnGetAsync(int id)
         {
             OrderDto order = await _orderService.GetOrderAsync(id);
@@ -72,15 +53,9 @@ namespace Bookshop.WebApp.Pages.Orders
                 PaymentDate = order.PaymentDate,
                 Status = order.Status,
                 UserId = order.UserId,
-                BookId = order.BookId
+                Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Name }).ToList()
             };
 
-            if (_orderService.GetOrderAsync(id) == null)
-            {
-                return RedirectToPage("/notFound");
-            }
-
-            _orderService.GetOrderAsync(id);
 
             List<BookDto> books = await _orderService.GetBooks();
             List<SelectListItem> bookList = new List<SelectListItem>();
@@ -110,6 +85,24 @@ namespace Bookshop.WebApp.Pages.Orders
             this.Payments = paymentsList;
             this.OrderMethods = ordersMethodsList;
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            try
+            {
+                await _orderService.UpdateAsync(_mapper.Map<OrderDto>(OrderInput));
+            }
+            catch (Exception e)
+            {
+                return PageWithError(e.Message);
+            }
+
+            return RedirectToPage("List");
         }
     }
 }

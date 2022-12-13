@@ -8,6 +8,7 @@ using Bookshop.Contracts.Enums;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
+using com.sun.org.apache.xerces.@internal.util;
 using com.sun.org.apache.xpath.@internal.operations;
 using java.awt.print;
 using Microsoft.AspNetCore.Identity;
@@ -107,6 +108,10 @@ namespace Bookshop.BusinessLogic.Services
             };
             _orderDBSet.Add(newOrder);
             await _uow.SaveChangesAsync();
+            var book = await _bookDbSet.FirstAsync(book=> book.Id == orderDto.BookId);
+            book.OrderId = newOrder.Id;
+            _bookDbSet.Update(book);
+            await _uow.SaveChangesAsync();
             return newOrder;
         }
 
@@ -142,7 +147,7 @@ namespace Bookshop.BusinessLogic.Services
         public async Task<OrderDto> GetOrderAsync(int orderId)
         {
             
-            var order = await _orderDBSet.Where(b => b.Id == orderId).FirstOrDefaultAsync();
+            var order = await _orderDBSet.Include(book=> book.Status).Include(book => book.Books).Where(b => b.Id == orderId).FirstOrDefaultAsync();
 
 
             if (order == null)
@@ -153,6 +158,7 @@ namespace Bookshop.BusinessLogic.Services
             return new OrderDto
             {
                 Id = order.Id,
+                
                 Sum = order.Sum,
                 PostalCode = order.PostalCode,
                 Address = order.Address,
@@ -163,8 +169,13 @@ namespace Bookshop.BusinessLogic.Services
                 PaymentDate = order.PaymentDate,
                 Status = order.Status.Status,
                 UserId = order.UserId,
-                BookId = _bookDbSet.Where(b => b.Id == order.Id).First().Title
+                Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Title }).ToList()
             };
+        }
+
+        public async Task UpdateAsync(OrderDto orderDto)
+        {
+            await CreateNewOrderAsync(orderDto);
         }
     }
 }

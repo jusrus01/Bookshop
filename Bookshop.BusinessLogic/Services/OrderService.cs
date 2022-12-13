@@ -104,7 +104,6 @@ namespace Bookshop.BusinessLogic.Services
                 CourierComment = "Started",
                 UserId = orderDto.UserId,
                 StatusId = state.Id,
-                BookId = orderDto.BookId
             };
             _orderDBSet.Add(newOrder);
             await _uow.SaveChangesAsync();

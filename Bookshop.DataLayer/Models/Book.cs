@@ -1,5 +1,7 @@
 ﻿using Bookshop.DataLayer.Contracts;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 
 namespace Bookshop.DataLayer.Models
 {
@@ -35,5 +37,9 @@ namespace Bookshop.DataLayer.Models
         public Supplier Supplier { get; set; }
 
         public DateTime Created { get; init; }
+
+        public int? OrderId { get; set; }
+
+        public Order Order { get; set; }
     }
 }

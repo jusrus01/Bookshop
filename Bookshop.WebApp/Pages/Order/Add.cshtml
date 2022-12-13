@@ -12,35 +12,62 @@
     <div class="text-center">
         <form class="form-register" method="post">
 
-            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>           
+            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>
+
+            <label>Sum</label>
                 <div class="col">
                     <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
                 </div>
 
+            <label>Postal Code</label>
                 <div class="col">
                     <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
                 </div>
-            
+
+            <label>Address</label>
             <div class="col">
                 <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
             </div>
 
+            <label>Client Comment</label>
             <div class="col">
                 <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
             </div>
 
+            <label>Order Method</label>
             <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.OrderMethod" class="form-control" placeholder="Order method" required>
-            </div>
+                <select asp-for="@Model.OrderInput.OrderMethod" placeholder="Order method" class="form-control">
+                @foreach (SelectListItem option in @Model.OrderMethods)
+                {
+                    <option value="@option.Value">@option.Text</option>
+                }
+            </select>
+        </div>
 
+            <label>Payment Method</label>
             <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.PaymentMethod" class="form-control" placeholder="Payment method" required>
+                <select asp-for="@Model.OrderInput.PaymentMethod" placeholder="Payment method" class="form-control">
+                @foreach (SelectListItem option in @Model.Payments)
+                {
+                    <option value="@option.Value">@option.Text</option>
+                }
+            </select>
             </div>
 
             <div class="col">
                 <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Create a new account</button>
+             <label>Book</label>
+        <div>
+                <select asp-for="@Model.OrderInput.BookId" placeholder="Book" class="form-control">
+                    @foreach (SelectListItem option in @Model.Books)
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                </select>
+        </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add new order</button>
         </form>
     </div>

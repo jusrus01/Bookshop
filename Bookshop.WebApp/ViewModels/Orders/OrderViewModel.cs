@@ -26,7 +26,7 @@ namespace Bookshop.WebApp.ViewModels.Orders
 
         public OrderStatus Status { get; set; }
         public string UserId { get; set; }
-
+        public string BookId { get; set; }
 
 
     }

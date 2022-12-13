@@ -8,8 +8,6 @@ namespace Bookshop.WebApp.ViewModels.Orders
     {
         public int Id { get; set; }
 
-        public DateTime Created { get; init; }
-
         public double Sum { get; set; }
 
         public string PostalCode { get; set; }
@@ -18,7 +16,7 @@ namespace Bookshop.WebApp.ViewModels.Orders
 
         public string ClientComment { get; set; }
 
-        public Bookshop.Contracts.Enums.OrderMethod OrderMethod { get; set; }
+        public OrderMethod OrderMethod { get; set; }
 
         public PaymentMethod PaymentMethod { get; set; }
 
@@ -26,15 +24,10 @@ namespace Bookshop.WebApp.ViewModels.Orders
 
         public DateTime PaymentDate { get; set; }
 
-        public string CourierComment { get; set; }
+        public OrderStatus Status { get; set; }
+        public string UserId { get; set; }
+        public string BookId { get; set; }
 
-        public ApplicationUser Client { get; set; }
-
-        public int ClientId { get; set; }
-
-        public OrderState Status { get; set; }
-
-        public int StatusId { get; set; }
 
     }
 }

@@ -14,10 +14,10 @@ namespace Bookshop.WebApp.Pages.Order
     [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator, BookshopRoles.Manager)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialOrderViewModel>
     {
-        private readonly OrderService _orderService;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
-        public ListModel(OrderService bookService, IMapper mapper)
+        public ListModel(IOrderService bookService, IMapper mapper)
             :
             base(null)
         {

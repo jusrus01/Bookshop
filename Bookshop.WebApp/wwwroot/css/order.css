@@ -1,1 +1,71 @@
-﻿
+﻿.form-register {
+    width: 100%;
+    max-width: 500px !important;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+    .form-signin .checkbox,
+    .form-register .checkbox {
+        font-weight: 400;
+    }
+
+.form-control {
+    margin-bottom: 10px !important;
+}
+
+.form-signin .form-control,
+.form-register .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+    .form-signin .form-control:focus,
+    .form-register .form-control:focus {
+        z-index: 2;
+    }
+
+.form-signin input[type="email"],
+.form-register input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"],
+.form-register input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.book-logo {
+    font-size: 64px;
+}
+
+.dont-have-an-account-container {
+    margin-top: 4px;
+    text-align: left;
+}
+
+.validation-message-left {
+    text-align: left !important;
+    float: left;
+}
+
+/* Profile */
+.profile-image {
+    border-radius: 50px;
+    min-width: 250px;
+    max-width: 250px;
+}

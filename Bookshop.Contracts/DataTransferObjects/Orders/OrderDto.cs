@@ -1,13 +1,15 @@
 ﻿using Bookshop.Contracts.Enums;
-using Bookshop.DataLayer.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Bookshop.DataLayer.Models
+namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
-    public class Order : ICreationTimestamp, IKeyable
+    public class OrderDto
     {
         public int Id { get; set; }
-
-        public DateTime Created { get; init; }
 
         public double Sum { get; set; }
 
@@ -25,15 +27,11 @@ namespace Bookshop.DataLayer.Models
 
         public DateTime PaymentDate { get; set; }
 
-        public string CourierComment { get; set; }
 
-        public ApplicationUser User { get; set; }
-
+        public OrderStatus Status { get; set; }
         public string UserId { get; set; }
 
-        public OrderState Status { get; set; }
-
-        public int StatusId { get; set; }
         public string BookId { get; set; }
+
     }
 }

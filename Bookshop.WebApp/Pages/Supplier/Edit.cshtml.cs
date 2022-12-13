@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Bookshop.WebApp.Pages.Suppliers
+namespace Bookshop.WebApp.Pages.Supplier
 {
-    public class ReportModel : PageModel
+    public class EditModel : PageModel
     {
         public void OnGet()
         {

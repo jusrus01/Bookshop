@@ -43,6 +43,7 @@ namespace Bookshop.WebApp.Extensions
             services.AddScoped<IMailService, MailService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<OrderService>();
         }
 

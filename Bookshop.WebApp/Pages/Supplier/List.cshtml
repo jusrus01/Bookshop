@@ -1,5 +1,7 @@
 ﻿@page
-@model Bookshop.WebApp.Pages.Suppliers.ListModel
+@using Bookshop.Contracts.Constants
+@using Bookshop.Contracts.Services
+@model Bookshop.WebApp.Pages.Supplier.ListModel
 @{
 }
 
@@ -13,9 +15,12 @@
             <h3>Suppliers</h3>
             </div>
             <div class="col text-end">
-                <form action="/Suppliers/Add">
-                        <input class="btn btn-primary" value="Add supplier" style="width: 130px" name="submit" type="submit">
-               </form>
+        @if(User.IsInRole(BookshopRoles.Manager))
+        {
+            <form action="/Supplier/Add">
+                <input class="btn btn-primary" value="Add supplier" style="width: 130px" type="submit">
+            </form>
+        }
             </div>
     </div>
 
@@ -42,37 +47,47 @@
             </div>
         </div>
     </li>
-        <li class="list-group-item d-none d-md-block">
-        <div class="row">
+        
+            @foreach (var supplier in Model.Paged.Items)
+            {
+           <li class="list-group-item d-none d-md-block">
+             <div class="row">
             <div class="col-md-2">
-                Kauno grūdai
+                @supplier.Name
             </div>
 
             <div class="col-md-3">
-                grudas@gmail.com
+                @supplier.Email
             </div>
 
             <div class="col-md-3">
-                +37063334490
+                @supplier.PhoneNumber
             </div>
 
             <div class="col-md-2">
-                Gatvė g. 1
+                @supplier.Address
             </div>
 
             <div class="col">
-             <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Suppliers/Edit">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-                  <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="margin-right: 10px">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
+                    @if (User.IsInRole(BookshopRoles.Manager))
+                    {
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    }
+                    @if (User.IsInRole(BookshopRoles.Administrator))
+                    {
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="margin-right: 10px">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    }
              <a class="btn btn-primary" asp-area="" asp-page="/Suppliers/Report">
                 <i class="fa-solid fa-file"></i>
               </a>
             </div>
-        </div>
-    </li>
+            </div>
+                </li>
+            }
     </ul>
 
  <div class="pagination-container">
@@ -113,3 +128,5 @@
 
     </script>
 }
+
+ 

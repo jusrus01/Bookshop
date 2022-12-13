@@ -11,6 +11,7 @@ using Bookshop.WebApp.ViewModels.Books;
 using Bookshop.WebApp.ViewModels.Clients;
 using Bookshop.WebApp.ViewModels.Orders;
 using Bookshop.WebApp.ViewModels.Users;
+using Bookshop.WebApp.ViewModels.Suppliers;
 
 namespace Bookshop.WebApp.Mappings
 {
@@ -50,6 +51,11 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<Paged<PartialBookDto>, Paged<PartialBookViewModel>>();
             CreateMap<Paged<PartialOrderDto>, Paged<PartialOrderViewModel>>();
             CreateMap<PartialOrderDto, PartialOrderViewModel>();
+            CreateMap<Paged<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto>, Paged<SupplierViewModel>>();
+            CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Paged<SupplierViewModel>>();
+            CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, SupplierViewModel>();
+            CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
+
         }
     }
 }

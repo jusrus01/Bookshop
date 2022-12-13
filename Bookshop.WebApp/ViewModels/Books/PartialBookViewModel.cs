@@ -15,5 +15,7 @@
         public double Price { get; set; }
 
         public double Discount { get; set; }
+
+        public double PriceWithDiscount { get; set; }
     }
 }

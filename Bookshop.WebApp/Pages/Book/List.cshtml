@@ -26,7 +26,7 @@
         <option>Filter by title</option>
         <option>Filter by discount</option>
     </select>
-    @if (User.IsInRole(BookshopRoles.Administrator))
+        @if (User.IsInRole(BookshopRoles.Administrator))
                 {
             <form action="/Book/Add" class="btn">
                 <input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
@@ -38,31 +38,35 @@
 <ul class="list-group">
     <li class="list-group-item d-none d-md-block">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-sm align-content-md-center">
                 ISBN
             </div>
 
-            <div class="col-md-2">
+            <div class="col-sm align-content-md-center">
                 Title
             </div>
 
-            <div class="col-md-2">
+            <div class="col-sm align-content-md-center">
                 Author
             </div>
 
-            <div class="col-md-2">
+            <div class="col-sm align-content-md-center">
                 Genre
             </div>
 
-            <div class="col-md-2">
+            <div class="col-sm align-content-md-center">
                 Price
             </div>
 
-            <div class="col-md-2">
-                Discount
+            <div class="col-sm align-content-md-center">
+                Price with discount
             </div>
-            <div class="col-md-3">
-            </div>
+            @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+            {
+                <div class="col-sm align-content-md-center">
+                    Actions
+                </div>
+            }
         </div>
     </li>
     @{
@@ -70,42 +74,58 @@
     }
     @foreach (var book in Model.Paged.Items)
     {
-        <li class="list-group-item">
+        <li class="list-group-item d-none d-md-block">
             <div class="row">
-                <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
 
                     <span> @book.ISBN</span>
                 </div>
 
-                 <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
                    
                         <span>@book.Title</span>
                 </div>
 
-                <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
 
                     <span>@book.Author</span>
                 </div>
 
-                <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
                     <span>@book.Genre</span>
                 </div>
 
-                <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
 
                     <span>@book.Price</span>
                 </div>
 
-                <div class="col-md-2 my-auto">
+                <div class="col-sm align-content-md-center">
 
-                    <span>@book.Discount</span>
+                    <span>@book.PriceWithDiscount</span>
                 </div>
-                <div class="col-md-3 text-center actions-container">
-                    @if (User.IsInRole(BookshopRoles.Administrator) || User.IsInRole(BookshopRoles.Client))
+                <div class="col-sm align-content-md-center">
+
+                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+                    {
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Review" asp-route-id="@book.Id" >
+                            <i class="fa fa-ellipsis-h"></i>
+                        </a>
+                    }
+
+
+                    @if (User.IsInRole(BookshopRoles.Administrator))
                     {
                         <button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
+                    }
+
+                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+                    {
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Edit" asp-route-id="@book.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
                     }
 
                     <!-- Modal -->

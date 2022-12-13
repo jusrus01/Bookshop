@@ -13,7 +13,6 @@ namespace Bookshop.DataLayer.Models
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public string Author { get; set; }
 
         public int Year { get; set; }

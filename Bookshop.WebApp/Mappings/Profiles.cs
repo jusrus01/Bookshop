@@ -35,13 +35,18 @@ namespace Bookshop.WebApp.Mappings
           
             CreateMap<LoginViewModel, LoginDto>();
             CreateMap<RegisterViewModel, RegisterDto>();
+<<<<<<< HEAD
             CreateMap<OrderViewModel, OrderDto>();
 
+=======
+            CreateMap<BookViewModel, BookDto>();
+            #endregion
+>>>>>>> main
         }
 
         public void DtoToViewModelMappings()
         {
-            
+
             CreateMap<ClientDto, ClientViewModel>();
             CreateMap<PartialClientDto, PartialClientViewModel>();
             CreateMap<Paged<PartialClientDto>, Paged<PartialClientViewModel>>();

@@ -6,24 +6,21 @@
 @using Bookshop.BusinessLogic.Extensions
 @section Styles 
 {
-    <link href="@Url.Content("~/css/order.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
 }
 
     <div class="text-center">
         <form class="form-register" method="post">
-            <span class="book-logo">📚</span>
 
-            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>
-
-            <div class="row">
+            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>           
                 <div class="col">
                     <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
                 </div>
+
                 <div class="col">
                     <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
                 </div>
-            </div>
-
+            
             <div class="col">
                 <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
             </div>
@@ -41,7 +38,7 @@
             </div>
 
             <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
+                <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Create a new account</button>

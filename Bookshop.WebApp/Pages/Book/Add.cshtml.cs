@@ -1,44 +1,75 @@
+using AutoMapper;
 using Bookshop.Contracts;
 using Bookshop.Contracts.Constants;
+using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.Services;
 using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
+using Bookshop.WebApp.ViewModels.Books;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bookshop.WebApp.Pages.Book
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Administrator)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Administrator, BookshopRoles.Client)]
     public class AddModel : BookshopPageModel
     {
         private readonly IUnitOfWork _uow;
         private readonly IBookService _bookService;
+        private readonly IMapper _mapper;
 
-        public AddModel(IBookService bookService, IUnitOfWork uow) : base(null)
+        [BindProperty]
+        public BookViewModel BookInput { get; set; } = new();
+
+        public List<SelectListItem> Genres { get; set; }
+        public List<SelectListItem> Suppliers { get; set; }
+
+        public AddModel(IBookService bookService, IMapper mapper, IUnitOfWork uow) : base(null)
         {
             _bookService = bookService;
+            _mapper = mapper;
             _uow = uow;
         }
 
-        public IActionResult OnGet()
+        public async void OnGet()
         {
-            return Page();
+            List<GenreDto> genres = await _bookService.GetGenres();
+            List<SupplierDto> suppliers = await _bookService.GetSupplier();
+
+            List<SelectListItem> genreList = new List<SelectListItem>();
+            List<SelectListItem> supplierList = new List<SelectListItem>();
+
+            for (int i = 0; i < genres.Count; i++)
+            {
+                genreList.Add(new SelectListItem { Text = genres[i].Name, Value = genres[i].Id.ToString() });
+            }
+
+            for (int i = 0; i < suppliers.Count; i++)
+            {
+                supplierList.Add(new SelectListItem { Text = suppliers[i].Name, Value = suppliers[i].Id.ToString() });
+            }
+
+            this.Genres = genreList;
+            this.Suppliers = supplierList;
         }
 
-        //[BindProperty]
-        //public BookDto Book { get; set; }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Page();
-        //    }
-        //    var book = await _context.SingleOrDefaultAsync(b => b.Id == id);
-        //    _context.Add(Book);
+            try
+            {
+                await _bookService.AddAsync(_mapper.Map<BookDto>(BookInput));
+            }
+            catch (Exception e)
+            {
+                return PageWithError(e.Message);
+            }
 
-        //    await _uow.SaveChangesAsync();
-
-        //    return RedirectToPage("./Index");
-        //}
+            return RedirectToPage("List");
+        }
     }
 }

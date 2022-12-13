@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
 using Bookshop.Contracts;
 using Bookshop.Contracts.Constants;
@@ -24,7 +25,13 @@ namespace Bookshop.WebApp.Pages.Book
         public List<SelectListItem> Genres { get; set; }
         public List<SelectListItem> Suppliers { get; set; }
 
-        public AddModel(IBookService bookService, IMapper mapper, IUnitOfWork uow) : base(null)
+        public AddModel(
+            IBookService bookService,
+            IMapper mapper,
+            IUnitOfWork uow,
+            INotyfService notyfService)
+            : 
+            base(notyfService)
         {
             _bookService = bookService;
             _mapper = mapper;

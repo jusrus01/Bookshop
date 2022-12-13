@@ -1,39 +1,74 @@
 ﻿@page
-@model Bookshop.WebApp.Pages.Order.EditModel
+@model Bookshop.WebApp.Pages.Orders.EditModel
 @{
 }
 
-@section Styles 
-{
-    <link href="@Url.Content("~/css/order.css")" rel="stylesheet" type="text/css" />
+@using Bookshop.BusinessLogic.Extensions
+@section Styles
+    {
+    <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
 }
 
- <div class="row justify-content-center">
-    <div class="col-md-4">
-        <h3 style="text-align: center">Edit order</h3>
-        <label>Customer</label>
-        <input class="form-control" />
+    <div class="text-center">
+        <form class="form-register" method="post">
 
-        <label>Price</label>
-        <input class="form-control" />
+            <h1 class="h3 mb-3 font-weight-normal">Edit Order</h1>
 
-        <label>Address</label>
-        <input class="form-control" />
-        
-        <label>Date of arrival</label>
-        <input class="form-control" />
-        <br/>
-        <div class="text-center">
-            <div class="mt-4">
-                @*Temporary*@
-                <a class="btn btn-primary" asp-area="" asp-page="/Order/List">Save changes</a>
-                    <a class="btn btn-secondary" asp-area="" asp-page="/Order/List">Cancel</a>
+            <input type="hidden" asp-for="@Model.OrderInput.Id" />
+            <label>Sum</label>
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
             </div>
+
+            <label>Postal Code</label>
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
+            </div>
+
+            <label>Address</label>
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
+            </div>
+
+            <label>Client Comment</label>
+            <div class="col">
+                <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
+            </div>
+
+            <label>Order Method</label>
+            <div class="col">
+                <select asp-for="@Model.OrderInput.OrderMethod" placeholder="Order method" class="form-control">
+                @foreach (SelectListItem option in @Model.OrderMethods)
+                {
+                    <option value="@option.Value">@option.Text</option>
+                }
+            </select>
         </div>
 
-    </div>
+        <label>Payment Method</label>
+        <div class="col">
+            <select asp-for="@Model.OrderInput.PaymentMethod" placeholder="Payment method" class="form-control">
+                @foreach (SelectListItem option in @Model.Payments)
+                {
+                    <option value="@option.Value">@option.Text</option>
+                }
+            </select>
+        </div>
 
+        <div class="col">
+            <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
+        </div>
 
+        <label>Book</label>
+        <div>
+            <select asp-for="@Model.OrderInput.BookId" placeholder="Book" class="form-control">
+                @foreach (SelectListItem option in @Model.Books)
+                {
+                    <option value="@option.Value">@option.Text</option>
+                }
+            </select>
+        </div>
 
-
-
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add new order</button>
+    </form>
+</div>

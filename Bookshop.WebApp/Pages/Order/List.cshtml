@@ -90,6 +90,13 @@
                         </button>
                     }
 
+                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+                    {
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Order/Edit" asp-route-id="@order.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    }
+
                     <!-- Modal -->
                     <div class="modal fade" id="removeModal@(index)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">

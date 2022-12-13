@@ -139,5 +139,33 @@ namespace Bookshop.BusinessLogic.Services
 
             return books;
         }
+
+        public async Task<OrderDto> GetOrderAsync(int orderId)
+        {
+            
+            var order = await _orderDBSet.Where(b => b.Id == orderId).FirstOrDefaultAsync();
+
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            return new OrderDto
+            {
+                Id = order.Id,
+                Sum = order.Sum,
+                PostalCode = order.PostalCode,
+                Address = order.Address,
+                ClientComment = order.ClientComment,
+                OrderMethod = order.OrderMethod,
+                PaymentMethod = order.PaymentMethod,
+                ExpectedDelivery = order.ExpectedDelivery,
+                PaymentDate = order.PaymentDate,
+                Status = order.Status.Status,
+                UserId = order.UserId,
+                BookId = _bookDbSet.Where(b => b.Id == order.Id).First().Title
+            };
+        }
     }
 }

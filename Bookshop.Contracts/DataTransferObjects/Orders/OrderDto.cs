@@ -33,5 +33,7 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
 
         public string BookId { get; set; }
 
+     
+
     }
 }

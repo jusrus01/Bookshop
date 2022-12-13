@@ -17,5 +17,7 @@ namespace Bookshop.Contracts.Services
         Task DeleteOrderAsync(int? id);
         Task<List<BookDto>> GetBooks();
         Task AddAsync(OrderDto orderDto);
+
+        Task<OrderDto> GetOrderAsync(int orderId);
     }
 }

@@ -37,7 +37,7 @@ namespace Bookshop.BusinessLogic.Extensions
             return new Paged<T>
             {
                 Items = items.Count > pageSize ? items.SkipLast(1) : items,
-                NextPageIsEmpty = items.Count < pageSize,
+                NextPageIsEmpty = items.Count <= pageSize,
                 PreviousPageIsEmpty = page <= 1,
                 Count = items.Count != 0 ? items.Count - 1 : 0
             };

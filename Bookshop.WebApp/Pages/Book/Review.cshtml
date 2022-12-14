@@ -1,4 +1,5 @@
 ﻿@page "{id}"
+@using Bookshop.BusinessLogic.Extensions
 @model Bookshop.WebApp.Pages.Book.ReviewModel
 @{
 }
@@ -41,17 +42,98 @@
             <label class="col-sm-2 col-form-label col-form-label-lg">Genre</label>
             <p>@Model.Book.Genre</p>
 
+        </form>
+        
+        @if (Model.Comments.Count > 0)
+        {
+            <div style="text-align: center">
+                <h5>Comments</h5>
+            </div>
+
+            <ul class="list-group">
+                <li class="list-group-item d-none d-md-block">
+                    <div class="row">
+                        <div class="col-sm align-content-md-center">
+                            Client
+                        </div>
+
+                        <div class="col-sm align-content-md-center">
+                            Score
+                        </div>
+
+                        <div class="col-sm align-content-md-center">
+                            Comment
+                        </div>
+                    </div>
+                </li>
+                @foreach (var comment in Model.Comments)
+                {
+                    <li class="list-group-item d-none d-md-block">
+                        <div class="row">
+                            <div class="col-sm align-content-md-center">
+
+                                <span> @comment.UserId</span>
+                            </div>
+
+                            <div class="col-sm align-content-md-center">
+
+                                <span>@comment.Score</span>
+                            </div>
+
+                            <div class="col-sm align-content-md-center">
+
+                                <span>@comment.Comment</span>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        
+
+        <div style="text-align: center">
+            <h5>Leave comment about book</h5>
+        </div>
+
+        <form method="post">
+            <input type="hidden" asp-for="@Model.CommentInput.ClientName" value="@User.GetAuthenticatedUserId()" placeholder="ClientName" />
+            <input type="hidden" asp-for="@Model.CommentInput.BookId" value="@Model.Book.Id" placeholder="BookId" />
+        <label>Rate book </label>
+        <div>
+                <select placeholder="Score" asp-for="@Model.CommentInput.Score" class="form-control" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+        </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Comment</label>
+                <textarea placeholder="Comment" asp-for="@Model.CommentInput.Comment" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" type="submit">Save comment</button>
+            </div>
+        </form>
+
+
         <div class="text-center">
             <div class="mt-4">
                 @*Temporary*@
                 <a class="btn btn-secondary" asp-area="" asp-page="/Book/List">Go back to list</a>
             </div>
         </div>
-        </form>
+        
 
     </div>
 
-
+</div>
 
     @section Scripts
         {

@@ -15,5 +15,7 @@ namespace Bookshop.Contracts.Services
         Task<List<GenreDto>> GetGenres();
         Task<List<SupplierDto>> GetSupplier();
         Task AddAsync(BookDto bookDto);
+        Task<List<BookCommentDto>> GetComments(int bookId);
+        Task AddComment(BookCommentDto comment);
     }
 }

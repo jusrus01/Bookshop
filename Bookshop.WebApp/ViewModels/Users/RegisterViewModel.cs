@@ -15,12 +15,10 @@ namespace Bookshop.WebApp.PageModels.Users
         public string Password { get; set; }
 
         [Required]
-        [RegularExpression("[a-zA-Z]+")]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
         [Required]
-        [RegularExpression("[a-zA-Z]+")]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 

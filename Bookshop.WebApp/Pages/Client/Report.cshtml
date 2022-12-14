@@ -47,7 +47,7 @@ else
 {
     var order = Model.Output.Orders[i];
     <ul class="list-group">
-        <li class="list-group-item order">
+        <li class="list-group-item order" id="order-@(i)">
             <div class="row">
                 <div class="col-md-2 my-auto">
                     @(i + 1)
@@ -72,8 +72,8 @@ else
         </li>
     </ul>
 
-    <ul class="list-group">
-        <li class="list-group-item active-report-item hidden">
+    <ul class="list-group hidden" id="report-books-header-@(i)">
+        <li class="list-group-item active-report-item">
             <div class="row">
                 <div class="col-md-2 my-auto">
                 </div>
@@ -97,11 +97,11 @@ else
         </li>
     </ul>
 
-    <ul class="list-group">
+    <ul class="list-group hidden" id="report-books-@(i)">
         @for (var j = 0; j < @order.Books.Count; j++)
         {
             var book = @order.Books[j];
-            <li class="list-group-item hidden active-report-item">
+            <li class="list-group-item active-report-item">
                 <div class="row">
                     <div class="col-md-2 my-auto">
                         @(j + 1)
@@ -126,4 +126,26 @@ else
             </li>
         }
     </ul>
+}
+
+@section Scripts
+{
+    <script>
+        function toggleOrder(id) {
+            const header = $('#report-books-header-' + id);
+            const container = $('#report-books-' + id);
+
+            if (header.hasClass('hidden')) {
+                header.removeClass('hidden');
+                container.removeClass('hidden');
+            } else {
+                header.addClass('hidden');
+                container.addClass('hidden');
+            }
+        }
+
+        for (let i = 0; i < @Model.Output.Orders.Count; i++) {
+            $('#order-' + i).click(() => toggleOrder(i));
+        }
+    </script>
 }

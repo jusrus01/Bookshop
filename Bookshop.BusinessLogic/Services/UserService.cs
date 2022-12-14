@@ -127,7 +127,7 @@ namespace Bookshop.BusinessLogic.Services
         {
             if (!result.Succeeded)
             {
-                throw new Exception("Account not confirmed");
+                throw new Exception("Account not confirmed or invalid credentials");
             }
         }
 

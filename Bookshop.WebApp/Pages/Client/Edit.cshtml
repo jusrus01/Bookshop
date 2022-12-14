@@ -30,18 +30,23 @@
 
     <div class="col-md-4">
         <label asp-for="@Model.Input.FirstName"></label>
+        <span asp-validation-for="@Model.Input.FirstName" class="text-danger"></span>
         <input class="form-control" asp-for="@Model.Input.FirstName" value="@Model.Input.FirstName" />
 
         <label asp-for="@Model.Input.LastName"></label>
+        <span asp-validation-for="@Model.Input.LastName" class="text-danger"></span>
         <input class="form-control" asp-for="@Model.Input.LastName" value="@Model.Input.LastName" />
 
         <label asp-for="@Model.Input.Email"></label>
+        <span asp-validation-for="@Model.Input.Email" class="text-danger"></span>
         <input class="form-control" asp-for="@Model.Input.Email" value="@Model.Input.Email" />
 
         <label asp-for="@Model.Input.Address"></label>
+        <span asp-validation-for="@Model.Input.Address" class="text-danger"></span>
         <input class="form-control" asp-for="@Model.Input.Address" value="@Model.Input.Address" />
 
         <label asp-for="@Model.Input.PhoneNumber"></label>
+        <span asp-validation-for="@Model.Input.PhoneNumber" class="text-danger"></span>
         <input class="form-control" asp-for="@Model.Input.PhoneNumber" value="@Model.Input.PhoneNumber" />
 
         @if (User.IsAdmin() && !User.IsSelf(Model.Input.Id))

@@ -6,7 +6,6 @@ using Bookshop.Contracts.Services;
 using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
 using Bookshop.WebApp.ViewModels.Clients;
-using jdk.nashorn.@internal.ir;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Client
@@ -33,16 +32,12 @@ namespace Bookshop.WebApp.Pages.Client
 
         public async Task<IActionResult> OnPostAsync()
         {
-            try
+            if (!ModelState.IsValid)
             {
-                await _clientService.UpdateAsync(_mapper.Map<EditClientDto>(Input));
-            }
-            catch (Exception e)
-            {
-                // TODO: Change implementation
-                return PageWithError(e.Message);
+                return await OnGetAsync(Input.Id);
             }
 
+            await _clientService.UpdateAsync(_mapper.Map<EditClientDto>(Input));
             return RedirectToPage("Profile", new { userId = Input.Id });
         }
 

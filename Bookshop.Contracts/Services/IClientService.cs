@@ -8,6 +8,8 @@ namespace Bookshop.Contracts.Services
         Task DeleteAsync(string id);
 
         Task<ClientDto> GetAsync(string id);
+        
+        Task<IEnumerable<ClientReportOrderDto>> GetOrdersAsync(string id);
 
         Task<Paged<PartialClientDto>> GetPagedAsync(int page, int pageSize);
 

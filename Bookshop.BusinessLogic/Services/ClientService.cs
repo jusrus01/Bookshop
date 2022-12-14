@@ -34,6 +34,44 @@ namespace Bookshop.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<IEnumerable<ClientReportOrderDto>> GetOrdersAsync(string id)
+        {
+            return new List<ClientReportOrderDto>
+            {
+                new ClientReportOrderDto
+                {
+                    Books = new List<ClientReportBookDto>
+                    {
+                        new ClientReportBookDto
+                        {
+                            Pages = 123,
+                            Author = "Antanas Baranauskas",
+                            Title = "Medus",
+                            Price = 10,
+                        }
+                    },
+                    Completed = DateTime.Now.AddDays(-11),
+                    Created = DateTime.Now.AddMonths(-1),
+                },
+
+                new ClientReportOrderDto
+                {
+                    Books = new List<ClientReportBookDto>
+                    {
+                        new ClientReportBookDto
+                        {
+                            Pages = 123,
+                            Author = "Dj Antomio",
+                            Title = "Saule saule, danguje",
+                            Price = 10,
+                        }
+                    },
+                    Completed = DateTime.Now.AddDays(-11),
+                    Created = DateTime.Now.AddMonths(-1),
+                }
+            };
+        }
+
         public async Task UpdateAsync(EditClientDto editDto)
         {
             var client = await _userManager.FindByIdAsync(editDto.Id);

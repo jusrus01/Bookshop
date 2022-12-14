@@ -8,155 +8,122 @@
     <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
 }
 
-<h3>Orders</h3>
-<ul class="list-group">
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                Id
-            </div>
+<h3>Order history</h3>
 
-            <div class="col-md-2 my-auto">
-                Order date
-            </div>
+@if (!Model.Output.Orders.Any())
+{
+    <p>You have not made any orders yet.</p>
+}
+else
+{
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-2 my-auto">
+                    #
+                </div>
 
-            <div class="col-md-3 my-auto">
-                Order completion date
-            </div>
+                <div class="col-md-2 my-auto">
+                    Order date
+                </div>
 
-            <div class="col-md-2 my-auto">
-                Bought books
-            </div>
+                <div class="col-md-3 my-auto">
+                    Order completion date
+                </div>
+
+                <div class="col-md-2 my-auto">
+                    Bought books
+                </div>
             
-            <div class="col-md-3 my-auto">
-                Total price
+                <div class="col-md-3 my-auto">
+                    Total price
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    </ul>
+}
 
-     <li class="list-group-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                1
-            </div>
+@for (var i = 0; i < Model.Output.Orders.Count; i++)
+{
+    var order = Model.Output.Orders[i];
+    <ul class="list-group">
+        <li class="list-group-item order">
+            <div class="row">
+                <div class="col-md-2 my-auto">
+                    @(i + 1)
+                </div>
 
-            <div class="col-md-2 my-auto">
-                2000-12-12
-            </div>
+                <div class="col-md-2 my-auto">
+                    @order.Created
+                </div>
 
-            <div class="col-md-3 my-auto">
-                2000-12-23
-            </div>
+                <div class="col-md-3 my-auto">
+                    @order.Completed
+                </div>
 
-            <div class="col-md-2 my-auto">
-                2
-            </div>
+                <div class="col-md-2 my-auto">
+                    @order.Books.Count()
+                </div>
             
-            <div class="col-md-3 my-auto">
-                24.24 €
+                <div class="col-md-3 my-auto">
+                    @order.Books.Sum(book => book.Price)
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    </ul>
 
-    <li class="list-group-item active-report-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                <b>Id</b>
-            </div>
+    <ul class="list-group">
+        <li class="list-group-item active-report-item hidden">
+            <div class="row">
+                <div class="col-md-2 my-auto">
+                </div>
 
-            <div class="col-md-2 my-auto">
-                <b>Author</b>
-            </div>
+                <div class="col-md-2 my-auto">
+                    Author
+                </div>
 
-            <div class="col-md-3 my-auto">
-                <b>Book title</b>
-            </div>
+                <div class="col-md-3 my-auto">
+                    Book title
+                </div>
 
-            <div class="col-md-2 my-auto">
-                 <b>Pages</b>
-            </div>
-            
-            <div class="col-md-3 my-auto">
-                <b>Price</b>
-            </div>
-        </div>
-    </li>
+                <div class="col-md-2 my-auto">
+                    Pages
+                </div>
 
-      <li class="list-group-item active-report-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                1
+                <div class="col-md-3 my-auto">
+                    Price
+                </div>
             </div>
+        </li>
+    </ul>
 
-            <div class="col-md-2 my-auto">
-                Jake Blare
-            </div>
+    <ul class="list-group">
+        @for (var j = 0; j < @order.Books.Count; j++)
+        {
+            var book = @order.Books[j];
+            <li class="list-group-item hidden active-report-item">
+                <div class="row">
+                    <div class="col-md-2 my-auto">
+                        @(j + 1)
+                    </div>
 
-            <div class="col-md-3 my-auto">
-                Help
-            </div>
+                    <div class="col-md-2 my-auto">
+                        @book.Author
+                    </div>
 
-            <div class="col-md-2 my-auto">
-                199
-            </div>
-            
-            <div class="col-md-3 my-auto">
-                12.12 €
-            </div>
-        </div>
-    </li>
+                    <div class="col-md-3 my-auto">
+                        @book.Title
+                    </div>
 
-      <li class="list-group-item active-report-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                2
-            </div>
+                    <div class="col-md-2 my-auto">
+                        @book.Pages
+                    </div>
 
-            <div class="col-md-2 my-auto">
-                Will Smith
-            </div>
-
-            <div class="col-md-3 my-auto">
-                Please help
-            </div>
-
-            <div class="col-md-2 my-auto">
-                231
-            </div>
-            
-            <div class="col-md-3 my-auto">
-                12.12 €
-            </div>
-        </div>
-    </li>
-
-
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-md-2 my-auto">
-                2
-            </div>
-
-            <div class="col-md-2 my-auto">
-                2000-12-12
-            </div>
-
-            <div class="col-md-3 my-auto">
-                2000-12-23
-            </div>
-
-            <div class="col-md-2 my-auto">
-                10
-            </div>
-            
-            <div class="col-md-3 my-auto">
-                69.420 €
-            </div>
-        </div>
-    </li>
-</ul>
-
-<div class="pagination-container">
-    <button class="btn btn-outline-primary">Previous</button>
-    <button class="btn btn-primary">Next</button>
-</div>
+                    <div class="col-md-3 my-auto">
+                        @book.Price €
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}

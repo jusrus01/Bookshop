@@ -18,6 +18,16 @@
     }
 }
 
+/* Report */
 .active-report-item {
     background-color: lightgray !important;
+}
+
+.order:hover {
+    background-color: lightgray !important;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }

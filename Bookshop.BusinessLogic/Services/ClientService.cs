@@ -58,7 +58,15 @@ namespace Bookshop.BusinessLogic.Services
         {
             var user = await _userManager.FindByIdAsync(id);
             EnsureValidUser(user);
-            await _userManager.DeleteAsync(user);
+            
+            try
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            catch
+            {
+                throw new Exception("This user has associated data. Cannot delete.");
+            }
         }
 
         public async Task<ClientDto> GetAsync(string clientId)

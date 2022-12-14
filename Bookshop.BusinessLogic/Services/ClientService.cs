@@ -60,7 +60,7 @@ namespace Bookshop.BusinessLogic.Services
         {
             if (user == null)
             {
-                throw new Exception("Invalid user id provided");
+                throw new Exception("User does not exist");
             }
         }
 

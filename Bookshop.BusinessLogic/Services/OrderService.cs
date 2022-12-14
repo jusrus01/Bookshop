@@ -6,6 +6,12 @@ using Bookshop.Contracts.Enums;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
+
+using com.sun.org.apache.xerces.@internal.util;
+using com.sun.org.apache.xpath.@internal.operations;
+using java.awt.print;
+using Microsoft.AspNetCore.Identity;
+
 using Microsoft.EntityFrameworkCore;
 using Book = Bookshop.DataLayer.Models.Book;
 
@@ -97,6 +103,10 @@ namespace Bookshop.BusinessLogic.Services
             };
             _orderDBSet.Add(newOrder);
             await _uow.SaveChangesAsync();
+            var book = await _bookDbSet.FirstAsync(book=> book.Id == orderDto.BookId);
+            book.OrderId = newOrder.Id;
+            _bookDbSet.Update(book);
+            await _uow.SaveChangesAsync();
             return newOrder;
         }
 
@@ -127,6 +137,69 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             return books;
+        }
+
+        public async Task<OrderDto> GetOrderAsync(int orderId)
+        {
+            
+            var order = await _orderDBSet.Include(book=> book.Status).Include(book => book.Books).Where(b => b.Id == orderId).FirstOrDefaultAsync();
+
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            return new OrderDto
+            {
+                Id = order.Id,
+                
+                Sum = order.Sum,
+                PostalCode = order.PostalCode,
+                Address = order.Address,
+                ClientComment = order.ClientComment,
+                OrderMethod = order.OrderMethod,
+                PaymentMethod = order.PaymentMethod,
+                ExpectedDelivery = order.ExpectedDelivery,
+                PaymentDate = order.PaymentDate,
+                Status = order.Status.Status,
+                UserId = order.UserId,
+                Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Title }).ToList()
+            };
+        }
+
+        private async Task<Order> UpdateOrderAsync(OrderDto orderDto)
+        {
+            var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
+
+            var newOrder = new Order
+            {
+                Id = orderDto.Id,
+                Created = DateTime.UtcNow,
+                Sum = orderDto.Sum,
+                PostalCode = orderDto.PostalCode,
+                Address = orderDto.Address,
+                ClientComment = orderDto.ClientComment,
+                OrderMethod = orderDto.OrderMethod,
+                PaymentMethod = orderDto.PaymentMethod,
+                ExpectedDelivery = DateTime.UtcNow.AddDays(14),
+                PaymentDate = DateTime.UtcNow,
+                CourierComment = "Started",
+                UserId = orderDto.UserId,
+                StatusId = state.Id,
+            };
+            _orderDBSet.Update(newOrder);
+            await _uow.SaveChangesAsync();
+            var book = await _bookDbSet.FirstAsync(book => book.Id == orderDto.BookId);
+            book.OrderId = newOrder.Id;
+            _bookDbSet.Update(book);
+            await _uow.SaveChangesAsync();
+            return newOrder;
+        }
+
+        public async Task UpdateAsync(OrderDto orderDto)
+        {
+            await UpdateOrderAsync(orderDto);
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Bookshop.BusinessLogic.Services
             var encodedToken = HttpUtility.UrlEncode(token);
             var request = _httpContextAccessor.HttpContext.Request;
             var applicationPath = $"{request.Scheme}://{request.Host}";
-            var confirmationLink = $"{applicationPath}/Account/ConfirmEmail?token={encodedToken}&email={user.Email}";
+            var confirmationLink = $"{applicationPath}/Client/ConfirmEmail?token={encodedToken}&email={user.Email}";
 
             _ = Task.Run(() => _mailService.SendEmailAsync(
                 "Confirm your account",

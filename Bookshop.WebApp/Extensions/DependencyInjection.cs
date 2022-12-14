@@ -34,6 +34,12 @@ namespace Bookshop.WebApp.Extensions
             })
             .AddEntityFrameworkStores<BookshopDbContext>()
             .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Client/AccessDenied";
+                options.LoginPath = "/Client/Login";
+            });
         } 
 
         public static void AddServices(this IServiceCollection services)

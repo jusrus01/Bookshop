@@ -80,10 +80,9 @@ namespace Bookshop.BusinessLogic.Services
 
         private async Task<Book> UpdateBookAsync(BookDto bookDto)
         {
-            _bookDbSet.Remove(await _bookDbSet.Where(b => b.Id == bookDto.Id).FirstOrDefaultAsync());
-            await _uow.SaveChangesAsync();
             var newBook = new Book
             {
+                Id = bookDto.Id,
                 ISBN = bookDto.ISBN,
                 Title = bookDto.Title,
                 Author = bookDto.Author,
@@ -98,7 +97,7 @@ namespace Bookshop.BusinessLogic.Services
                 Supplier = _supplierDbSet.Where(b => b.Id == int.Parse(bookDto.Supplier)).FirstOrDefault(),
                 Created = DateTime.Now
             };
-            _bookDbSet.Add(newBook);
+            _bookDbSet.Update(newBook);
             await _uow.SaveChangesAsync();
             return newBook;
         }

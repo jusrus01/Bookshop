@@ -1,4 +1,4 @@
-﻿using Bookshop.Contracts.DataTransferObjects.Users;
+﻿using Bookshop.Contracts.DataTransferObjects.Clients;
 
 namespace Bookshop.Contracts.Services
 {

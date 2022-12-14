@@ -10,9 +10,7 @@ using System.Reflection;
 async Task InitializeDefinedRolesAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
-
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-
     var definedRoles = typeof(BookshopRoles)
         .GetFields(BindingFlags.Public | BindingFlags.Static);
 

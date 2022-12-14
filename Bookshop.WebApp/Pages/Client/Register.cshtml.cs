@@ -1,11 +1,11 @@
 using Bookshop.Contracts.Services;
-using Bookshop.WebApp.PageModels.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Bookshop.Contracts.DataTransferObjects.Users;
 using AutoMapper;
 using Bookshop.WebApp.PageModels;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Bookshop.WebApp.ViewModels.Clients;
+using Bookshop.Contracts.DataTransferObjects.Clients;
 
 namespace Bookshop.WebApp.Pages.Account
 {

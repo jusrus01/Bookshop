@@ -14,7 +14,6 @@ namespace Bookshop.BusinessLogic.Extensions
             var items = await queryable.Skip((page - 1) * pageSize)
                 .Take(pageSize + 1)
                 .ToListAsync();
-
             return MapListToPaged(items, page, pageSize);
         }
 
@@ -30,7 +29,6 @@ namespace Bookshop.BusinessLogic.Extensions
                 .Take(pageSize + 1)
                 .Select(selector)
                 .ToListAsync();
-
             return MapListToPaged(items, page, pageSize);
         }
 
@@ -39,7 +37,7 @@ namespace Bookshop.BusinessLogic.Extensions
             return new Paged<T>
             {
                 Items = items.Count > pageSize ? items.SkipLast(1) : items,
-                NextPageIsEmpty = items.Count < pageSize,
+                NextPageIsEmpty = items.Count <= pageSize,
                 PreviousPageIsEmpty = page <= 1,
                 Count = items.Count != 0 ? items.Count - 1 : 0
             };

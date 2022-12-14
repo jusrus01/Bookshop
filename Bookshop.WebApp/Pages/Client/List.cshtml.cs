@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Client
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator, BookshopRoles.Manager)]
     public class ListModel : SinglePaginationBookshopPagedModel<PartialClientViewModel>
     {
-        private const int PageSize = 4;
+        private const int PageSize = 8;
 
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;

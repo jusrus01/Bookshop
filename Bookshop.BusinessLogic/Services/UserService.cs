@@ -74,7 +74,8 @@ namespace Bookshop.BusinessLogic.Services
                 LastName = registerDto.LastName,
                 PhoneNumber = registerDto.PhoneNumber,
                 Address = registerDto.Address,
-                Created = DateTime.UtcNow
+                Created = DateTime.Now,
+                LastLogin = DateTime.Now
             };
 
             var identityResult = await _userManager.CreateAsync(newIdentityUser, registerDto.Password);

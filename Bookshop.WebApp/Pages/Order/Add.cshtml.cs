@@ -1,19 +1,13 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
-using Bookshop.BusinessLogic.Services;
 using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Orders;
-using Bookshop.Contracts.DataTransferObjects.Users;
 using Bookshop.Contracts.Enums;
 using Bookshop.Contracts.Services;
-using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.PageModels;
-using Bookshop.WebApp.PageModels.Users;
 using Bookshop.WebApp.ViewModels.Orders;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
 
 namespace Bookshop.WebApp.Pages.Orders
 {

@@ -16,7 +16,8 @@ namespace Bookshop.BusinessLogic.Services
     {
         private readonly DbSet<ApplicationUser> _usersDbSet;
         private readonly UserManager<ApplicationUser> _userManager;
-        
+
+        private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -29,8 +30,20 @@ namespace Bookshop.BusinessLogic.Services
             _usersDbSet = uow.GetDbSet<ApplicationUser>();
             _userManager = userManager;
             _mapper = mapper;
+            _uow = uow;
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public async Task UpdateAsync(EditClientDto editDto)
+        {
+            var client = await _userManager.FindByIdAsync(editDto.Id);
+            MapEditDtoToUser(editDto, client);
+            await _userManager.UpdateAsync(client);
+            await ChangeRoleIfNeededAsync(editDto, client);
+        }
+
+        public async Task<IEnumerable<RoleDto>> GetRolesAsync() =>
+            _mapper.Map<IEnumerable<RoleDto>>(await _uow.GetDbSet<ApplicationRole>().ToListAsync());
 
         public async Task<Paged<PartialClientDto>> GetPagedAsync(int page, int pageSize)
         {
@@ -60,7 +73,16 @@ namespace Bookshop.BusinessLogic.Services
         {
             if (user == null)
             {
-                throw new Exception("Invalid user id provided");
+                throw new Exception("User does not exist");
+            }
+        }
+
+        private async Task ChangeRoleIfNeededAsync(EditClientDto editDto, ApplicationUser client)
+        {
+            if (editDto.Role != editDto.SelectedRole)
+            {
+                await _userManager.RemoveFromRoleAsync(client, editDto.Role);
+                await _userManager.AddToRoleAsync(client, editDto.SelectedRole);
             }
         }
 
@@ -73,5 +95,14 @@ namespace Bookshop.BusinessLogic.Services
                 Email = user.Email,
                 LastLogin = user.LastLogin
             };
+
+        private static void MapEditDtoToUser(EditClientDto editDto, ApplicationUser client)
+        {
+            client.PhoneNumber = editDto.PhoneNumber;
+            client.FirstName = editDto.FirstName;
+            client.LastName = editDto.LastName;
+            client.Address = editDto.Address;
+            client.Email = editDto.Email;
+        }
     }
 }

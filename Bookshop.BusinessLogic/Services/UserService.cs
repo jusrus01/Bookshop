@@ -1,6 +1,6 @@
 ﻿using Bookshop.Contracts;
 using Bookshop.Contracts.Constants;
-using Bookshop.Contracts.DataTransferObjects.Users;
+using Bookshop.Contracts.DataTransferObjects.Clients;
 using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Http;

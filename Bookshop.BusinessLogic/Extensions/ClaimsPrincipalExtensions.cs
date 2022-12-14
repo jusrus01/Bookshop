@@ -19,8 +19,11 @@ namespace Bookshop.BusinessLogic.Extensions
 
         public static bool IsSelf(this ClaimsPrincipal user, string id) => GetUserId(user) == id;
 
+        public static bool IsAdmin(this ClaimsPrincipal user) =>
+            user.IsInRole(BookshopRoles.Administrator);
+
         public static bool IsAdminOrOwner(this ClaimsPrincipal user, string userId) =>
-            user.IsInRole(BookshopRoles.Administrator) ||user.GetAuthenticatedUserId() == userId;
+            user.IsInRole(BookshopRoles.Administrator) || user.GetAuthenticatedUserId() == userId;
 
         private static string GetUserId(ClaimsPrincipal user) => 
             user.FindFirstValue(ClaimTypes.NameIdentifier);

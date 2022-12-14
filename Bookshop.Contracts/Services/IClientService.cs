@@ -10,5 +10,9 @@ namespace Bookshop.Contracts.Services
         Task<ClientDto> GetAsync(string id);
 
         Task<Paged<PartialClientDto>> GetPagedAsync(int page, int pageSize);
+
+        Task<IEnumerable<RoleDto>> GetRolesAsync();
+            
+        Task UpdateAsync(EditClientDto client);
     }
 }

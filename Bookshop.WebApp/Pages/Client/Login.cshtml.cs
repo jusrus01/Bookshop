@@ -1,9 +1,9 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
-using Bookshop.Contracts.DataTransferObjects.Users;
+using Bookshop.Contracts.DataTransferObjects.Clients;
 using Bookshop.Contracts.Services;
 using Bookshop.WebApp.PageModels;
-using Bookshop.WebApp.ViewModels.Users;
+using Bookshop.WebApp.ViewModels.Clients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

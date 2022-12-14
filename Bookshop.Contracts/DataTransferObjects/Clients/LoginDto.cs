@@ -1,4 +1,4 @@
-﻿namespace Bookshop.Contracts.DataTransferObjects.Users
+﻿namespace Bookshop.Contracts.DataTransferObjects.Clients
 {
     public class LoginDto
     {

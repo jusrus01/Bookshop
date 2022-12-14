@@ -5,47 +5,64 @@
 }
 
 @section Styles
-{
+    {
     <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
 }
 
- <div class="row justify-content-center">
+<form method="post" class="row justify-content-center">
     <div class="col-md-4 text-center">
         <div class="text-start my-2">
-            <span>Roles:</span>
-            <span class="role-indicator">Client</span>
+            @foreach (var role in Model.Input.Roles)
+            {
+                <span class="role-indicator">@role</span>
+            }
         </div>
         <img class="profile-image" src="https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png" />
-            <div class="text-center">
+        <div class="text-center">
             <div class="mt-4">
-                @*Temporary*@
-                <a class="btn btn-primary" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">Save changes</a>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <input asp-for="@Model.Input.Id" hidden />
                 <a class="btn btn-secondary" asp-area="" asp-page="/Client/Profile" asp-route-userId="@User.GetAuthenticatedUserId()">Cancel</a>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <label>First name</label>
-        <input class="form-control" />
+        <label asp-for="@Model.Input.FirstName"></label>
+        <input class="form-control" asp-for="@Model.Input.FirstName" value="@Model.Input.FirstName" />
 
-        <label>Last name</label>
-        <input class="form-control" />
+        <label asp-for="@Model.Input.LastName"></label>
+        <input class="form-control" asp-for="@Model.Input.LastName" value="@Model.Input.LastName" />
 
-        <label>Email</label>
-        <input class="form-control" />
-        
-        <label>Address</label>
-        <input class="form-control" />
+        <label asp-for="@Model.Input.Email"></label>
+        <input class="form-control" asp-for="@Model.Input.Email" value="@Model.Input.Email" />
 
-        <label>Phone number</label>
-        <input class="form-control" />
+        <label asp-for="@Model.Input.Address"></label>
+        <input class="form-control" asp-for="@Model.Input.Address" value="@Model.Input.Address" />
 
-        <label>Created</label>
-        <input class="form-control" />
-        
-        <label>Last login</label>
-        <input class="form-control" />
+        <label asp-for="@Model.Input.PhoneNumber"></label>
+        <input class="form-control" asp-for="@Model.Input.PhoneNumber" value="@Model.Input.PhoneNumber" />
+
+        @if (User.IsAdmin() && !User.IsSelf(Model.Input.Id))
+        {
+            <div>
+                <input asp-for="@Model.Input.Role" hidden />
+                <label asp-for="@Model.Input.SelectedRole"></label>
+                <select asp-for="@Model.Input.SelectedRole" class="form-control form-select">
+                    @foreach (var option in @Model.Input.AvailableRoles)
+                    {
+                        if (Model.Input.Roles.Contains(option.Name))
+                        {
+                            <option selected value="@option.Name">@option.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Name">@option.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        }
     </div>
-</div>
+</form>

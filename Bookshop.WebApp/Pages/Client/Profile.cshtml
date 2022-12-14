@@ -14,7 +14,6 @@
 <div class="row justify-content-center">
     <div class="col-md-4 text-center">
         <div class="text-start my-2">
-            <span>Roles:</span>
             @foreach (var role in Model.ClientOutput.Roles)
             {
                 <span class="role-indicator">@role</span>
@@ -25,7 +24,7 @@
             <div class="mt-4">
                 @if (User.IsAdminOrOwner(Model.ClientOutput.Id))
                 {
-                    <a class="btn btn-primary" asp-area="" asp-page="/Client/Edit">Edit profile</a>
+                    <a class="btn btn-primary" asp-area="" asp-page="/Client/Edit" asp-route-userId="@Model.ClientOutput.Id">Edit profile</a>
                 }
 
                 @if (User.IsAdminOrOwner(Model.ClientOutput.Id))

@@ -83,6 +83,14 @@
                 </div>
 
                 <div class="col-md-3 text-center actions-container">
+
+                      @if (User.IsInRole(BookshopRoles.Client))
+                    {
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Order/Review" asp-route-id="@order.Id">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </a>
+                    }
+
                     @if (User.IsInRole(BookshopRoles.Administrator))
                     {
                         <button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
@@ -90,7 +98,7 @@
                         </button>
                     }
 
-                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+                    @if (User.IsInRole(BookshopRoles.Manager))
                     {
                         <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Order/Edit" asp-route-id="@order.Id">
                             <i class="fa-solid fa-pen-to-square"></i>

@@ -6,13 +6,12 @@ using Bookshop.Contracts.Enums;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
-<<<<<<< HEAD
+
 using com.sun.org.apache.xerces.@internal.util;
 using com.sun.org.apache.xpath.@internal.operations;
 using java.awt.print;
 using Microsoft.AspNetCore.Identity;
-=======
->>>>>>> main
+
 using Microsoft.EntityFrameworkCore;
 using Book = Bookshop.DataLayer.Models.Book;
 
@@ -169,9 +168,38 @@ namespace Bookshop.BusinessLogic.Services
             };
         }
 
+        private async Task<Order> UpdateOrderAsync(OrderDto orderDto)
+        {
+            var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
+
+            var newOrder = new Order
+            {
+                Id = orderDto.Id,
+                Created = DateTime.UtcNow,
+                Sum = orderDto.Sum,
+                PostalCode = orderDto.PostalCode,
+                Address = orderDto.Address,
+                ClientComment = orderDto.ClientComment,
+                OrderMethod = orderDto.OrderMethod,
+                PaymentMethod = orderDto.PaymentMethod,
+                ExpectedDelivery = DateTime.UtcNow.AddDays(14),
+                PaymentDate = DateTime.UtcNow,
+                CourierComment = "Started",
+                UserId = orderDto.UserId,
+                StatusId = state.Id,
+            };
+            _orderDBSet.Update(newOrder);
+            await _uow.SaveChangesAsync();
+            var book = await _bookDbSet.FirstAsync(book => book.Id == orderDto.BookId);
+            book.OrderId = newOrder.Id;
+            _bookDbSet.Update(book);
+            await _uow.SaveChangesAsync();
+            return newOrder;
+        }
+
         public async Task UpdateAsync(OrderDto orderDto)
         {
-            await CreateNewOrderAsync(orderDto);
+            await UpdateOrderAsync(orderDto);
         }
     }
 }

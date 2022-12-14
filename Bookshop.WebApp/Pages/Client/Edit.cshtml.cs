@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Client
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Client, BookshopRoles.Administrator, BookshopRoles.Manager)]
     public class EditModel : BookshopPageModel
     {
         private readonly IClientService _clientService;

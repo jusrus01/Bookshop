@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bookshop.WebApp.styles.css" asp-append-version="true" />
     
-
     @* Import specific style files like this: https://stackoverflow.com/questions/5021552/how-to-reference-a-css-file-on-a-razor-view *@
     @RenderSection("Styles", false)
 </head>
@@ -51,10 +50,10 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Register">Register</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Client/Register">Register</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Client/Login">Login</a>
                             </li>
                         }
 
@@ -68,7 +67,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Logout">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Client/Logout">
                                     <i class="fa-solid fa-right-from-bracket"></i>
                                     Logout
                                 </a>

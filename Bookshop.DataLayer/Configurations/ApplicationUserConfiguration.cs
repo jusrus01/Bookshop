@@ -35,7 +35,7 @@ namespace Bookshop.DataLayer.Configurations
                 .IsRequired();
 
             builder.Property(model => model.LastLogin)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValue(DateTime.Now);
 
             builder.HasMany(model => model.Orders)
                 .WithOne(model => model.User)

@@ -23,8 +23,12 @@
     background-color: lightgray !important;
 }
 
+.active-report-header {
+    font-weight: bold;
+}
+
 .order:hover {
-    background-color: lightgray !important;
+    background-color: ghostwhite !important;
     cursor: pointer;
 }
 

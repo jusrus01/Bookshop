@@ -50,6 +50,8 @@ namespace Bookshop.WebApp.Extensions
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<OrderService>();
         }
 
         public static void AddDefaultDatabase(this IServiceCollection services, IConfiguration configuration)

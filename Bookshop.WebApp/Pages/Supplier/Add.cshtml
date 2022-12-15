@@ -1,0 +1,45 @@
+﻿@page
+@model Bookshop.WebApp.Pages.Supplier.AddModel
+@{
+}
+
+
+@section Styles 
+{
+    <link href="@Url.Content("~/css/suppliers.css")" rel="stylesheet" type="text/css" />
+}
+
+ <div class="row justify-content-center">
+    <div class="col-md-4">
+        <h3 style="text-align: center">Add supplier</h3>
+        <form method="post">
+        <label>Name</label>
+        <input class="form-control" asp-for="supplier.Name"/>
+
+        <label>Email</label>
+        <input class="form-control" asp-for="supplier.Email" />
+
+        <label>Phone number</label>
+        <input class="form-control" asp-for="supplier.PhoneNumber"/>
+        
+        <label>Address</label>
+        <input class="form-control" asp-for="supplier.Address" />
+
+        <label>City</label>
+        <select asp-for="supplier.CityId" placeholder="City" class="form-control">
+            @foreach (SelectListItem option in @Model.cities)
+            {
+                <option value="@option.Value">@option.Text</option>
+            }
+        </select>
+        <br/>
+        <div class="text-center">
+            <div class="mt-4">
+                @*Temporary*@
+                <input class="btn btn-primary" type="submit" value="Add"/>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Supplier/List">Cancel</a>
+            </div>
+        </div>
+        </form>
+
+    </div>

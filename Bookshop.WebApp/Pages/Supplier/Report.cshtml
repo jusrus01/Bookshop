@@ -9,13 +9,17 @@
     <link href="@Url.Content("~/css/suppliers.css")" rel="stylesheet" type="text/css" />
 }
 
-
+<h5>Most popular genres:</h5>
 <ul class="list-group">
-  <li class="list-group-item">Supplier's name: Kauno grūdas</li>
-  <li class="list-group-item">Most popular genres:</li>
-  <ol class="list-group-flush list-group-numbered">
-  <li style="margin-left: 30px" class="list-group-item">Dystopian</li>
-  <li style="margin-left: 30px" class="list-group-item">True Crime</li>
-  <li style="margin-left: 30px" class="list-group-item">Parenting & Families</li>
-   </ol>
+    @foreach (var item in @Model._mostPopularGenres.Select((genre, index) => (genre, index)))
+    {
+        @if (@Model._mostPopularGenresCount[item.index] == 0) break;
+        <li class="list-group-item">Genre: @item.genre.Name, count: @Model._mostPopularGenresCount[item.index]</li>
+    }
 </ul>
+<form method="post">
+    <input type="hidden" name="supplierId" value="@Model._supplier.Id"/>
+    <label>Choose an amount of most popular genres to generate: </label>
+    <input type="text" name="mostPopularGenresAmount" value="1"/>
+    <input type="submit" value="Download the report in PDF" class="btn btn-primary"/>
+</form>

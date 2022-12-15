@@ -11,25 +11,35 @@
  <div class="row justify-content-center">
     <div class="col-md-4">
         <h3 style="text-align: center">Edit supplier</h3>
+        <form method="post">
+        <input type="hidden" asp-for="_supplier.Id" value="@Model._supplier.Id"/>
         <label>Name</label>
-        <input class="form-control" />
+        <input class="form-control" asp-for="_supplier.Name" value="@Model._supplier.Name"/>
 
         <label>Email</label>
-        <input class="form-control" />
+        <input class="form-control" asp-for="_supplier.Email" value="@Model._supplier.Email" />
 
         <label>Phone number</label>
-        <input class="form-control" />
+        <input class="form-control" asp-for="_supplier.PhoneNumber" value="@Model._supplier.PhoneNumber"/>
         
         <label>Address</label>
-        <input class="form-control" />
+        <input class="form-control" asp-for="_supplier.Address" value="@Model._supplier.Address"/>
+
+        <label>City</label>
+        <select asp-for="_supplier.CityId" placeholder="City" class="form-control" asp-for="@Model._supplier.CityId">
+            @foreach (SelectListItem option in @Model._cities)
+            {
+                <option value="@option.Value">@option.Text</option>
+            }
+        </select>
         <br/>
         <div class="text-center">
             <div class="mt-4">
-                @*Temporary*@
-                <a class="btn btn-primary" asp-area="" asp-page="/Suppliers/List">Save changes</a>
-                <a class="btn btn-secondary" asp-area="" asp-page="/Suppliers/List">Cancel</a>
+                <input class="btn btn-primary" type="submit" value="Save"/>
+                <a class="btn btn-secondary" asp-area="" asp-page="/Supplier/List">Cancel</a>
             </div>
         </div>
+        </form>
 
     </div>
 

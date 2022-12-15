@@ -1,5 +1,7 @@
 ﻿using Bookshop.Contracts.DataTransferObjects.Suppliers;
+using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.Generics;
+using SupplierDto = Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto;
 
 namespace Bookshop.Contracts.Services
 {
@@ -11,7 +13,14 @@ namespace Bookshop.Contracts.Services
 
         public Task AddAsync(SupplierDto supplierDto);
 
-        public Task<SupplierDto> CreateNewSupplier(SupplierDto supplierDto);
+        public Task CreateNewSupplier(SupplierDto supplierDto);
+        public Task DeleteSupplier(int? id);
+
+        public Task<SupplierDto> GetSupplierById(int supplierID);
+        public Task UpdateSupplierAsync(SupplierDto supplierDto);
+
+        public List<GenreDto> GetAllGenres();
+        public List<SupplierBookDto> GetAllBooks();
 
 
     }

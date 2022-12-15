@@ -71,7 +71,10 @@
             <div class="col">
                     @if (User.IsInRole(BookshopRoles.Manager))
                     {
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit">
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/View" asp-route-supplierId="@supplier.Id">
+                            <i class="fa-sharp fa-solid fa-eye"></i>
+                        </a>
+                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit" asp-route-supplierId="@supplier.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     }
@@ -81,22 +84,12 @@
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     }
-             <a class="btn btn-primary" asp-area="" asp-page="/Suppliers/Report">
+             <a class="btn btn-primary" asp-area="" asp-page="/Supplier/Report" asp-route-supplierId="@supplier.Id">
                 <i class="fa-solid fa-file"></i>
               </a>
             </div>
             </div>
-                </li>
-            }
-    </ul>
-
- <div class="pagination-container">
-        <button class="btn btn-outline-primary">Previous</button>
-        <button class="btn btn-primary">Next</button>
-</div>
-
-
-                    <!-- Modal -->
+                                <!-- Modal -->
                     <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -109,12 +102,25 @@
                                     <p>Are you sure you want to remove this client?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" onclick="close()">Remove</button>
+                                    <form method="post">
+                                        <input type="hidden" name="supplierId" value="@supplier.Id"/>
+                                    <input type="submit" class="btn btn-danger" onclick="close()" value="Remove"/>
+                                    </form>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Cancel</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </li>
+            }
+    </ul>
+
+ <div class="pagination-container">
+        <button class="btn btn-outline-primary">Previous</button>
+        <button class="btn btn-primary">Next</button>
+</div>
+
+
 
 
 

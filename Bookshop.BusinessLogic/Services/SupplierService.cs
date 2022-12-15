@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookshop.BusinessLogic.Extensions;
 using Bookshop.Contracts;
+using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Suppliers;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
@@ -8,6 +9,7 @@ using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Supplier = Bookshop.DataLayer.Models.Supplier;
+using SupplierDto = Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto;
 
 namespace Bookshop.BusinessLogic.Services
 {
@@ -15,6 +17,8 @@ namespace Bookshop.BusinessLogic.Services
     {
         private readonly DbSet<Supplier> _supplierDbSet;
         private readonly DbSet<City> _citiesDbSet;
+        private readonly DbSet<Genre> _genresDbSet;
+        private readonly DbSet<Book> _booksDbSet;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,6 +31,8 @@ namespace Bookshop.BusinessLogic.Services
             _uow = uow;
             _supplierDbSet = uow.GetDbSet<Supplier>();
             _citiesDbSet = uow.GetDbSet<City>();
+            _genresDbSet = uow.GetDbSet<Genre>();
+            _booksDbSet = uow.GetDbSet<Book>();
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -93,20 +99,92 @@ namespace Bookshop.BusinessLogic.Services
             await CreateNewSupplier(supplierDto);
         }
 
-        public async Task<SupplierDto> CreateNewSupplier(SupplierDto supplierDto)
+        public async Task CreateNewSupplier(SupplierDto supplierDto)
         {
-            var newSupplier = new SupplierDto
-            {
-                Name = supplierDto.Name,
-                Email = supplierDto.Email,
-                PhoneNumber = supplierDto.PhoneNumber,
-                Address = supplierDto.Address,
-                CityId = supplierDto.CityId
-            };
-            _supplierDbSet.Add(_mapper.Map<Supplier>(newSupplier));
+            var supplier = _mapper.Map<Supplier>(supplierDto);
+            _supplierDbSet.Add(supplier);
             await _uow.SaveChangesAsync();
-            return newSupplier;
         }
 
+        public async Task DeleteSupplier(int? id)
+        {
+            var supplier = await _supplierDbSet.SingleOrDefaultAsync(b => b.Id == id);
+
+            if (supplier == null)
+            {
+                throw new Exception("No supplier found");
+            }
+
+            _supplierDbSet.Remove(supplier);
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task<SupplierDto> GetSupplierById(int supplierID)
+        {
+            var supplier = await _supplierDbSet.FindAsync(supplierID);
+
+
+            if (supplier == null)
+            {
+                throw new Exception("Supplier not found");
+            }
+
+            return _mapper.Map<SupplierDto>(supplier);
+        }
+
+        public async Task UpdateSupplierAsync(SupplierDto supplierDto)
+        {
+            var remove = await _supplierDbSet.FindAsync(supplierDto.Id);
+            _supplierDbSet.Remove(remove);
+            await _uow.SaveChangesAsync();
+            supplierDto.Id = 0;
+            _supplierDbSet.Add(_mapper.Map<Supplier>(supplierDto));
+            await _uow.SaveChangesAsync();
+        }
+
+        public List<GenreDto> GetAllGenres()
+        {
+            List<Genre> dbGenres =  _genresDbSet.ToList();
+
+            List<GenreDto> genres = new List<GenreDto>();
+
+            for (int i = 0; i < dbGenres.Count; i++)
+            {
+                genres.Add(new GenreDto
+                {
+                    Id = dbGenres[i].Id,
+                    Name = dbGenres[i].Name
+                });
+            }
+
+            return genres;
+        }
+
+        public List<SupplierBookDto> GetAllBooks()
+        {
+            List<Book> dbBooks = _booksDbSet.ToList();
+
+            List<SupplierBookDto> books = new List<SupplierBookDto>();
+
+            for (int i = 0; i < dbBooks.Count; i++)
+            {
+                books.Add(new SupplierBookDto
+                {
+                    ISBN = dbBooks[i].ISBN,
+                    Title = dbBooks[i].Title,
+                    Author = dbBooks[i].Author,
+                    Year = dbBooks[i].Year,
+                    Pages = dbBooks[i].Pages,
+                    Description = dbBooks[i].Description,
+                    Price = dbBooks[i].Price,
+                    Discount = dbBooks[i].Discount,
+                    GenreId = dbBooks[i].GenreId,
+                    SupplierId = dbBooks[i].SupplierId,
+                    Created = dbBooks[i].Created
+                });
+            }
+
+            return books;
+        }
     }
 }

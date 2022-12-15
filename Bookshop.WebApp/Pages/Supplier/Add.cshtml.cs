@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Bookshop.WebApp.PageModels;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Bookshop.WebApp.Pages.Supplier
 {
@@ -17,7 +18,7 @@ namespace Bookshop.WebApp.Pages.Supplier
     {
         private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
-        public AddModel(ISupplierService supplierService, IMapper mapper) : base(null)
+        public AddModel(ISupplierService supplierService, IMapper mapper, INotyfService service) : base(service)
         {
             _supplierService = supplierService;
             _mapper = mapper;
@@ -26,7 +27,7 @@ namespace Bookshop.WebApp.Pages.Supplier
         public SupplierViewModel supplier { get; set; }
 
         public List<SelectListItem> cities { get; set; }
-        public async void OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var dbCities = await _supplierService.GetCitiesList();
             cities = new List<SelectListItem>();
@@ -34,6 +35,7 @@ namespace Bookshop.WebApp.Pages.Supplier
             {
                 cities.Add(new SelectListItem { Text = c.Name, Value= c.Id.ToString() });
             }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()

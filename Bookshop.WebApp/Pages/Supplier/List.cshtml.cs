@@ -40,5 +40,11 @@ namespace Bookshop.WebApp.Pages.Supplier
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAsync(int supplierId)
+        {
+            await _supplierService.DeleteSupplier(supplierId);
+            return await OnGetAsync();
+        }
+
     }
 }

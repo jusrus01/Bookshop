@@ -55,7 +55,10 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Paged<SupplierViewModel>>();
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, SupplierViewModel>();
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
-
+            CreateMap<Supplier, Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto>();
+            CreateMap<SupplierViewModel, Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto>();
+            CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, SupplierViewModel>();
+            CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
         }
     }
 }

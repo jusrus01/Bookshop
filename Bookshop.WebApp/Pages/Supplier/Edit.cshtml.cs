@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bookshop.WebApp.Pages.Supplier
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Administrator)]
 
     public class EditModel : BookshopPageModel
     {

@@ -88,6 +88,8 @@ namespace Bookshop.WebApp.Pages.Supplier
                 new XPoint(x_point, y_point));
                 y_point += 15;
             }
+            gfx.DrawString(DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day, font, XBrushes.Black,
+            new XRect(0, 0, page.Width, page.Height), XStringFormats.BottomCenter);
             string filename = @"Pages\Supplier\Reports\report.pdf";
             document.Save(filename);
             Process.Start(new ProcessStartInfo { FileName = filename, UseShellExecute = true, CreateNoWindow = false });

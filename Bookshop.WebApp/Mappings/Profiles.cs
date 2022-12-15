@@ -8,7 +8,6 @@ using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.ViewModels.Books;
 using Bookshop.WebApp.ViewModels.Clients;
 using Bookshop.WebApp.ViewModels.Orders;
-using Bookshop.WebApp.ViewModels.Users;
 using Bookshop.WebApp.ViewModels.Suppliers;
 
 namespace Bookshop.WebApp.Mappings

@@ -54,7 +54,7 @@ namespace Bookshop.WebApp.Pages.Book
                 return PageWithError(e.Message);
             }
 
-            return await OnGet(CommentInput.BookId);
+            return RedirectToPage("Review");
         }
     }
 }

@@ -9,6 +9,7 @@ using Bookshop.Contracts.Generics;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System.Linq.Expressions;
+using Bookshop.BusinessLogic.Builders;
 
 namespace Bookshop.BusinessLogic.Services
 {
@@ -34,7 +35,17 @@ namespace Bookshop.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IEnumerable<ClientReportOrderDto>> GetOrdersAsync(string id)
+
+        public async Task<byte[]> GetOrderHistoryPdfAsync(string userId)
+        {
+            var builder = new PdfBuilder();
+            return builder.AddPage()
+                .AddString("hello")
+                .Finish()
+                .Build();
+        }
+
+        public async Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id)
         {
             return new List<ClientReportOrderDto>
             {

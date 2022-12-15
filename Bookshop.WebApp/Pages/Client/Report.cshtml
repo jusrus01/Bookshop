@@ -10,6 +10,9 @@
 
 <h3>Order history</h3>
 
+@*<a asp-page="/Client/Report" asp-action="OnGetDownloadAsync">Download From Database</a>*@
+
+
 @if (!Model.Output.Orders.Any())
 {
     <p>You have not made any orders yet.</p>
@@ -66,7 +69,7 @@ else
                 </div>
             
                 <div class="col-md-3 my-auto">
-                    @order.Books.Sum(book => book.Price)
+                    @order.Books.Sum(book => book.Price) €
                 </div>
             </div>
         </li>

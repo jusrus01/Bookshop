@@ -9,7 +9,9 @@ namespace Bookshop.Contracts.Services
 
         Task<ClientDto> GetAsync(string id);
         
-        Task<IEnumerable<ClientReportOrderDto>> GetOrdersAsync(string id);
+        Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id);
+
+        Task<byte[]> GetOrderHistoryPdfAsync(string userId);
 
         Task<Paged<PartialClientDto>> GetPagedAsync(int page, int pageSize);
 

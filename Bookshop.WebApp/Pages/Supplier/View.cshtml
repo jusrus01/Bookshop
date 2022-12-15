@@ -1,0 +1,18 @@
+﻿@page
+@model Bookshop.WebApp.Pages.Supplier.ViewModel
+@{
+    <html>
+        <head></head>
+        <body>
+            <h5>@Model._supplier.Name view</h5>
+            <ul class="list-group">
+              <li class="list-group-item">Id: @Model._supplier.Id</li>
+              <li class="list-group-item">Name: @Model._supplier.Name</li>
+              <li class="list-group-item">Email: @Model._supplier.Email</li>
+              <li class="list-group-item">Phone number: @Model._supplier.PhoneNumber</li>
+              <li class="list-group-item">Address: @Model._supplier.Address</li>
+              <li class="list-group-item">City: @Model._city</li>
+            </ul>
+        </body>
+    </html>
+}

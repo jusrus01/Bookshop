@@ -1,4 +1,5 @@
-﻿using Bookshop.Contracts.Enums;
+﻿using Bookshop.Contracts.DataTransferObjects.Orders;
+using Bookshop.Contracts.Enums;
 using Bookshop.DataLayer.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,7 +27,9 @@ namespace Bookshop.WebApp.ViewModels.Orders
 
         public OrderStatus Status { get; set; }
         public string UserId { get; set; }
-        public string BookId { get; set; }
+        public List<BookDtoDto> Books { get; set; }
+
+        public int BookId { get; set; }
 
 
     }

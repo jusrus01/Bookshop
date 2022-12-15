@@ -14,6 +14,8 @@ namespace Bookshop.BusinessLogic.Services
         private readonly DbSet<Book> _bookDbSet;
         private readonly DbSet<Genre> _genreDbSet;
         private readonly DbSet<Supplier> _supplierDbSet;
+        private readonly DbSet<Rating> _ratingDbSet;
+        private readonly DbSet<ApplicationUser> _usersDbSet;
         private readonly IUnitOfWork _uow;
 
         public BookService(IUnitOfWork uow)
@@ -21,6 +23,8 @@ namespace Bookshop.BusinessLogic.Services
             _bookDbSet = uow.GetDbSet<Book>();
             _genreDbSet = uow.GetDbSet<Genre>();
             _supplierDbSet = uow.GetDbSet<Supplier>();
+            _ratingDbSet = uow.GetDbSet<Rating>();
+            _usersDbSet = uow.GetDbSet<ApplicationUser>();
             _uow = uow;
         }
 
@@ -80,10 +84,9 @@ namespace Bookshop.BusinessLogic.Services
 
         private async Task<Book> UpdateBookAsync(BookDto bookDto)
         {
-            _bookDbSet.Remove(await _bookDbSet.Where(b => b.Id == bookDto.Id).FirstOrDefaultAsync());
-            await _uow.SaveChangesAsync();
             var newBook = new Book
             {
+                Id = bookDto.Id,
                 ISBN = bookDto.ISBN,
                 Title = bookDto.Title,
                 Author = bookDto.Author,
@@ -98,7 +101,7 @@ namespace Bookshop.BusinessLogic.Services
                 Supplier = _supplierDbSet.Where(b => b.Id == int.Parse(bookDto.Supplier)).FirstOrDefault(),
                 Created = DateTime.Now
             };
-            _bookDbSet.Add(newBook);
+            _bookDbSet.Update(newBook);
             await _uow.SaveChangesAsync();
             return newBook;
         }
@@ -165,6 +168,25 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             return genres;
+        }
+
+        public async Task<List<BookCommentDto>> GetComments(int bookId)
+        {
+            List<Rating> dbRates = _ratingDbSet.Where(x => x.BookId == bookId).ToList();
+
+            List<BookCommentDto> comments = new List<BookCommentDto>();
+
+            for (int i = 0; i < dbRates.Count; i++)
+            {
+                comments.Add(new BookCommentDto
+                {
+                    Score = dbRates[i].Score,
+                    Comment = dbRates[i].Comment,
+                    UserId = _usersDbSet.Where(x => x.Id == dbRates[i].UserId).FirstOrDefault().FirstName + " " + _usersDbSet.Where(x => x.Id == dbRates[i].UserId).FirstOrDefault().LastName
+                });
+            }
+
+            return comments;
         }
 
         public async Task<List<SupplierDto>> GetSupplier()
@@ -255,6 +277,29 @@ namespace Bookshop.BusinessLogic.Services
             _bookDbSet.Add(newBook);
             await _uow.SaveChangesAsync();
             return newBook;
+        }
+
+
+        public async Task AddComment(BookCommentDto comment)
+        {
+            await CreateNewComment(comment);
+        }
+
+        private async Task<Rating> CreateNewComment(BookCommentDto comment)
+        {
+            var newRating = new Rating
+            {
+                Created = DateTime.Now,
+                User = _usersDbSet.Where(x => x.Id == comment.UserId).FirstOrDefault(),
+                UserId = comment.UserId,
+                BookId = comment.BookId,
+                Book = _bookDbSet.Where(x => x.Id == comment.BookId).FirstOrDefault(),
+                Score = comment.Score,
+                Comment = comment.Comment
+            };
+            _ratingDbSet.Add(newRating);
+            await _uow.SaveChangesAsync();
+            return newRating;
         }
     }
 }

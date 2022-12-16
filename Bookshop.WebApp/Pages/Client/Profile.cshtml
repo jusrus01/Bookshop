@@ -29,7 +29,7 @@
 
                 @if (User.IsAdminOrOwner(Model.ClientOutput.Id))
                 {
-                    <a class="btn btn-secondary" asp-area="" asp-page="/Client/Report">View order history</a>
+                    <a class="btn btn-secondary" asp-area="" asp-page="/Client/Report" asp-route-userId="@Model.ClientOutput.Id">View order history</a>
                 }
             </div>
         </div>

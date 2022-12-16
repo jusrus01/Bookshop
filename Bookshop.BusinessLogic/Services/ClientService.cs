@@ -92,43 +92,23 @@ namespace Bookshop.BusinessLogic.Services
             return PdfBuilder.Build(stringBuilder.ToString());
         }
 
-        public async Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id)
-        {
-            return new List<ClientReportOrderDto>
-            {
-                new ClientReportOrderDto
+        public async Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id) =>
+            await _uow.GetDbSet<Order>()
+                .Include(order => order.Books)
+                .Where(order => order.UserId == id)
+                .Select(order => new ClientReportOrderDto
                 {
-                    Books = new List<ClientReportBookDto>
+                    Books = order.Books.Select(book => new ClientReportBookDto
                     {
-                        new ClientReportBookDto
-                        {
-                            Pages = 123,
-                            Author = "Antanas Baranauskas",
-                            Title = "Medus",
-                            Price = 10,
-                        }
-                    },
-                    Completed = DateTime.Now.AddDays(-11),
-                    Created = DateTime.Now.AddMonths(-1),
-                },
-
-                new ClientReportOrderDto
-                {
-                    Books = new List<ClientReportBookDto>
-                    {
-                        new ClientReportBookDto
-                        {
-                            Pages = 123,
-                            Author = "Dj Antomio",
-                            Title = "Saule saule, danguje",
-                            Price = 10,
-                        }
-                    },
-                    Completed = DateTime.Now.AddDays(-11),
-                    Created = DateTime.Now.AddMonths(-1),
-                }
-            };
-        }
+                        Pages = book.Pages,
+                        Author = book.Author,
+                        Title = book.Title,
+                        Price = book.Price
+                    }).ToList(),
+                    Completed = order.ExpectedDelivery,
+                    Created = order.Created,
+                })
+                .ToListAsync();
 
         public async Task UpdateAsync(EditClientDto editDto)
         {

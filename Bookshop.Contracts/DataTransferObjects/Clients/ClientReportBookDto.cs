@@ -8,6 +8,6 @@
 
         public int Pages { get; set; }
 
-        public int Price { get; set; }
+        public double Price { get; set; }
     }
 }

@@ -1,193 +1,241 @@
-﻿
-@page
+﻿@page
 @using Bookshop.Contracts.Constants
 @using Bookshop.Contracts.Services
 @model Bookshop.WebApp.Pages.Book.ListModel
 @{
 }
 @section Styles
-    {
-    <link href="@Url.Content("~/css/book.css")" rel="stylesheet" type="text/css" />
+	{
+	<link href="@Url.Content("~/css/book.css")" rel="stylesheet" type="text/css" />
 }
 
 
 <div class="row">
-    <div class="col">
-        <h3>Books</h3>
-    </div>
+	<div class="col">
+		<h3>Books</h3>
+	</div>
 </div>
 
 <div>
-    <div class="col text-end">
-    <select class="btn btn-primary" name="languages">
-        <option value="select">Select a filter</option>
-        <option>Filter by author</option>
-        <option>Filter by price</option>
-        <option>Filter by title</option>
-        <option>Filter by discount</option>
-    </select>
-        @if (User.IsInRole(BookshopRoles.Administrator))
-                {
-            <form action="/Book/Add" class="btn">
-                <input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
-            </form>
-                }
-        
-    </div>
+
+	<div class="col text-left">
+
+		@if (User.IsInRole(BookshopRoles.Administrator))
+		{
+			<a asp-page="/Book/Add" class="btn">
+				<input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
+			</a>
+
+		}
+
+	</div>
 </div>
 <ul class="list-group">
-    <li class="list-group-item d-none d-md-block">
-        <div class="row">
-            <div class="col-sm align-content-md-center">
-                ISBN
-            </div>
+	<li class="list-group-item d-none d-md-block">
+		<div class="row">
+			<div class="col-sm align-content-md-center">
+				ISBN
+			</div>
 
-            <div class="col-sm align-content-md-center">
-                Title
-            </div>
+			<div class="col-sm align-content-md-center">
+				Title
+			</div>
 
-            <div class="col-sm align-content-md-center">
-                Author
-            </div>
+			<div class="col-sm align-content-md-center">
+				Author
+			</div>
 
-            <div class="col-sm align-content-md-center">
-                Genre
-            </div>
+			<div class="col-sm align-content-md-center">
+				Genre
+			</div>
 
-            <div class="col-sm align-content-md-center">
-                Price
-            </div>
+			<div class="col-sm align-content-md-center">
+				Price
+			</div>
 
-            <div class="col-sm align-content-md-center">
-                Price with discount
-            </div>
-            @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
-            {
-                <div class="col-sm align-content-md-center">
-                    Actions
-                </div> 
-            }
-        </div>
-    </li>
-    @{
-        var index = 0;
-    }
-    @foreach (var book in Model.Paged.Items)
-    {
-        <li class="list-group-item d-none d-md-block">
-            <div class="row">
-                <div class="col-sm align-content-md-center">
+			<div class="col-sm align-content-md-center">
+				Price with discount
+			</div>
+			@if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+			{
+				<div class="col-sm align-content-md-center">
+					Actions
+				</div>
+			}
+		</div>
+	</li>
+	@{
+		var index = 0;
+	}
+	@foreach (var book in Model.Paged.Items)
+	{
+		<li class="list-group-item d-none d-md-block">
+			<div class="row">
+				<div class="col-sm align-content-md-center">
 
-                    <span> @book.ISBN</span>
-                </div>
+					<span> @book.ISBN</span>
+				</div>
 
-                <div class="col-sm align-content-md-center">
-                   
-                        <span>@book.Title</span>
-                </div>
+				<div class="col-sm align-content-md-center">
 
-                <div class="col-sm align-content-md-center">
+					<span>@book.Title</span>
+				</div>
 
-                    <span>@book.Author</span>
-                </div>
+				<div class="col-sm align-content-md-center">
 
-                <div class="col-sm align-content-md-center">
-                    <span>@book.Genre</span>
-                </div>
+					<span>@book.Author</span>
+				</div>
 
-                <div class="col-sm align-content-md-center">
+				<div class="col-sm align-content-md-center">
+					<span>@book.Genre</span>
+				</div>
 
-                    <span>@book.Price</span>
-                </div>
+				<div class="col-sm align-content-md-center">
 
-                <div class="col-sm align-content-md-center">
+					<span>@book.Price</span>
+				</div>
 
-                    <span>@book.PriceWithDiscount</span>
-                </div>
-                <div class="col-sm align-content-md-center">
+				<div class="col-sm align-content-md-center">
 
-                    @if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
-                    {
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Review" asp-route-id="@book.Id" >
-                            <i class="fa fa-ellipsis-h"></i>
-                        </a>
-                    }
+					<span>@book.PriceWithDiscount</span>
+				</div>
+				<div class="col-sm align-content-md-center">
+
+					@if (User.IsInRole(BookshopRoles.Client) || User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+					{
+						<a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Review" asp-route-id="@book.Id">
+							<i class="fa fa-ellipsis-h"></i>
+						</a>
+					}
 
 
-                    @if (User.IsInRole(BookshopRoles.Administrator))
-                    {
-                        <button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    }
+					@if (User.IsInRole(BookshopRoles.Administrator))
+					{
+						<button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
+							<i class="fa-solid fa-trash-can"></i>
+						</button>
+					}
 
-                    @if (User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
-                    {
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Edit" asp-route-id="@book.Id">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    }
+					@if (User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
+					{
+						<a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Book/Edit" asp-route-id="@book.Id">
+							<i class="fa-solid fa-pen-to-square"></i>
+						</a>
+					}
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="removeModal@(index)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Remove</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                    </button>
-                                </div>
-                                <div class="modal-body text-start">
-                                    <p>Are you sure you want to remove this client?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <form method="post">
-                                        <input name="id" value="@book.Id" hidden />
-                                        <button type="submit" class="btn btn-danger" onclick="close()">Remove</button>
-                                    </form>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @{
-                        index++;
-                    }
-                </div>
-            </div>
-        </li>
-    }
+					<!-- Modal -->
+					<div class="modal fade" id="removeModal@(index)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Remove</h5>
+									<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+									</button>
+								</div>
+								<div class="modal-body text-start">
+									<p>Are you sure you want to remove this client?</p>
+								</div>
+								<div class="modal-footer">
+									<form method="post" asp-page-handler="Delete">
+										<input name="id" value="@book.Id" hidden />
+										<button type="submit" class="btn btn-danger" onclick="close()">Remove</button>
+									</form>
+									<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					@{
+						index++;
+					}
+				</div>
+			</div>
+		</li>
+	}
 </ul>
 
-    <div class="pagination-container">
-        @if (!Model.Paged.PreviousPageIsEmpty)
-        {
-            <a class="btn btn-outline-primary" asp-page="/Book/List" asp-route-pageNumber="@Model.PreviousPage">Previous</a>
-        }
-        else
-        {
-            <button class="btn btn-outline-primary">Previous</button>
-        }
+<div class="pagination-container">
+	@if (!Model.Paged.PreviousPageIsEmpty)
+	{
+		<a class="btn btn-outline-primary" asp-page="/Book/List" asp-route-pageNumber="@Model.PreviousPage">Previous</a>
+	}
+	else
+	{
+		<button class="btn btn-outline-primary">Previous</button>
+	}
 
-        @if (!Model.Paged.NextPageIsEmpty)
-        {
-            <a class="btn btn-primary" asp-page="/Book/List" asp-route-pageNumber="@Model.NextPage">Next</a>
-        }
-        else
-        {
-            <button class="btn btn-primary">Next</button>
-        }
-    </div>
+	@if (!Model.Paged.NextPageIsEmpty)
+	{
+		<a class="btn btn-primary" asp-page="/Book/List" asp-route-pageNumber="@Model.NextPage">Next</a>
+	}
+	else
+	{
+		<button class="btn btn-primary">Next</button>
+	}
+</div>
 
+<div>
+	<h4>Filters</h4>
+	<form method="post" asp-page-handler="FilterAuthor">
+		<h6>Filter by author</h6>
+		<label>Choose author
+
+			<select style="width: 150px" asp-for="@Model.Filter.Author" placeholder="Author" class="form-control">
+				@for (int i = 0; i < Model.Authors.Count; i++)
+				{
+					<option value="@Model.Authors[i].Value">@Model.Authors[i].Value</option>
+				}
+			</select>
+
+		</label>
+		<button class="btn btn-secondary" type="submit">Filter by author</button>
+	</form>
+
+	<form method="post" asp-page-handler="FilterPrice">
+		<h6>Filter by price</h6>
+		<label>
+			Price from
+			<input style="width: 110px" type="number" asp-for="@Model.Filter.MinPrice" class="form-control" placeholder="MinPrice" />
+		</label>
+		<label>
+			Price to
+			<input style="width: 110px" type="number" asp-for="@Model.Filter.MaxPrice" class="form-control" placeholder="MaxPrice" />
+		</label>
+		<button class="btn btn-secondary" type="submit">Filter by price</button>
+	</form>
+
+	<form method="post" asp-page-handler="FilterDiscount">
+		<h6>Filter by discount</h6>
+		<label>
+			Discount from
+			<input style="width: 110px" type="number" asp-for="@Model.Filter.MinDiscount" class="form-control" placeholder="MinDiscount" />
+		</label>
+		<label>
+			Discount to
+			<input style="width: 110px" type="number" asp-for="@Model.Filter.MaxDiscount" class="form-control" placeholder="MaxDiscount" />
+		</label>
+		<button class="btn btn-secondary" type="submit">Filter by discount</button>
+	</form>
+
+	<form method="post" asp-page-handler="FilterTitle">
+		<h6>Filter by title</h6>
+		<label>
+			Write book title
+			<input style="width: 100px" type="text" asp-for="@Model.Filter.Title" class="form-control" placeholder="Title" />
+		</label>
+		<button class="btn btn-secondary" type="submit">Filter by title</button>
+	</form>
+
+</div>
 
 
 @section Scripts
-{
-    <script>
-        for (let i = 0; i < @index; i++) {
-            $('#removeModalButton' + i).click(function (event) {
-                $('#removeModal' + i ).modal('show');
-            });
-        }
-    </script>
+	{
+	<script>
+		for (let i = 0; i < @index; i++) {
+			$('#removeModalButton' + i).click(function (event) {
+				$('#removeModal' + i).modal('show');
+			});
+		}
+	</script>
 }

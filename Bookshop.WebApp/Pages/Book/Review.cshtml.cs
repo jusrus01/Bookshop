@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Book
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Administrator, BookshopRoles.Manager)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Administrator, BookshopRoles.Manager, BookshopRoles.Client)]
     public class ReviewModel : BookshopPageModel
     {
         private readonly IBookService _bookService;

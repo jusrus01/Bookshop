@@ -25,19 +25,20 @@ namespace Bookshop.WebApp.Pages.Client
         public async Task<IActionResult> OnGetAsync(string userId)
         {
             var orders = await _clientService.GetOrderHistoryAsync(userId);
-            Set(orders);
+            Set(orders, userId);
             return Page();
         }
 
-        //public async Task<IActionResult> OnGetDownloadAsync()
-        //{
-        //    return File(await _clientService.GetOrderHistoryPdfAsync("asdas"), "application/pdf", "somename.pdf");
-        //}
+        public async Task<IActionResult> OnPostDownloadPdfAsync(string userId)
+        {
+            return File(await _clientService.GetOrderHistoryPdfAsync(userId), "application/pdf");
+        }
 
-        private void Set(IEnumerable<ClientReportOrderDto> orders)
+        private void Set(IEnumerable<ClientReportOrderDto> orders, string id)
         {
             Output = new ClientReportViewModel
             {
+                Id = id,
                 Orders = orders.ToList()
             };
         }

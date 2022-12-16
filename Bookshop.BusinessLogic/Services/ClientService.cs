@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System.Linq.Expressions;
 using Bookshop.BusinessLogic.Builders;
+using System.Text;
 
 namespace Bookshop.BusinessLogic.Services
 {
@@ -35,14 +36,60 @@ namespace Bookshop.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-
         public async Task<byte[]> GetOrderHistoryPdfAsync(string userId)
         {
-            var builder = new PdfBuilder();
-            return builder.AddPage()
-                .AddString("hello")
-                .Finish()
-                .Build();
+            var user = await _userManager.FindByIdAsync(userId);
+            var orders = await GetOrderHistoryAsync(userId);
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("<html><body>");
+            stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history.</h3><span>Generated: {DateTime.Now}</span>");
+            stringBuilder.AppendLine("<table border='1'>");
+            stringBuilder.AppendLine(
+                $"<tr>" +
+                $"<td>#</td>" +
+                $"<td>Order date</td>" +
+                $"<td>Order completion date</td>" +
+                $"<td>Bought books</td>" +
+                $"<td>Total price</td>" +
+                $"</tr>");
+
+            int orderCount = 1;
+            foreach (var order in orders)
+            {
+                int bookCount = 1;
+                stringBuilder.AppendLine($"<tr>" +
+                    $"<td>{orderCount}</td>" +
+                    $"<td>{order.Created}</td>" +
+                    $"<td>{order.Completed}</td>" +
+                    $"<td>{order.Books.Count()}</td>" +
+                    $"<td>{order.Books.Sum(book => book.Price)} €</td>" +
+                    $"</tr>");
+                stringBuilder.AppendLine($"<tr>" +
+                    $"<td><bold>#</bold></td>" +
+                    $"<td><bold>Author</bold></td>" +
+                    $"<td><bold>Book title</bold></td>" +
+                    $"<td><bold>Pages</bold></td>" +
+                    $"<td><bold>Price</bold></td>" +
+                    $"</tr>");
+                
+                foreach (var book in order.Books)
+                {
+                    stringBuilder.AppendLine($"<tr>" +
+                        $"<td>{bookCount}</td>" +
+                        $"<td>{book.Author}</td>" +
+                        $"<td>{book.Title}</td>" +
+                        $"<td>{book.Pages}</td>" +
+                        $"<td>{book.Price} €</td>" +
+                        $"</tr>");
+                    bookCount++;
+                }
+
+                orderCount++;
+            }
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<body/></html>");
+            return PdfBuilder.Build(stringBuilder.ToString());
         }
 
         public async Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id)

@@ -43,7 +43,7 @@ namespace Bookshop.BusinessLogic.Services
             var stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine("<html><body>");
-            stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history.</h3><span>Generated: {DateTime.Now}</span>");
+            stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
             stringBuilder.AppendLine("<table border='1'>");
             stringBuilder.AppendLine(
                 $"<tr>" +

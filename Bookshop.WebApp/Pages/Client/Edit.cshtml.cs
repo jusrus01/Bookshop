@@ -54,6 +54,7 @@ namespace Bookshop.WebApp.Pages.Client
                     {
                         edit.AvailableRoles = roles;
                         edit.Role = client.Roles.First();
+                        edit.SelectedRole = edit.Role;
                     }));
                 
                 return Page();

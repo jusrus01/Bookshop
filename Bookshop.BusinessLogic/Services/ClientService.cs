@@ -9,6 +9,8 @@ using Bookshop.Contracts.Generics;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System.Linq.Expressions;
+using Bookshop.BusinessLogic.Builders;
+using System.Text;
 
 namespace Bookshop.BusinessLogic.Services
 {
@@ -34,6 +36,80 @@ namespace Bookshop.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<byte[]> GetOrderHistoryPdfAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var orders = await GetOrderHistoryAsync(userId);
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("<html><body>");
+            stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
+            stringBuilder.AppendLine("<table border='1'>");
+            stringBuilder.AppendLine(
+                $"<tr>" +
+                $"<td>#</td>" +
+                $"<td>Order date</td>" +
+                $"<td>Order completion date</td>" +
+                $"<td>Bought books</td>" +
+                $"<td>Total price</td>" +
+                $"</tr>");
+
+            int orderCount = 1;
+            foreach (var order in orders)
+            {
+                int bookCount = 1;
+                stringBuilder.AppendLine($"<tr>" +
+                    $"<td>{orderCount}</td>" +
+                    $"<td>{order.Created}</td>" +
+                    $"<td>{order.Completed}</td>" +
+                    $"<td>{order.Books.Count()}</td>" +
+                    $"<td>{order.Books.Sum(book => book.Price)} €</td>" +
+                    $"</tr>");
+                stringBuilder.AppendLine($"<tr>" +
+                    $"<td><bold>#</bold></td>" +
+                    $"<td><bold>Author</bold></td>" +
+                    $"<td><bold>Book title</bold></td>" +
+                    $"<td><bold>Pages</bold></td>" +
+                    $"<td><bold>Price</bold></td>" +
+                    $"</tr>");
+                
+                foreach (var book in order.Books)
+                {
+                    stringBuilder.AppendLine($"<tr>" +
+                        $"<td>{bookCount}</td>" +
+                        $"<td>{book.Author}</td>" +
+                        $"<td>{book.Title}</td>" +
+                        $"<td>{book.Pages}</td>" +
+                        $"<td>{book.Price} €</td>" +
+                        $"</tr>");
+                    bookCount++;
+                }
+
+                orderCount++;
+            }
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<body/></html>");
+            return PdfBuilder.Build(stringBuilder.ToString());
+        }
+
+        public async Task<IEnumerable<ClientReportOrderDto>> GetOrderHistoryAsync(string id) =>
+            await _uow.GetDbSet<Order>()
+                .Include(order => order.Books)
+                .Where(order => order.UserId == id)
+                .Select(order => new ClientReportOrderDto
+                {
+                    Books = order.Books.Select(book => new ClientReportBookDto
+                    {
+                        Pages = book.Pages,
+                        Author = book.Author,
+                        Title = book.Title,
+                        Price = book.Price
+                    }).ToList(),
+                    Completed = order.ExpectedDelivery,
+                    Created = order.Created,
+                })
+                .ToListAsync();
+
         public async Task UpdateAsync(EditClientDto editDto)
         {
             var client = await _userManager.FindByIdAsync(editDto.Id);
@@ -58,7 +134,15 @@ namespace Bookshop.BusinessLogic.Services
         {
             var user = await _userManager.FindByIdAsync(id);
             EnsureValidUser(user);
-            await _userManager.DeleteAsync(user);
+            
+            try
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            catch
+            {
+                throw new Exception("This user has associated data. Cannot delete.");
+            }
         }
 
         public async Task<ClientDto> GetAsync(string clientId)

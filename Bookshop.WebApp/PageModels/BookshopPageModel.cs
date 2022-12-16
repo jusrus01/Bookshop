@@ -28,10 +28,10 @@ namespace Bookshop.WebApp.PageModels
             return base.Page();
         }
 
-        public virtual async Task<PageResult> PageWithErrorAsync(string errorMessage, Func<Task<IActionResult>> errorPage)
+        public virtual async Task<IActionResult> PageWithErrorAsync(string errorMessage, Func<Task<IActionResult>> errorPage)
         {
             SetError(errorMessage);
-            return (PageResult)await errorPage();
+            return await errorPage();
         }
 
         public virtual PageResult PageWithSuccess(string successMessage)

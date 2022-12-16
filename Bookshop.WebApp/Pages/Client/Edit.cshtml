@@ -69,5 +69,10 @@
                 </select>
             </div>
         }
+        else
+        {
+            <input asp-for="@Model.Input.Role" hidden />
+            <input asp-for="@Model.Input.SelectedRole" hidden />
+        }
     </div>
 </form>

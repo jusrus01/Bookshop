@@ -46,6 +46,83 @@ namespace Bookshop.BusinessLogic.Services
                 pageSize);
         }
 
+        public async Task<Paged<PartialBookDto>> GetBooksByPricePagedAsync(int page, int pageSize, FilterDto filterDto)
+        {
+            return await _bookDbSet.Where(x => x.Price >= filterDto.MinPrice && x.Price <= filterDto.MaxPrice).OrderByDescending(book => book.Id)
+            .ToPagedAsync(book => new PartialBookDto
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+                Title = book.Title,
+                Author = book.Author,
+                Price = book.Price,
+                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
+                Discount = book.Discount,
+                PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
+            },
+            page,
+            pageSize);
+
+        }
+
+        public async Task<Paged<PartialBookDto>> GetBooksByDiscountPagedAsync(int page, int pageSize, FilterDto filterDto)
+        {
+            float min = (float)filterDto.MinDicount / 100;
+            float max = (float)filterDto.MaxDicount / 100;
+            return await _bookDbSet.Where(x => x.Discount >= min && x.Discount <= max).OrderByDescending(book => book.Id)
+            .ToPagedAsync(book => new PartialBookDto
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+                Title = book.Title,
+                Author = book.Author,
+                Price = book.Price,
+                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
+                Discount = book.Discount,
+                PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
+            },
+            page,
+            pageSize);
+
+        }
+
+        public async Task<Paged<PartialBookDto>> GetBooksByTitlePagedAsync(int page, int pageSize, FilterDto filterDto)
+        {
+            return await _bookDbSet.Where(x => x.Title.Contains(filterDto.Title)).OrderByDescending(book => book.Id)
+            .ToPagedAsync(book => new PartialBookDto
+            {
+                Id = book.Id,
+                ISBN = book.ISBN,
+                Title = book.Title,
+                Author = book.Author,
+                Price = book.Price,
+                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
+                Discount = book.Discount,
+                PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
+            },
+            page,
+            pageSize);
+
+        }
+
+        public async Task<Paged<PartialBookDto>> GetBooksByAuthorPagedAsync(int page, int pageSize, FilterDto filterDto)
+        {
+            return await _bookDbSet.Where(x => x.Author.Contains(filterDto.Author)).OrderByDescending(book => book.Id)
+        .ToPagedAsync(book => new PartialBookDto
+        {
+            Id = book.Id,
+            ISBN = book.ISBN,
+            Title = book.Title,
+            Author = book.Author,
+            Price = book.Price,
+            Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
+            Discount = book.Discount,
+            PriceWithDiscount = Math.Round(book.Price * (1 - book.Discount), 2)
+        },
+        page,
+        pageSize);
+        }
+
         public async Task<BookDto> GetBookAsync(int bookId)
         {
             var book = await _bookDbSet.Where(b => b.Id == bookId).FirstOrDefaultAsync();
@@ -125,32 +202,7 @@ namespace Bookshop.BusinessLogic.Services
             };
         }
 
-        public async Task<BookDto> GetBookISBNAsync(string isbn)
-        {
-            var book = await _bookDbSet.Where(b => b.ISBN == isbn).FirstOrDefaultAsync();
 
-
-            if (book == null)
-            {
-                throw new Exception("Book not found");
-            }
-
-            return new BookDto
-            {
-                Id = book.Id,
-                ISBN = book.ISBN,
-                Title = book.Title,
-                Author = book.Author,
-                Supplier = _supplierDbSet.Where(b => b.Id == book.SupplierId).First().Name,
-                Year = book.Year,
-                Pages = book.Pages,
-                Description = book.Description,
-                Price = book.Price,
-                AddedDate = DateTime.Now,
-                Discount = book.Discount,
-                Genre = _genreDbSet.Where(b => b.Id == book.GenreId).First().Name,
-            };
-        }
 
         public async Task<List<GenreDto>> GetGenres()
         {
@@ -168,6 +220,13 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             return genres;
+        }
+
+        public async Task<List<string>> GetAuthor()
+        {
+            List<string> authors = _bookDbSet.Select(x => x.Author).ToList();
+            authors = authors.DistinctBy(a => a.First()).ToList();
+            return authors;
         }
 
         public async Task<List<BookCommentDto>> GetComments(int bookId)
@@ -205,39 +264,6 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             return suppliers;
-        }
-
-        public async Task<GenreDto> GetGenreAsync(int genreId)
-        {
-            var genre = await _genreDbSet.SingleOrDefaultAsync(b => b.Id == genreId);
-
-
-            if (genre == null)
-            {
-                throw new Exception("Genre not found");
-            }
-
-            return new GenreDto
-            {
-                Id = genre.Id,
-                Name = genre.Name
-            };
-        }
-
-        public async Task<SupplierDto> GetAuthorAsync(int authorId)
-        {
-            var author = await _supplierDbSet.SingleOrDefaultAsync(b => b.Id == authorId);
-
-            if (author == null)
-            {
-                throw new Exception("Genre not found");
-            }
-
-            return new SupplierDto
-            {
-                Id = author.Id,
-                Name = author.Name
-            };
         }
 
         public async Task DeleteBookAsync(int? id)

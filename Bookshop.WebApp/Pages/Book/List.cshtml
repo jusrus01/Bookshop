@@ -20,7 +20,7 @@
 
 	<div class="col text-left">
 
-		@if (User.IsInRole(BookshopRoles.Administrator) || User.IsInRole(BookshopRoles.Client))
+		@if (User.IsInRole(BookshopRoles.Administrator))
 		{
 			<a asp-page="/Book/Add" class="btn">
 				<input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
@@ -109,7 +109,7 @@
 					}
 
 
-					@if (User.IsInRole(BookshopRoles.Administrator) || User.IsInRole(BookshopRoles.Client))
+					@if (User.IsInRole(BookshopRoles.Administrator))
 					{
 						<button class="btn btn-danger" id="removeModalButton@(index)" data-toggle="modal" data-target="#exampleModal">
 							<i class="fa-solid fa-trash-can"></i>

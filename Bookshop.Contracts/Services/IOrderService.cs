@@ -1,5 +1,6 @@
 ﻿using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Orders;
+using Bookshop.Contracts.DataTransferObjects.Suppliers;
 using Bookshop.Contracts.Generics;
 
 namespace Bookshop.Contracts.Services
@@ -13,5 +14,8 @@ namespace Bookshop.Contracts.Services
 
         Task<OrderDto> GetOrderAsync(int orderId);
         Task UpdateAsync(OrderDto orderDto);
+
+        Task<OrderDto> GetOrderById(int orderId);
+        public List<OrderBookDto> GetAllBooks();
     }
 }

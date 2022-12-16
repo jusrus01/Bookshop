@@ -1,8 +1,8 @@
 ﻿@page
-@model Bookshop.WebApp.Pages.Order.ReportModel
+@model Bookshop.WebApp.Pages.Orders.OrderReportModel
 @{
 }
-
+@using Bookshop.BusinessLogic.Extensions
 
 @section Styles 
 {
@@ -21,3 +21,8 @@
    </ol>
         <li class="list-group-item">In total: 60</li>
 </ul>
+
+    <form method="post">
+        <input type="hidden" name="orderId" value="@Model.OrderInput.Id" />
+        <input type="submit" value="Download the report in PDF" class="btn btn-primary" />
+    </form>

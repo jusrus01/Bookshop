@@ -57,6 +57,8 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<SupplierViewModel, Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto>();
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, SupplierViewModel>();
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderDto, OrderViewModel>();
         }
     }
 }

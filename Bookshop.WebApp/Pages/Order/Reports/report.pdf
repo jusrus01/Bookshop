@@ -1,0 +1,6 @@
+﻿namespace Bookshop.WebApp.Pages.Order.Reports
+{
+    public class report
+    {
+    }
+}

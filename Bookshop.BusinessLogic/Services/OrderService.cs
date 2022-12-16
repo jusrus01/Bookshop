@@ -1,7 +1,9 @@
-﻿using Bookshop.BusinessLogic.Extensions;
+﻿using AutoMapper;
+using Bookshop.BusinessLogic.Extensions;
 using Bookshop.Contracts;
 using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Orders;
+using Bookshop.Contracts.DataTransferObjects.Suppliers;
 using Bookshop.Contracts.Enums;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
@@ -25,14 +27,16 @@ namespace Bookshop.BusinessLogic.Services
         private readonly DbSet<Supplier> _supplierDbSet;
         private readonly DbSet<Genre> _genreDbSet;
         private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public OrderService(IUnitOfWork uow)
+        public OrderService(IUnitOfWork uow, IMapper mapper)
         {
             _orderDBSet = uow.GetDbSet<Order>();
             _orderStateDBSet = uow.GetDbSet<OrderState>();
             _bookDbSet = uow.GetDbSet<Book>();
             _supplierDbSet = uow.GetDbSet<Supplier>();
             _genreDbSet = uow.GetDbSet<Genre>();
+            _mapper = mapper;
             _uow = uow;
         }
         public async Task<Paged<PartialOrderDto>> GetBooksPagedAsync(int page, int pageSize)
@@ -168,6 +172,19 @@ namespace Bookshop.BusinessLogic.Services
             };
         }
 
+        public async Task<OrderDto> GetOrderById(int orderId)
+        {
+            var order = await _orderDBSet.FindAsync(orderId);
+
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            return _mapper.Map<OrderDto>(order);
+        }
+
         private async Task<Order> UpdateOrderAsync(OrderDto orderDto)
         {
             var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
@@ -200,6 +217,34 @@ namespace Bookshop.BusinessLogic.Services
         public async Task UpdateAsync(OrderDto orderDto)
         {
             await UpdateOrderAsync(orderDto);
+        }
+
+        public List<OrderBookDto> GetAllBooks()
+        {
+            List<Book> dbBook = _bookDbSet.ToList();
+
+            List<OrderBookDto> books = new List<OrderBookDto>();
+
+            for (int i = 0; i < dbBook.Count; i++)
+            {
+                books.Add(new OrderBookDto
+                {
+                    Id = dbBook[i].Id,
+                    ISBN = dbBook[i].ISBN,
+                    Title = dbBook[i].Title,
+                    Author = dbBook[i].Author,
+                    Year = dbBook[i].Year,
+                    Pages = dbBook[i].Pages,
+                    Description = dbBook[i].Description,
+                    Price = dbBook[i].Price,
+                    Created = DateTime.UtcNow,
+                    Discount = dbBook[i].Price * dbBook[i].Discount,
+                    OrderId = _orderDBSet.Where(b => b.Id == dbBook[i].SupplierId).First().Id,
+                    GenreId = _genreDbSet.Where(b => b.Id == dbBook[i].GenreId).First().Id
+                });
+            }
+
+            return books;
         }
     }
 }

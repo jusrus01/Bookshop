@@ -6,7 +6,7 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
     {
         public string ClientCommentForCourier { get; set; }
 
-        public List<CreateOrderBookDto> SelectedBooks { get; set; }
+        public List<OrderBookDto2> SelectedBooks { get; set; }
 
         public OrderMethod DeliveryMethod { get; set; }
 

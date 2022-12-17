@@ -1,6 +1,6 @@
 ﻿namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
-    public class CreateOrderBookDto
+    public class OrderBookDto2
     {
         public int Id { get; set; }
 

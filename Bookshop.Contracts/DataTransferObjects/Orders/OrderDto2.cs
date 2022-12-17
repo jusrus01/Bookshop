@@ -2,10 +2,8 @@
 
 namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
-    public class OrderDto
+    public class OrderDto2
     {
-        public int Id { get; set; }
-
         public double Sum { get; set; }
 
         public string PostalCode { get; set; }
@@ -22,13 +20,6 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
 
         public DateTime PaymentDate { get; set; }
 
-        public OrderStatus Status { get; set; }
-
-        public string UserId { get; set; }
-
-        public int BookId { get; set; }
-
-        public List<BookDtoDto> Books { get; set; }
-
+        public List<OrderStateDto> States { get; set; }
     }
 }

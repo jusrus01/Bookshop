@@ -31,10 +31,7 @@ namespace Bookshop.DataLayer.Models
 
         public string UserId { get; set; }
 
-        public OrderState Status { get; set; }
-
-        public int StatusId { get; set; }
-
-        public IList<Book> Books { get; set; }
+        public IList<Book> Books { get; set; }//TODO: calculate discount for clinet 
+        // TODO: show order state i guess
     }
 }

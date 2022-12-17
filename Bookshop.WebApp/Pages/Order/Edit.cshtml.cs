@@ -37,51 +37,51 @@ namespace Bookshop.WebApp.Pages.Orders
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            OrderDto order = await _orderService.GetOrderAsync(id);
-            OrderInput = new CreateOrderViewModel
-            {
-                Id = id,
-                Sum = order.Sum,
-                PostalCode = order.PostalCode,
-                Address = order.Address,
-                ClientComment = order.ClientComment,
-                OrderMethod = order.OrderMethod,
-                PaymentMethod = order.PaymentMethod,
-                ExpectedDelivery = order.ExpectedDelivery,
-                PaymentDate = order.PaymentDate,
-                Status = order.Status,
-                UserId = order.UserId,
-                Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Name }).ToList()
-            };
+            //OrderDto order = await _orderService.GetOrderAsync(id);
+            //OrderInput = new CreateOrderViewModel
+            //{
+            //    Id = id,
+            //    Sum = order.Sum,
+            //    PostalCode = order.PostalCode,
+            //    Address = order.Address,
+            //    ClientComment = order.ClientComment,
+            //    OrderMethod = order.OrderMethod,
+            //    PaymentMethod = order.PaymentMethod,
+            //    ExpectedDelivery = order.ExpectedDelivery,
+            //    PaymentDate = order.PaymentDate,
+            //    Status = order.Status,
+            //    UserId = order.UserId,
+            //    Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Name }).ToList()
+            //};
 
 
-            List<BookDto> books = await _orderService.GetBooks();
-            List<SelectListItem> bookList = new List<SelectListItem>();
+            //List<BookDto> books = await _orderService.GetBooks();
+            //List<SelectListItem> bookList = new List<SelectListItem>();
 
-            List<PaymentMethod> payments = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>().ToList();
-            List<SelectListItem> paymentsList = new List<SelectListItem>();
+            //List<PaymentMethod> payments = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>().ToList();
+            //List<SelectListItem> paymentsList = new List<SelectListItem>();
 
-            List<OrderMethod> ordersMethods = Enum.GetValues(typeof(OrderMethod)).Cast<OrderMethod>().ToList();
-            List<SelectListItem> ordersMethodsList = new List<SelectListItem>();
+            //List<OrderMethod> ordersMethods = Enum.GetValues(typeof(OrderMethod)).Cast<OrderMethod>().ToList();
+            //List<SelectListItem> ordersMethodsList = new List<SelectListItem>();
 
-            for (int i = 0; i < books.Count; i++)
-            {
-                bookList.Add(new SelectListItem { Text = books[i].Title, Value = books[i].Id.ToString() });
-            }
+            //for (int i = 0; i < books.Count; i++)
+            //{
+            //    bookList.Add(new SelectListItem { Text = books[i].Title, Value = books[i].Id.ToString() });
+            //}
 
-            for (int i = 0; i < payments.Count; i++)
-            {
-                paymentsList.Add(new SelectListItem { Text = payments[i].ToString(), Value = payments[i].ToString() });
-            }
+            //for (int i = 0; i < payments.Count; i++)
+            //{
+            //    paymentsList.Add(new SelectListItem { Text = payments[i].ToString(), Value = payments[i].ToString() });
+            //}
 
-            for (int i = 0; i < ordersMethods.Count; i++)
-            {
-                ordersMethodsList.Add(new SelectListItem { Text = ordersMethods[i].ToString(), Value = ordersMethods[i].ToString() });
-            }
+            //for (int i = 0; i < ordersMethods.Count; i++)
+            //{
+            //    ordersMethodsList.Add(new SelectListItem { Text = ordersMethods[i].ToString(), Value = ordersMethods[i].ToString() });
+            //}
 
-            this.Books = bookList;
-            this.Payments = paymentsList;
-            this.OrderMethods = ordersMethodsList;
+            //this.Books = bookList;
+            //this.Payments = paymentsList;
+            //this.OrderMethods = ordersMethodsList;
             return Page();
         }
 

@@ -14,7 +14,7 @@ namespace Bookshop.WebApp.Pages.Orders
     public class AddModel : BookshopPageModel
     {
         [BindProperty]
-        public List<CreateOrderBookDto> SelectedBooks { get; set; } = new();//TODO: Calculate book price;/////////////// w/ discount
+        public List<OrderBookDto2> SelectedBooks { get; set; } = new();
 
         [BindProperty]
         public CreateOrderViewModel OrderInput { get; set; } = new();
@@ -43,7 +43,7 @@ namespace Bookshop.WebApp.Pages.Orders
             int[] selectedBookIds,
             double[] prices)
         {
-            CreateOrderBookDto book = null;
+            OrderBookDto2 book = null;
             if (!selectedBookNames.Contains(bookName))
             {
                 book = await _orderService.GetBookByNameAsync(bookName);
@@ -51,7 +51,7 @@ namespace Bookshop.WebApp.Pages.Orders
 
             for (var i = 0; i < selectedBookIds.Length; i++)
             {
-                SelectedBooks.Add(new CreateOrderBookDto
+                SelectedBooks.Add(new OrderBookDto2
                 {
                     Id = selectedBookIds[i],
                     Name = selectedBookNames[i],
@@ -83,10 +83,10 @@ namespace Bookshop.WebApp.Pages.Orders
 
             try
             {
-                var books = new List<CreateOrderBookDto>();
+                var books = new List<OrderBookDto2>();
                 for (var i = 0; i < prices.Length; i++)
                 {
-                    books.Add(new CreateOrderBookDto
+                    books.Add(new OrderBookDto2
                     {
                         Id = selectedBookIds[i],
                         Price = prices[i]

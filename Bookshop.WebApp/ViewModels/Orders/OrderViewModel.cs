@@ -32,6 +32,6 @@ namespace Bookshop.WebApp.ViewModels.Orders
         public int BookId { get; set; }
 
 
-        public List<CreateOrderBookDto> SelectedBooks { get; set; }
+        public List<OrderBookDto2> SelectedBooks { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace Bookshop.BusinessLogic.Services
                         Pages = book.Pages,
                         Author = book.Author,
                         Title = book.Title,
-                        Price = book.Price
+                        Price = book.Price - book.Price * book.Discount
                     }).ToList(),
                     Completed = order.ExpectedDelivery,
                     Created = order.Created,

@@ -47,7 +47,7 @@ namespace Bookshop.BusinessLogic.Services
                 .Take(10)
                 .ToListAsync();
 
-        public async Task<CreateOrderBookDto> GetBookByNameAsync(string name)
+        public async Task<OrderBookDto2> GetBookByNameAsync(string name)
         {
             var book = await _bookDbSet.FirstOrDefaultAsync(book => 
                 book.OrderId == null &&
@@ -58,7 +58,7 @@ namespace Bookshop.BusinessLogic.Services
                 return null;
             }
 
-            return new CreateOrderBookDto
+            return new OrderBookDto2
             {
                 Id = book.Id,
                 Name = book.Title,
@@ -108,14 +108,6 @@ namespace Bookshop.BusinessLogic.Services
             try
             {
                 var timestamp = DateTime.Now;
-                var state = new OrderState
-                {
-                    Created = timestamp,
-                    Status = OrderStatus.NotPayed
-                };
-
-                _orderStateDBSet.Add(state);
-                await _uow.SaveChangesAsync();
 
                 var order = new Order
                 {
@@ -128,11 +120,21 @@ namespace Bookshop.BusinessLogic.Services
                     PaymentMethod = createDto.PaymentMethod,
                     ExpectedDelivery = timestamp.AddDays(14),
                     PaymentDate = timestamp.AddDays(3),
-                    CourierComment = "Waiting for payment",
+                    CourierComment = "No comment",
                     UserId = _httpContextAccessor.HttpContext.User.GetAuthenticatedUserId(),
-                    StatusId = state.Id,
                 };
                 _orderDBSet.Add(order);
+                await _uow.SaveChangesAsync();
+
+                var state = new OrderState
+                {
+                    Created = timestamp,
+                    Status = OrderStatus.NotPayed,
+                    OrderId = order.Id,
+                    Comment = "Waiting for payment"
+                };
+
+                _orderStateDBSet.Add(state);
                 await _uow.SaveChangesAsync();
 
                 var bookIds = createDto.SelectedBooks.Select(book => book.Id).ToList();
@@ -151,54 +153,6 @@ namespace Bookshop.BusinessLogic.Services
             {
                 throw new Exception("Failed to create order");
             }
-        }
-
-        public async Task AddDeprecatedAsync(OrderDto orderDto)
-        {
-            await CreateNewOrderAsync(orderDto);
-        }
-
-        private async Task<OrderState> CreateNewOrderStatusAsync(OrderStatus orderStatus, string comment, DateTime created)
-        {
-            var newOrderState = new OrderState
-            {
-                Status = orderStatus,
-                Comment = comment,
-                Created = created
-            };
-
-            _orderStateDBSet.Add(newOrderState);
-            await _uow.SaveChangesAsync();
-            return newOrderState;
-        }
-
-            private async Task<Order> CreateNewOrderAsync(OrderDto orderDto)
-        {
-            var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
-
-            var newOrder = new Order
-            {
-                Id = orderDto.Id,              
-                Created = DateTime.UtcNow,
-                Sum = orderDto.Sum,
-                PostalCode = orderDto.PostalCode,
-                Address = orderDto.Address,
-                ClientComment = orderDto.ClientComment,
-                OrderMethod = orderDto.OrderMethod,
-                PaymentMethod = orderDto.PaymentMethod,
-                ExpectedDelivery = DateTime.UtcNow.AddDays(14),
-                PaymentDate = DateTime.UtcNow,
-                CourierComment = "Started",
-                UserId = orderDto.UserId,
-                StatusId = state.Id,
-            };
-            _orderDBSet.Add(newOrder);
-            await _uow.SaveChangesAsync();
-            var book = await _bookDbSet.FirstAsync(book=> book.Id == orderDto.BookId);
-            book.OrderId = newOrder.Id;
-            _bookDbSet.Update(book);
-            await _uow.SaveChangesAsync();
-            return newOrder;
         }
 
         public async Task<List<BookDto>> GetBooks()
@@ -230,32 +184,28 @@ namespace Bookshop.BusinessLogic.Services
             return books;
         }
 
-        public async Task<OrderDto> GetOrderAsync(int orderId)
+        public async Task<OrderDto2> GetOrderAsync(int orderId)
         {
-            
-            var order = await _orderDBSet.Include(book=> book.Status).Include(book => book.Books).Where(b => b.Id == orderId).FirstOrDefaultAsync();
+            var order = await _orderDBSet.SingleAsync(order => order.Id == orderId);
+            var states = await _orderStateDBSet.Where(state => state.OrderId == orderId)
+                .Select(state => new OrderStateDto
+                {
+                    Comment = state.Comment,
+                    Status = state.Status,
+                    Created = state.Created
+                })
+                .ToListAsync();
 
-
-            if (order == null)
+            return new OrderDto2
             {
-                throw new Exception("Order not found");
-            }
-
-            return new OrderDto
-            {
-                Id = order.Id,
-                
                 Sum = order.Sum,
                 PostalCode = order.PostalCode,
                 Address = order.Address,
                 ClientComment = order.ClientComment,
                 OrderMethod = order.OrderMethod,
                 PaymentMethod = order.PaymentMethod,
-                ExpectedDelivery = order.ExpectedDelivery,
                 PaymentDate = order.PaymentDate,
-                Status = order.Status.Status,
-                UserId = order.UserId,
-                Books = order.Books.Select(book => new BookDtoDto { Id = book.Id, Name = book.Title }).ToList()
+                States = states.ToList()
             };
         }
 
@@ -274,31 +224,32 @@ namespace Bookshop.BusinessLogic.Services
 
         private async Task<Order> UpdateOrderAsync(OrderDto orderDto)
         {
-            var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
+            //var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
 
-            var newOrder = new Order
-            {
-                Id = orderDto.Id,
-                Created = DateTime.UtcNow,
-                Sum = orderDto.Sum,
-                PostalCode = orderDto.PostalCode,
-                Address = orderDto.Address,
-                ClientComment = orderDto.ClientComment,
-                OrderMethod = orderDto.OrderMethod,
-                PaymentMethod = orderDto.PaymentMethod,
-                ExpectedDelivery = DateTime.UtcNow.AddDays(14),
-                PaymentDate = DateTime.UtcNow,
-                CourierComment = "Started",
-                UserId = orderDto.UserId,
-                StatusId = state.Id,
-            };
-            _orderDBSet.Update(newOrder);
-            await _uow.SaveChangesAsync();
-            var book = await _bookDbSet.FirstAsync(book => book.Id == orderDto.BookId);
-            book.OrderId = newOrder.Id;
-            _bookDbSet.Update(book);
-            await _uow.SaveChangesAsync();
-            return newOrder;
+            //var newOrder = new Order
+            //{
+            //    Id = orderDto.Id,
+            //    Created = DateTime.UtcNow,
+            //    Sum = orderDto.Sum,
+            //    PostalCode = orderDto.PostalCode,
+            //    Address = orderDto.Address,
+            //    ClientComment = orderDto.ClientComment,
+            //    OrderMethod = orderDto.OrderMethod,
+            //    PaymentMethod = orderDto.PaymentMethod,
+            //    ExpectedDelivery = DateTime.UtcNow.AddDays(14),
+            //    PaymentDate = DateTime.UtcNow,
+            //    CourierComment = "Started",
+            //    UserId = orderDto.UserId,
+            //    StatusId = state.Id,
+            //};
+            //_orderDBSet.Update(newOrder);
+            //await _uow.SaveChangesAsync();
+            //var book = await _bookDbSet.FirstAsync(book => book.Id == orderDto.BookId);
+            //book.OrderId = newOrder.Id;
+            //_bookDbSet.Update(book);
+            //await _uow.SaveChangesAsync();
+            //return newOrder;
+            throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(OrderDto orderDto)

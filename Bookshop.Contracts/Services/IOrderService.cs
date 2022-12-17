@@ -12,9 +12,7 @@ namespace Bookshop.Contracts.Services
 
         Task<List<BookDto>> GetBooks();
 
-        Task AddDeprecatedAsync(OrderDto orderDto);
-
-        Task<OrderDto> GetOrderAsync(int orderId);
+        Task<OrderDto2> GetOrderAsync(int orderId);
 
         Task UpdateAsync(OrderDto orderDto);
 
@@ -24,7 +22,7 @@ namespace Bookshop.Contracts.Services
 
         Task<IEnumerable<string>> GetBooksForAutocomplete(string term);
 
-        Task<CreateOrderBookDto> GetBookByNameAsync(string name);
+        Task<OrderBookDto2> GetBookByNameAsync(string name);
 
         Task AddAsync(CreateOrderDto createDto);
     }

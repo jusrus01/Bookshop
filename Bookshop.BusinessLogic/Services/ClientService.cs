@@ -43,19 +43,19 @@ namespace Bookshop.BusinessLogic.Services
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<html><body>");
             stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
-            stringBuilder.AppendLine("<table border='1'>");
-            stringBuilder.AppendLine(
-                $"<tr>" +
-                $"<td>#</td>" +
-                $"<td>Order date</td>" +
-                $"<td>Order completion date</td>" +
-                $"<td>Bought books</td>" +
-                $"<td>Total price</td>" +
-                $"</tr>");
+            stringBuilder.AppendLine("<table>");
 
             int orderCount = 1;
             foreach (var order in orders)
             {
+                stringBuilder.AppendLine(
+                    $"<tr>" +
+                    $"<td><h4>#&nbsp;&nbsp;</h4></td>" +
+                    $"<td><h4>Order date&nbsp;&nbsp;</h4></td>" +
+                    $"<td><h4>Order completion date&nbsp;&nbsp;</h4></td>" +
+                    $"<td><h4>Bought books&nbsp;&nbsp;</h4></td>" +
+                    $"<td><h4>Total price&nbsp;&nbsp;</h4></td>" +
+                    $"</tr>");
                 int bookCount = 1;
                 stringBuilder.AppendLine($"<tr>" +
                     $"<td>{orderCount}</td>" +
@@ -65,11 +65,11 @@ namespace Bookshop.BusinessLogic.Services
                     $"<td>{order.Books.Sum(book => book.Price)} €</td>" +
                     $"</tr>");
                 stringBuilder.AppendLine($"<tr>" +
-                    $"<td><bold>#</bold></td>" +
-                    $"<td><bold>Author</bold></td>" +
-                    $"<td><bold>Book title</bold></td>" +
-                    $"<td><bold>Pages</bold></td>" +
-                    $"<td><bold>Price</bold></td>" +
+                    $"<td><bold><h4>#&nbsp;&nbsp;</h4></bold></td>" +
+                    $"<td><bold><h4>Author&nbsp;&nbsp;</h4></bold></td>" +
+                    $"<td><bold><h4>Book title&nbsp;&nbsp;</h4></bold></td>" +
+                    $"<td><bold><h4>Pages&nbsp;&nbsp;</h4></bold></td>" +
+                    $"<td><bold><h4>Price&nbsp;&nbsp;</h4></bold></td>" +
                     $"</tr>");
                 
                 foreach (var book in order.Books)

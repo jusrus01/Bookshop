@@ -42,21 +42,57 @@ namespace Bookshop.BusinessLogic.Services
         }
 
 
-        public async Task<byte[]> GenerateReportAsync(string orderId, string userId)
+        public async Task<byte[]> GenerateReportAsync(int orderId)
         {
+            var order = await _orderDBSet.Include(order => order.User)
+                .Include(order => order.Books)
+                .FirstAsync(order => order.Id == orderId);
+
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<html><body>");
-            //stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
-            stringBuilder.AppendLine("<table border='1'>");
-            stringBuilder.AppendLine(
+
+            stringBuilder.AppendLine($"<h1>Order #{orderId}</h1>");
+            stringBuilder.AppendLine($"<table>" +
                 $"<tr>" +
-                $"<td>#</td>" +
-                $"<td>Order date</td>" +
-                $"<td>Order completion date</td>" +
-                $"<td>Bought books</td>" +
-                $"<td>Total price</td>" +
-                $"</tr>");
-            stringBuilder.AppendLine("</table>");
+                $"<td><h4>Order date</h4></td><td><h4>Payment date</h4></td><td><h4>Payment method&nbsp;</h4></td><td><h4>Delivery method</h4></td>" +
+                $"</tr>" +
+                $"<tr>" +
+                $"<td>{order.Created}&nbsp;</td><td>{order.PaymentDate}&nbsp;</td><td>{order.PaymentMethod.GetString()}&nbsp;</td><td>{order.OrderMethod.GetString()}&nbsp;</td>" +
+                $"</tr>" +
+                $"</table>");
+
+            stringBuilder.AppendLine($"<table>" +
+                $"<tr>" +
+                $"<td><h4>Customer name&nbsp;&nbsp;</h4></td><td><h4>Address</h4></td><td><h4>Phone</h4></td>" +
+                $"</tr>" +
+                $"<tr>" +
+                $"<td>{order.User.FirstName} {order.User.LastName}&nbsp;</td><td>{order.User.Address}&nbsp;</td><td>{order.User.PhoneNumber}&nbsp;</td>" +
+                $"</tr>" +
+                $"</table>");
+
+            var bookCount = 1;
+            stringBuilder.AppendLine("<h4>Order items</h4>");
+            stringBuilder.AppendLine($"<table border='1'><tr>" +
+                    $"<td><bold>#</bold></td>" +
+                    $"<td><bold>Author</bold></td>" +
+                    $"<td><bold>Book title</bold></td>" +
+                    $"<td><bold>Pages</bold></td>" +
+                    $"<td><bold>Price</bold></td>" +
+                    $"</tr>");
+
+            foreach (var book in order.Books)
+            {
+                stringBuilder.AppendLine($"<tr>" +
+                    $"<td>{bookCount}</td>" +
+                    $"<td>{book.Author}</td>" +
+                    $"<td>{book.Title}</td>" +
+                    $"<td>{book.Pages}</td>" +
+                    $"<td>{book.Price - book.Price * book.Discount} €</td>" +
+                    $"</tr>");
+                bookCount++;
+            }
+            stringBuilder.AppendLine($"</table>");
+            stringBuilder.AppendLine($"<h4>Total price: {order.Sum} €</h4>");
             stringBuilder.AppendLine("<body/></html>");
             return PdfBuilder.Build(stringBuilder.ToString());
         }

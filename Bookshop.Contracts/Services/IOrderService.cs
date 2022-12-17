@@ -26,6 +26,6 @@ namespace Bookshop.Contracts.Services
 
         Task AddAsync(CreateOrderDto createDto);
 
-        Task<byte[]> GenerateReportAsync(string orderId, string userId);
+        Task<byte[]> GenerateReportAsync(int orderId);
     }
 }

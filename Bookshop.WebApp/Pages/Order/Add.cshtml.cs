@@ -43,10 +43,10 @@ namespace Bookshop.WebApp.Pages.Orders
             int[] selectedBookIds,
             double[] prices)
         {
-            OrderBookDto2 book = null;
-            if (!selectedBookNames.Contains(bookName))
+            var book = await _orderService.GetBookByNameAsync(bookName);
+            if (book != null && selectedBookIds.Contains(book.Id))
             {
-                book = await _orderService.GetBookByNameAsync(bookName);
+                book = null;
             }
 
             for (var i = 0; i < selectedBookIds.Length; i++)

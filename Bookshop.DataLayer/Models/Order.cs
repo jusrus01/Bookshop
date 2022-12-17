@@ -31,7 +31,6 @@ namespace Bookshop.DataLayer.Models
 
         public string UserId { get; set; }
 
-        public IList<Book> Books { get; set; }//TODO: calculate discount for clinet 
-        // TODO: show order state i guess
+        public IList<Book> Books { get; set; }
     }
 }

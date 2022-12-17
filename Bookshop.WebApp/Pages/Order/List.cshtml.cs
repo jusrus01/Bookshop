@@ -26,9 +26,9 @@ namespace Bookshop.WebApp.Pages.Order
             _orderService = bookService;
         }
 
-        public async Task<IActionResult> OnPostDownloadPdfAsync(string orderId, string userId)
+        public async Task<IActionResult> OnPostDownloadPdfAsync(int orderId)
         {
-            return File(await _orderService.GenerateReportAsync(orderId, userId), "application/pdf");
+            return File(await _orderService.GenerateReportAsync(orderId), "application/pdf");
         }
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)

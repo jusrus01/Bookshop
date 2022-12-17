@@ -159,6 +159,28 @@ namespace Bookshop.BusinessLogic.Services
             await _uow.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(EditOrderDto editDto)
+        {
+            var order = await _orderDBSet.FirstAsync(order => order.Id == editDto.Id);
+            order.PostalCode = editDto.PostalCode;
+            order.Address = editDto.Address;
+            order.CourierComment = editDto.CourierComment;
+            order.OrderMethod = editDto.DeliveryMethod;
+            order.PaymentMethod = editDto.PaymentMethod;
+            _orderDBSet.Update(order);
+            if (editDto.Status != OrderStatus.None)
+            {
+                await _orderStateDBSet.AddAsync(new OrderState
+                {
+                    Comment = editDto.Comment,
+                    Status = editDto.Status,
+                    Created = editDto.Created,
+                    OrderId = order.Id
+                });
+            }
+            await _uow.SaveChangesAsync();
+        }
+
         public async Task AddAsync(CreateOrderDto createDto)
         {
             using var transaction = await _uow.GetDatabase().BeginTransactionAsync();
@@ -248,7 +270,7 @@ namespace Bookshop.BusinessLogic.Services
                 .Include(order => order.Books)
                 .SingleAsync(order => order.Id == orderId);
             var states = await _orderStateDBSet.Where(state => state.OrderId == orderId)
-                .OrderByDescending(state => state.Created)
+                .OrderBy(state => state.Created)
                 .Select(state => new OrderStateDto
                 {
                     Comment = state.Comment,
@@ -287,41 +309,6 @@ namespace Bookshop.BusinessLogic.Services
             }
 
             return _mapper.Map<OrderDto>(order);
-        }
-
-        private async Task<Order> UpdateOrderAsync(OrderDto orderDto)
-        {
-            //var state = await CreateNewOrderStatusAsync(orderDto.Status, "Labas", DateTime.UtcNow);
-
-            //var newOrder = new Order
-            //{
-            //    Id = orderDto.Id,
-            //    Created = DateTime.UtcNow,
-            //    Sum = orderDto.Sum,
-            //    PostalCode = orderDto.PostalCode,
-            //    Address = orderDto.Address,
-            //    ClientComment = orderDto.ClientComment,
-            //    OrderMethod = orderDto.OrderMethod,
-            //    PaymentMethod = orderDto.PaymentMethod,
-            //    ExpectedDelivery = DateTime.UtcNow.AddDays(14),
-            //    PaymentDate = DateTime.UtcNow,
-            //    CourierComment = "Started",
-            //    UserId = orderDto.UserId,
-            //    StatusId = state.Id,
-            //};
-            //_orderDBSet.Update(newOrder);
-            //await _uow.SaveChangesAsync();
-            //var book = await _bookDbSet.FirstAsync(book => book.Id == orderDto.BookId);
-            //book.OrderId = newOrder.Id;
-            //_bookDbSet.Update(book);
-            //await _uow.SaveChangesAsync();
-            //return newOrder;
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateAsync(OrderDto orderDto)
-        {
-            await UpdateOrderAsync(orderDto);
         }
 
         public List<OrderBookDto> GetAllBooks()

@@ -14,7 +14,7 @@ namespace Bookshop.Contracts.Services
 
         Task<OrderDto2> GetOrderAsync(int orderId);
 
-        Task UpdateAsync(OrderDto orderDto);
+        Task UpdateAsync(EditOrderDto editDto);
 
         Task<OrderDto> GetOrderById(int orderId);
 

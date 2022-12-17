@@ -6,11 +6,11 @@
 @using Bookshop.BusinessLogic.Extensions
 @using Bookshop.Contracts.Enums;
 @section Styles
-    {
+{
     <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="row justify-content-center">
+<form method="post" class="row justify-content-center">
     <div style="text-align: left">
         <h3 style="text-align: center">Edit order</h3>
         <div class="row">
@@ -19,28 +19,62 @@
                 <p>@Model.Order.Sum €</p>
 
                 <label style="font-weight: bold;">Postal Code</label>
-                <p>@Model.Order.PostalCode</p>
+                <div>
+                    <input class="form-control" value="@Model.Order.PostalCode" name="postalCode" type="text" maxlength="50" required />
+                </div>
 
                 <label style="font-weight: bold;">Address</label>
-                <p>@Model.Order.Address</p>
+                <div>
+                    <input class="form-control" value="@Model.Order.Address" name="address" type="text" maxlength="50" required />
+                </div>
 
-                @if (@Model.Order.ClientComment != null)
-                {
-                    <label style="font-weight: bold;">Additional information for courier (Optional)</label>
-                    <p>@Model.Order.ClientComment</p>
-                }
+                <label style="font-weight: bold;">Additional information for courier (Optional)</label>
+                <div>
+                    <input class="form-control" value="@Model.Order.ClientComment" name="ClientComment" type="text" maxlength="50" />
+                </div>
 
-                <label style="font-weight: bold;">Delivery method</label>
-                <p>@Model.Order.OrderMethod.GetString()</p>
-
-                <label style="font-weight: bold;">Payment Method</label>
-                <p>@Model.Order.PaymentMethod.GetString()</p>
-
-                @*<label class="col-sm-2 col-form-label col-form-label-lg">User</label>
-                <p>@Model.Order.UserId.ToString()</p>
-
-                <label class="col-sm-2 col-form-label col-form-label-lg">Book</label>
-                <p>@Model.Order.Books</p>*@
+                <div class="row">
+                    <label style="text-align: left;">Delivery method</label>
+                    <div class="col">
+                        @{
+                            if(@Model.Order.OrderMethod == OrderMethod.PostMachine)
+                            {
+                                <select name="orderMethod" class="form-control form-select">
+                                <option value="@OrderMethod.PostMachine" selected>Self-service terminal</option>
+                                <option value="@OrderMethod.Courier">Courier</option>
+                                </select>
+                            }
+                            else if(@Model.Order.OrderMethod == OrderMethod.Courier)
+                            {
+                                <select name="orderMethod" class="form-control form-select">
+                                <option value="@OrderMethod.PostMachine">Self-service terminal</option>
+                                <option value="@OrderMethod.Courier" selected>Courier</option>
+                                </select>
+                            } 
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <label style="font-weight: bold;">Payment Method</label>
+                    <div class="col">
+                        @{
+                            if (Model.Order.PaymentMethod == PaymentMethod.BankTransfer)
+                            {
+                                <select name="paymentMethod" class="form-control form-select">
+                                    <option value="@PaymentMethod.BankTransfer" selected>Bank transfer</option>
+                                    <option value="@PaymentMethod.DuringDelivery">In cash</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select name="paymentMethod" class="form-control form-select">
+                                    <option value="@PaymentMethod.BankTransfer">Bank transfer</option>
+                                    <option value="@PaymentMethod.DuringDelivery" selected>In cash</option>
+                                </select>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
             <div class="col-sm-6">
                 <div class="row">
@@ -134,12 +168,42 @@
                                 </div>
                             </li>
                         }
+
+                        <li class="list-group-item d-md-block" style="margin-top: 10px;">
+                            <div class="row">
+                                <div class="col-sm align-content-md-center">
+                                    <span>@DateTime.Now</span>
+                                    <input class="form-control" name="created" value="@DateTime.Now" type="text" maxlength="50" hidden />
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                @{
+                                    <select name="status" class="form-control form-select">
+                                        <option value="@OrderStatus.None">Update status</option>
+                                        <option value="@OrderStatus.NotPayed">Not payed</option>
+                                        <option value="@OrderStatus.Ongoing">Processing</option>
+                                        <option value="@OrderStatus.Completed">Completed</option>
+                                    </select>
+                                }
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                    <input class="form-control" name="comment" type="text" maxlength="50" />
+                                </div>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row text-center">
-            <a class="mx-auto text-center btn btn-secondary" style="width: 150px;" asp-area="" asp-page="/Order/List">Cancel</a>
+            <div class="col-sm-6" style="text-align:end;">
+                <button class="btn btn-primary" style="width: 80px;" type="submit">Save</button>
+            </div>
+            <div class="col-sm-6" style="text-align:left;">
+                <a class="mx-auto text-center btn btn-secondary" style="width: 80px;" asp-area="" asp-page="/Order/List">Cancel</a>
+            </div>
         </div>
     </div>
-</div>
+</form>

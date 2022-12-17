@@ -36,6 +36,7 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<CreateOrderViewModel, OrderDto>();
             CreateMap<BookViewModel, BookDto>();
             CreateMap<EditClientViewModel, EditClientDto>();
+            CreateMap<EditOrderViewModel, EditOrderDto>();
         }
 
         public void DtoToViewModelMappings()

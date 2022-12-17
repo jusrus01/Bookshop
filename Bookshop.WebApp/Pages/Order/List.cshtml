@@ -98,9 +98,13 @@ else
                             </a>
                         }
 
-                        <a class="btn btn-primary" asp-area="" asp-page="/Order/Report" asp-route-orderId="@order.Id">
-                            <i class="fa-solid fa-file"></i>
-                        </a>
+                        <form method="post" asp-page-handler="DownloadPdf" style="display: inline-block;">
+                            <input value="@order.Id" name="orderId" hidden />
+                            <input value="@order.UserId" name="orderId" hidden />
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa-solid fa-file"></i>
+                            </button>
+                        </form>
 
                         <!-- Modal -->
                         <div class="modal fade" id="removeModal@(index)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

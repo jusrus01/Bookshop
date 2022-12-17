@@ -41,7 +41,6 @@ namespace Bookshop.BusinessLogic.Services
             var user = await _userManager.FindByIdAsync(userId);
             var orders = await GetOrderHistoryAsync(userId);
             var stringBuilder = new StringBuilder();
-
             stringBuilder.AppendLine("<html><body>");
             stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
             stringBuilder.AppendLine("<table border='1'>");

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bookshop.BusinessLogic.Builders;
 using Bookshop.BusinessLogic.Extensions;
 using Bookshop.Contracts;
 using Bookshop.Contracts.DataTransferObjects.Books;
@@ -9,6 +10,7 @@ using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using Book = Bookshop.DataLayer.Models.Book;
 
 namespace Bookshop.BusinessLogic.Services
@@ -39,6 +41,25 @@ namespace Bookshop.BusinessLogic.Services
             _uow = uow;
         }
 
+
+        public async Task<byte[]> GenerateReportAsync(string orderId, string userId)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<html><body>");
+            //stringBuilder.AppendLine($"<h3>{user.FirstName} {user.LastName} order history {DateTime.Now}</h3>");
+            stringBuilder.AppendLine("<table border='1'>");
+            stringBuilder.AppendLine(
+                $"<tr>" +
+                $"<td>#</td>" +
+                $"<td>Order date</td>" +
+                $"<td>Order completion date</td>" +
+                $"<td>Bought books</td>" +
+                $"<td>Total price</td>" +
+                $"</tr>");
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<body/></html>");
+            return PdfBuilder.Build(stringBuilder.ToString());
+        }
 
         public async Task<IEnumerable<string>> GetBooksForAutocomplete(string term) =>
             await _bookDbSet.Where(book => book.OrderId == null && book.Title.Contains(term))
@@ -82,7 +103,8 @@ namespace Bookshop.BusinessLogic.Services
                     ClientName = $"{order.User.FirstName} {order.User.LastName}",
                     Created = order.Created,
                     Sum = order.Sum,
-                    PostalCode = order.PostalCode
+                    PostalCode = order.PostalCode,
+                    UserId = order.UserId
                 },
                 page,
                 pageSize) ;

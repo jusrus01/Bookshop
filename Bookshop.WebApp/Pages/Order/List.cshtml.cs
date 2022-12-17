@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
 using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.Generics;
@@ -17,12 +18,17 @@ namespace Bookshop.WebApp.Pages.Order
 
         private const int PageSize = 10;
 
-        public ListModel(IOrderService bookService, IMapper mapper)
+        public ListModel(IOrderService bookService, IMapper mapper, INotyfService notyfService)
             :
-            base(null)
+            base(notyfService)
         {
             _mapper = mapper;
             _orderService = bookService;
+        }
+
+        public async Task<IActionResult> OnPostDownloadPdfAsync(string orderId, string userId)
+        {
+            return File(await _orderService.GenerateReportAsync(orderId, userId), "application/pdf");
         }
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)

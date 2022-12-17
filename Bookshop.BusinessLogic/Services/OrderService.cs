@@ -9,7 +9,6 @@ using Bookshop.Contracts.Services;
 using Bookshop.DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using Book = Bookshop.DataLayer.Models.Book;
 
 namespace Bookshop.BusinessLogic.Services
@@ -38,6 +37,33 @@ namespace Bookshop.BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _uow = uow;
+        }
+
+
+        public async Task<IEnumerable<string>> GetBooksForAutocomplete(string term) =>
+            await _bookDbSet.Where(book => book.OrderId == null && book.Title.Contains(term))
+                .Select(book => book.Title)
+                .Distinct()
+                .Take(10)
+                .ToListAsync();
+
+        public async Task<CreateOrderBookDto> GetBookByNameAsync(string name)
+        {
+            var book = await _bookDbSet.FirstOrDefaultAsync(book => 
+                book.OrderId == null &&
+                book.Title == name);
+
+            if (book == null)
+            {
+                return null;
+            }
+
+            return new CreateOrderBookDto
+            {
+                Id = book.Id,
+                Name = book.Title,
+                Price = book.Price - book.Price * book.Discount // Assuming that input is always [0, 1]
+            };
         }
 
         public async Task<Paged<PartialOrderDto>> GetBooksPagedAsync(int page, int pageSize)
@@ -75,10 +101,63 @@ namespace Bookshop.BusinessLogic.Services
             await _uow.SaveChangesAsync();
         }
 
-        public async Task AddAsync(OrderDto orderDto)
+        public async Task AddAsync(CreateOrderDto createDto)
+        {
+            using var transaction = await _uow.GetDatabase().BeginTransactionAsync();
+            
+            try
+            {
+                var timestamp = DateTime.Now;
+                var state = new OrderState
+                {
+                    Created = timestamp,
+                    Status = OrderStatus.NotPayed
+                };
+
+                _orderStateDBSet.Add(state);
+                await _uow.SaveChangesAsync();
+
+                var order = new Order
+                {
+                    Created = timestamp,
+                    Sum = createDto.SelectedBooks.Sum(book => book.Price),
+                    PostalCode = createDto.PostalCode,
+                    Address = createDto.Address,
+                    ClientComment = createDto.ClientCommentForCourier,
+                    OrderMethod = createDto.DeliveryMethod,
+                    PaymentMethod = createDto.PaymentMethod,
+                    ExpectedDelivery = timestamp.AddDays(14),
+                    PaymentDate = timestamp.AddDays(3),
+                    CourierComment = "Waiting for payment",
+                    UserId = _httpContextAccessor.HttpContext.User.GetAuthenticatedUserId(),
+                    StatusId = state.Id,
+                };
+                _orderDBSet.Add(order);
+                await _uow.SaveChangesAsync();
+
+                var bookIds = createDto.SelectedBooks.Select(book => book.Id).ToList();
+                var books = await _bookDbSet.Where(book => bookIds.Contains(book.Id)).ToListAsync();
+
+                foreach (var book in books)
+                {
+                    book.OrderId = order.Id;
+                }
+                _bookDbSet.UpdateRange(books);
+                await _uow.SaveChangesAsync();
+
+                transaction.Commit();
+            }
+            catch
+            {
+                throw new Exception("Failed to create order");
+            }
+        }
+
+        public async Task AddDeprecatedAsync(OrderDto orderDto)
         {
             await CreateNewOrderAsync(orderDto);
         }
+
         private async Task<OrderState> CreateNewOrderStatusAsync(OrderStatus orderStatus, string comment, DateTime created)
         {
             var newOrderState = new OrderState

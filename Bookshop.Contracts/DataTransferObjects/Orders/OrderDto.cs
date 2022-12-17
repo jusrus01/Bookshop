@@ -27,12 +27,12 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
 
         public DateTime PaymentDate { get; set; }
 
-
         public OrderStatus Status { get; set; }
+
         public string UserId { get; set; }
 
-
         public int BookId { get; set; }
+
         public List<BookDtoDto> Books { get; set; }
 
     }

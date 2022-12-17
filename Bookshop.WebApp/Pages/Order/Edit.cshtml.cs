@@ -19,7 +19,7 @@ namespace Bookshop.WebApp.Pages.Orders
     public class EditModel : BookshopPageModel
     {
         [BindProperty]
-        public OrderViewModel OrderInput { get; set; } = new();
+        public CreateOrderViewModel OrderInput { get; set; } = new();
 
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
@@ -38,7 +38,7 @@ namespace Bookshop.WebApp.Pages.Orders
         public async Task<IActionResult> OnGetAsync(int id)
         {
             OrderDto order = await _orderService.GetOrderAsync(id);
-            OrderInput = new OrderViewModel
+            OrderInput = new CreateOrderViewModel
             {
                 Id = id,
                 Sum = order.Sum,

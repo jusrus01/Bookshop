@@ -16,7 +16,7 @@ namespace Bookshop.WebApp.Pages.Orders
 {
     public class OrderReportModel : BookshopPageModel
     {
-        public OrderViewModel OrderInput { get; set; } = new();
+        public CreateOrderViewModel OrderInput { get; set; } = new();
         private readonly IOrderService _orderService;
         private readonly IBookService _bookService;
         private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace Bookshop.WebApp.Pages.Orders
         public async Task<IActionResult> OnGetAsync(int orderId)
         {
             var order = await _orderService.GetOrderById(orderId);
-            OrderInput = _mapper.Map<OrderViewModel>(order);
+            OrderInput = _mapper.Map<CreateOrderViewModel>(order);
 
             List<OrderBookDto> booksByOrder = _orderService.GetAllBooks().Where(book => book.OrderId == OrderInput.Id).ToList();
             return Page();
@@ -42,7 +42,7 @@ namespace Bookshop.WebApp.Pages.Orders
         public async Task<IActionResult> OnPostAsync(int orderId)
         {
             var order = await _orderService.GetOrderById(orderId);
-            OrderInput = _mapper.Map<OrderViewModel>(order);
+            OrderInput = _mapper.Map<CreateOrderViewModel>(order);
 
             List<OrderBookDto> booksByOrder = _orderService.GetAllBooks().Where(book => book.OrderId == OrderInput.Id).ToList();
 

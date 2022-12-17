@@ -21,5 +21,7 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
         public DateTime PaymentDate { get; set; }
 
         public List<OrderStateDto> States { get; set; }
+
+        public List<OrderBookDto2> Books { get; set; }
     }
 }

@@ -104,54 +104,12 @@
             </div>
         </div>
 
-
         <div class="row">
             <label style="text-align: left;">Additional information for courier (Optional)</label>
             <div class="col">
                 <input class="form-control" name="clientComment" type="text" maxlength="100" />
             </div>
         </div>
-
-        @*        <div class="container">
-        Fruits:
-        <select id="lstFruits" name="lstFruits" asp-items="@Model.Books" multipleclass="form-control"></select>
-        <input type="submit" value="Submit" asp-page-handler="Submit" class="btn btn-primary" />
-        </div>
-
-        <label>Postal Code</label>
-        <div class="col">
-        <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
-        </div>
-
-        <label>Address</label>
-        <div class="col">
-        <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
-        </div>
-
-        <label>Client Comment</label>
-        <div class="col">
-        <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
-        </div>
-
-        <label>Order Method</label>
-        <div class="col">
-        <select asp-for="@Model.OrderInput.OrderMethod" placeholder="Order method" class="form-control">
-        @foreach (SelectListItem option in @Model.OrderMethods)
-        {
-        <option value="@option.Value">@option.Text</option>
-        }
-        </select>
-        </div>
-
-        <label>Payment Method</label>
-        <div class="col">
-        <select asp-for="@Model.OrderInput.PaymentMethod" placeholder="Payment method" class="form-control">
-        @foreach (SelectListItem option in @Model.Payments)
-        {
-        <option value="@option.Value">@option.Text</option>
-        }
-        </select>
-        </div>*@
 
         <div class="col">
             <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>

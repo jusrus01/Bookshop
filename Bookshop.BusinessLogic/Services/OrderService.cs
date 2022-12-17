@@ -186,8 +186,11 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<OrderDto2> GetOrderAsync(int orderId)
         {
-            var order = await _orderDBSet.SingleAsync(order => order.Id == orderId);
+            var order = await _orderDBSet
+                .Include(order => order.Books)
+                .SingleAsync(order => order.Id == orderId);
             var states = await _orderStateDBSet.Where(state => state.OrderId == orderId)
+                .OrderByDescending(state => state.Created)
                 .Select(state => new OrderStateDto
                 {
                     Comment = state.Comment,
@@ -205,7 +208,13 @@ namespace Bookshop.BusinessLogic.Services
                 OrderMethod = order.OrderMethod,
                 PaymentMethod = order.PaymentMethod,
                 PaymentDate = order.PaymentDate,
-                States = states.ToList()
+                States = states.ToList(),
+                Books = order.Books.Select(book => new OrderBookDto2
+                {
+                    Name = book.Title,
+                    Price = book.Price - book.Price * book.Discount,
+                    Author = book.Author
+                }).ToList()
             };
         }
 

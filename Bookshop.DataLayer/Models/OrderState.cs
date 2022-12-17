@@ -11,6 +11,10 @@ namespace Bookshop.DataLayer.Models
 
         public OrderStatus Status { get; set; }
 
+        public Order Order { get; set; }
+
+        public int OrderId { get; set; }
+
         public string Comment { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace Bookshop.WebApp.Mappings
         {
             CreateMap<LoginViewModel, LoginDto>();
             CreateMap<RegisterViewModel, RegisterDto>();
-            CreateMap<OrderViewModel, OrderDto>();
+            CreateMap<CreateOrderViewModel, OrderDto>();
             CreateMap<BookViewModel, BookDto>();
             CreateMap<EditClientViewModel, EditClientDto>();
         }
@@ -58,7 +58,7 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, SupplierViewModel>();
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
             CreateMap<Order, OrderDto>();
-            CreateMap<OrderDto, OrderViewModel>();
+            CreateMap<OrderDto, CreateOrderViewModel>();
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Bookshop.Contracts.Constants;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.DataTransferObjects.Orders;
 using Bookshop.Contracts.Services;
-using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +13,11 @@ namespace Bookshop.WebApp.Pages.Order
     {
         private readonly IOrderService _orderService;
 
-        public OrderDto Order { get; set; }
+        [BindProperty]
+        public OrderDto2 Order { get; set; }
       
 
-        public OrderViewModel(IOrderService orderService) : base(null)
+        public OrderViewModel(IOrderService orderService, INotyfService notyfService) : base(notyfService)
         {
             _orderService = orderService;
         }
@@ -24,10 +25,6 @@ namespace Bookshop.WebApp.Pages.Order
         public async Task<IActionResult> OnGet(int id)
         {
             Order = await _orderService.GetOrderAsync(id);
-            if (Order == null)
-            {
-                return RedirectToPage("/notFound");
-            }
             return Page();
         }
     }

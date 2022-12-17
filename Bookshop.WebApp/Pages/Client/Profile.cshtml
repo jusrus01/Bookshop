@@ -11,7 +11,7 @@
     <link href="@Url.Content("~/css/client.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="row justify-content-center">
+<div class="row justify-content-center view-container">
     <div class="col-md-4 text-center">
         <div class="text-start my-2">
             @foreach (var role in Model.ClientOutput.Roles)
@@ -36,25 +36,25 @@
     </div>
 
     <div class="col-md-4">       
-        <label asp-for="@Model.ClientOutput.FirstName"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.FirstName"></label>
         <p>@Model.ClientOutput.FirstName</p>
 
-        <label asp-for="@Model.ClientOutput.LastName"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.LastName"></label>
         <p>@Model.ClientOutput.LastName</p>
 
-        <label asp-for="@Model.ClientOutput.Email"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.Email"></label>
         <p>@Model.ClientOutput.Email</p>
 
-        <label asp-for="@Model.ClientOutput.Address"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.Address"></label>
         <p>@Model.ClientOutput.Address</p>
 
-        <label asp-for="@Model.ClientOutput.PhoneNumber"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.PhoneNumber"></label>
         <p>@Model.ClientOutput.PhoneNumber</p>
             
-        <label asp-for="@Model.ClientOutput.Created"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.Created"></label>
         <p>@Model.ClientOutput.Created</p>
 
-        <label asp-for="@Model.ClientOutput.LastLogin"></label>
+        <label style="font-weight: bold;" asp-for="@Model.ClientOutput.LastLogin"></label>
         <p>@Model.ClientOutput.LastLogin</p>
     </div>
 </div>

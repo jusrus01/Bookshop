@@ -1,11 +1,10 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
-using Bookshop.BusinessLogic.Services;
 using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.Generics;
 using Bookshop.Contracts.Services;
 using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
-using Bookshop.WebApp.ViewModels.Clients;
 using Bookshop.WebApp.ViewModels.Orders;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,20 +16,25 @@ namespace Bookshop.WebApp.Pages.Order
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
-        public ListModel(IOrderService bookService, IMapper mapper)
+        private const int PageSize = 10;
+
+        public ListModel(IOrderService bookService, IMapper mapper, INotyfService notyfService)
             :
-            base(null)
+            base(notyfService)
         {
             _mapper = mapper;
             _orderService = bookService;
         }
 
+        public async Task<IActionResult> OnPostDownloadPdfAsync(int orderId)
+        {
+            return File(await _orderService.GenerateReportAsync(orderId), "application/pdf");
+        }
+
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)
         {
-            var books = await _orderService.GetBooksPagedAsync(pageNumber, pageSize: 4);
-
+            var books = await _orderService.GetBooksPagedAsync(pageNumber, PageSize);
             SetPageItems(_mapper.Map<Paged<PartialOrderViewModel>>(books), pageNumber);
-
             return Page();
         }
 

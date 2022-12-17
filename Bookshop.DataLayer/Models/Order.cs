@@ -31,10 +31,6 @@ namespace Bookshop.DataLayer.Models
 
         public string UserId { get; set; }
 
-        public OrderState Status { get; set; }
-
-        public int StatusId { get; set; }
-
         public IList<Book> Books { get; set; }
     }
 }

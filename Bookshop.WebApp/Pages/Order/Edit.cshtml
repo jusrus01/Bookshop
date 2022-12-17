@@ -4,71 +4,142 @@
 }
 
 @using Bookshop.BusinessLogic.Extensions
+@using Bookshop.Contracts.Enums;
 @section Styles
     {
     <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
 }
 
-    <div class="text-center">
-        <form class="form-register" method="post">
+<div class="row justify-content-center">
+    <div style="text-align: left">
+        <h3 style="text-align: center">Edit order</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <label style="font-weight: bold;">Total order price</label>
+                <p>@Model.Order.Sum €</p>
 
-            <h1 class="h3 mb-3 font-weight-normal">Edit Order</h1>
+                <label style="font-weight: bold;">Postal Code</label>
+                <p>@Model.Order.PostalCode</p>
 
-            <input type="hidden" asp-for="@Model.OrderInput.Id" />
-            <label>Sum</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
-            </div>
+                <label style="font-weight: bold;">Address</label>
+                <p>@Model.Order.Address</p>
 
-            <label>Postal Code</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
-            </div>
-
-            <label>Address</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
-            </div>
-
-            <label>Client Comment</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
-            </div>
-
-            <label>Order Method</label>
-            <div class="col">
-                <select asp-for="@Model.OrderInput.OrderMethod" placeholder="Order method" class="form-control">
-                @foreach (SelectListItem option in @Model.OrderMethods)
+                @if (@Model.Order.ClientComment != null)
                 {
-                    <option value="@option.Value">@option.Text</option>
+                    <label style="font-weight: bold;">Additional information for courier (Optional)</label>
+                    <p>@Model.Order.ClientComment</p>
                 }
-            </select>
-        </div>
 
-        <label>Payment Method</label>
-        <div class="col">
-            <select asp-for="@Model.OrderInput.PaymentMethod" placeholder="Payment method" class="form-control">
-                @foreach (SelectListItem option in @Model.Payments)
-                {
-                    <option value="@option.Value">@option.Text</option>
-                }
-            </select>
-        </div>
+                <label style="font-weight: bold;">Delivery method</label>
+                <p>@Model.Order.OrderMethod.GetString()</p>
 
-        <div class="col">
-            <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
-        </div>
+                <label style="font-weight: bold;">Payment Method</label>
+                <p>@Model.Order.PaymentMethod.GetString()</p>
 
-        <label>Book</label>
-        <div>
-            <select asp-for="@Model.OrderInput.BookId" placeholder="Book" class="form-control">
-                @foreach (SelectListItem option in @Model.Books)
-                {
-                    <option value="@option.Value">@option.Text</option>
-                }
-            </select>
-        </div>
+                @*<label class="col-sm-2 col-form-label col-form-label-lg">User</label>
+                <p>@Model.Order.UserId.ToString()</p>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Edit order</button>
-    </form>
+                <label class="col-sm-2 col-form-label col-form-label-lg">Book</label>
+                <p>@Model.Order.Books</p>*@
+            </div>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div style="text-align: center">
+                        <h5>Bought books</h5>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item  d-md-block">
+                            <div class="row">
+                                <div class="col-sm align-content-md-center">
+                                    Author
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                    Title
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                    Price
+                                </div>
+                            </div>
+                        </li>
+                        @foreach (var book in Model.Order.Books)
+                        {
+                            <li class="list-group-item d-md-block">
+                                <div class="row">
+                                    <div class="col-sm align-content-md-center">
+                                        <span> @book.Author</span>
+                                    </div>
+
+                                    <div class="col-sm align-content-md-center">
+
+                                        <span>@book.Name</span>
+                                    </div>
+
+                                    <div class="col-sm align-content-md-center">
+
+                                        <span>@book.Price €</span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <br />
+                <div class="row">
+                    <div style="text-align: center">
+                        <h5>Order statuses</h5>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item  d-md-block">
+                            <div class="row">
+                                <div class="col-sm align-content-md-center">
+                                    Created
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                    Status
+                                </div>
+
+                                <div class="col-sm align-content-md-center">
+                                    Comment
+                                </div>
+                            </div>
+                        </li>
+                        @foreach (var state in Model.Order.States)
+                        {
+                            <li class="list-group-item d-md-block">
+                                <div class="row">
+                                    <div class="col-sm align-content-md-center">
+                                        <span> @state.Created</span>
+                                    </div>
+
+                                    <div class="col-sm align-content-md-center">
+
+                                        <span>@state.Status.GetString()</span>
+                                    </div>
+
+                                    <div class="col-sm align-content-md-center">
+                                        @if (state.Comment == null)
+                                        {
+                                            <span>No comment</span>
+                                        }
+                                        else
+                                        {
+                                            <span> @state.Comment</span>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <a class="mx-auto text-center btn btn-secondary" style="width: 150px;" asp-area="" asp-page="/Order/List">Cancel</a>
+        </div>
+    </div>
 </div>

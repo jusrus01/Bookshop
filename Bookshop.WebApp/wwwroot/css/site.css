@@ -20,3 +20,10 @@ body {
 .pagination-container {
     margin-top: 10px;
 }
+
+
+.view-container {
+    background-color: #fafafa;
+    border-radius: 45px;
+    padding: 20px;
+}

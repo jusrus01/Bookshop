@@ -4,70 +4,134 @@
 }
 
 @using Bookshop.BusinessLogic.Extensions
-@section Styles 
+@using Bookshop.Contracts.Enums;
+@section Styles
 {
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="@Url.Content("~/css/account.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" />
 }
 
-    <div class="text-center">
-        <form class="form-register" method="post">
+<div class="text-center">
+    <h1 class="h3 mb-3 font-weight-normal" style="margin-bottom: 0px !important;">Create order</h1>
 
-            <h1 class="h3 mb-3 font-weight-normal">Add Order</h1>
+    <form method="post" style="padding-bottom: 0px;" asp-page-handler="UpdateSelectedBooks" class="row form-register" id="bookAutocompleteForm">
+        <label class="force-label-left">Search for books that you want to buy</label>
+        <input name="bookName" class="form-control" type="text" id="bookAutocomplete" placeholder="Search for books" />
 
-            <label>Sum</label>
-                <div class="col">
-                    <input type="text" asp-for="@Model.OrderInput.Sum" class="form-control" placeholder="Sum" required>
+        @foreach (var book in Model.SelectedBooks)
+        {
+            <input name="selectedBookIds" value="@book.Id" hidden />
+            <input name="selectedBookNames" value="@book.Name" hidden />
+            <input name="prices" value="@book.Price" hidden />
+        }
+    </form>
+
+    <form class="form-register" method="post" asp-page-handler="Add" style="padding-top: 0;">
+        <div class="row">
+            <div class="col" style="text-align: left; font-weight: bold;">
+                Selected books
+            </div>
+        </div>
+        @foreach (var book in Model.SelectedBooks)
+        {
+            <div class="row">
+                <div class="col" style="text-align: left;">
+                    @book.Name
                 </div>
-
-            <label>Postal Code</label>
                 <div class="col">
-                    <input type="text" asp-for="@Model.OrderInput.PostalCode" class="form-control" placeholder="Postal Code" required>
+                    @book.Price €
                 </div>
-
-            <label>Address</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.Address" class="form-control" placeholder="Address" required>
             </div>
 
-            <label>Client Comment</label>
-            <div class="col">
-                <input type="text" asp-for="@Model.OrderInput.ClientComment" class="form-control" placeholder="Client comment" required>
+            <input name="selectedBookIds" value="@book.Id" hidden />
+            <input name="prices" value="@book.Price" hidden />
+        }
+        @if (!Model.SelectedBooks.Any())
+        {
+            <div class="row">
+                <div class="col" style="text-align: left;">
+                    Empty
+                </div>
             </div>
+        }
 
-            <label>Order Method</label>
+        <div class="row">
+            <div class="col" style="text-align: left; font-weight: bold;">
+                Total price
+            </div>
             <div class="col">
-                <select asp-for="@Model.OrderInput.OrderMethod" placeholder="Order method" class="form-control">
-                @foreach (SelectListItem option in @Model.OrderMethods)
-                {
-                    <option value="@option.Value">@option.Text</option>
-                }
-            </select>
+                @Model.SelectedBooks.Sum(book => book.Price) €
+            </div>
         </div>
 
-            <label>Payment Method</label>
+        <div class="row">
+            <label style="text-align: left;">Delivery method</label>
             <div class="col">
-                <select asp-for="@Model.OrderInput.PaymentMethod" placeholder="Payment method" class="form-control">
-                @foreach (SelectListItem option in @Model.Payments)
-                {
-                    <option value="@option.Value">@option.Text</option>
+                @{
+                    <select name="orderMethod" class="form-control form-select">
+                        <option value="@OrderMethod.PostMachine">Self-service terminal</option>
+                        <option value="@OrderMethod.Courier">Courier</option>
+                    </select>
                 }
-            </select>
             </div>
-
-            <div class="col">
-                <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
-            </div>
-
-             <label>Book</label>
-        <div>
-                <select asp-for="@Model.OrderInput.BookId" placeholder="Book" class="form-control">
-                    @foreach (SelectListItem option in @Model.Books)
-                    {
-                        <option value="@option.Value">@option.Text</option>
-                    }
-                </select>
         </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Add new order</button>
-        </form>
-    </div>
+        <div class="row">
+            <label style="text-align: left;">Payment method</label>
+            <div class="col">
+                @{
+                    <select name="paymentMethod" class="form-control form-select">
+                        <option value="@PaymentMethod.BankTransfer">Bank transfer</option>
+                        <option value="@PaymentMethod.DuringDelivery">In cash</option>
+                    </select>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" style="text-align: left;">
+                <label style="text-align: left;">Address</label>
+                <div>
+                    <input class="form-control" name="address" type="text" maxlength="50" required/>
+                </div>
+            </div>
+            <div class="col" style="text-align: left;">
+                <label style="text-align: left;">Postal code</label>
+                <div>
+                    <input class="form-control" name="postalCode" type="text" maxlength="50" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label style="text-align: left;">Additional information for courier (Optional)</label>
+            <div class="col">
+                <input class="form-control" name="clientComment" type="text" maxlength="100" />
+            </div>
+        </div>
+
+        <div class="col">
+            <input type="hidden" asp-for="@Model.OrderInput.UserId" value="@User.GetAuthenticatedUserId()" class="form-control" placeholder="Expected method" required>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create order</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#bookAutocomplete').autocomplete({
+                source: '@Url.Page("add", "search")',
+                select: function () {
+                    setTimeout(function () {
+                        document.getElementById('bookAutocompleteForm').submit();
+                    }, 100);
+                }
+            });
+        });
+    </script>
+}

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bookshop.Contracts.DataTransferObjects.Orders
+﻿namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
     public class PartialOrderDto
     {
@@ -16,5 +10,7 @@ namespace Bookshop.Contracts.DataTransferObjects.Orders
         public double Sum { get; set; }
 
         public string PostalCode { get; set; }
+
+        public string UserId { get; set; }
     }
 }

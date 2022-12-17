@@ -1,11 +1,13 @@
 ﻿namespace Bookshop.Contracts.DataTransferObjects.Orders
 {
-    public class BookDtoDto
+    public class OrderBookDto2
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
         public double Price { get; set; }
+
+        public string Author { get; set; }
     }
 }

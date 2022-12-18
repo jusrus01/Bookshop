@@ -13,7 +13,7 @@
         <form class="form-register" method="post">
         <h3 style="text-align: center">Add book</h3>
         <label>ISBN</label>
-        <input type="text" asp-for="@Model.BookInput.ISBN" class="form-control" placeholder="ISBN" required>
+        <input type="text" asp-for="@Model.BookInput.ISBN" class="form-control" placeholder="ISBN" required maxlength="40">
 
         <label>Title</label>
         <input type="text" asp-for="@Model.BookInput.Title" class="form-control" placeholder="Title" required>
@@ -66,6 +66,7 @@
             
         </form>
         
+    </div>
     </div>
 
 

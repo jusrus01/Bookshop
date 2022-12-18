@@ -55,7 +55,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<SupplierDto>> GetSuppliersList()
         {
-            List<Supplier> dbSuppliers = _supplierDbSet.ToList();
+            List<Supplier> dbSuppliers = await _supplierDbSet.ToListAsync();
 
             List<SupplierDto> suppliers = new List<SupplierDto>();
 
@@ -77,7 +77,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<CityDto>> GetCitiesList()
         {
-            List<City> dbCities = _citiesDbSet.ToList();
+            List<City> dbCities = await _citiesDbSet.ToListAsync();
 
             List<CityDto> cities = new List<CityDto>();
 

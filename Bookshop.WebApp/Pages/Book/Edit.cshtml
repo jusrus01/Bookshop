@@ -16,7 +16,7 @@
 
             <input type="hidden" asp-for="@Model.Book.Id"/>
             <label>ISBN</label>
-            <input type="text" asp-for="@Model.Book.ISBN" class="form-control" placeholder="ISBN" required>
+            <input type="text" asp-for="@Model.Book.ISBN" class="form-control" placeholder="ISBN" required maxlength="40">
 
             <label>Title</label>
             <input type="text" asp-for="@Model.Book.Title" class="form-control" placeholder="Title" required>

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshop.WebApp.Pages.Supplier
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Client)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Client, BookshopRoles.Administrator)]
     public class ViewModel : BookshopPageModel
     {
         private readonly ISupplierService _supplierService;

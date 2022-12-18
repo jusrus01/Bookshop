@@ -30,7 +30,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<Paged<PartialBookDto>> GetBooksPagedAsync(int page, int pageSize)
         {
-            return await _bookDbSet.OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(x => x.OrderId == null).OrderByDescending(book => book.Id)
                 .ToPagedAsync(book => new PartialBookDto
                 {
                     Id = book.Id,
@@ -48,7 +48,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<Paged<PartialBookDto>> GetBooksByPricePagedAsync(int page, int pageSize, FilterDto filterDto)
         {
-            return await _bookDbSet.Where(x => x.Price >= filterDto.MinPrice && x.Price <= filterDto.MaxPrice).OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(x => x.OrderId == null).Where(x => x.Price >= filterDto.MinPrice && x.Price <= filterDto.MaxPrice).OrderByDescending(book => book.Id)
             .ToPagedAsync(book => new PartialBookDto
             {
                 Id = book.Id,
@@ -69,7 +69,7 @@ namespace Bookshop.BusinessLogic.Services
         {
             float min = (float)filterDto.MinDicount / 100;
             float max = (float)filterDto.MaxDicount / 100;
-            return await _bookDbSet.Where(x => x.Discount >= min && x.Discount <= max).OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(book => book.OrderId == null).Where(x => x.Discount >= min && x.Discount <= max).OrderByDescending(book => book.Id)
             .ToPagedAsync(book => new PartialBookDto
             {
                 Id = book.Id,
@@ -88,7 +88,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<Paged<PartialBookDto>> GetBooksByTitlePagedAsync(int page, int pageSize, FilterDto filterDto)
         {
-            return await _bookDbSet.Where(x => x.Title.Contains(filterDto.Title)).OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(book => book.OrderId == null).Where(x => x.OrderId != null).Where(x => x.Title.Contains(filterDto.Title)).OrderByDescending(book => book.Id)
             .ToPagedAsync(book => new PartialBookDto
             {
                 Id = book.Id,
@@ -107,7 +107,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<Paged<PartialBookDto>> GetBooksByAuthorPagedAsync(int page, int pageSize, FilterDto filterDto)
         {
-            return await _bookDbSet.Where(x => x.Author.Contains(filterDto.Author)).OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(book => book.OrderId == null).Where(x => x.Author.Contains(filterDto.Author)).OrderByDescending(book => book.Id)
         .ToPagedAsync(book => new PartialBookDto
         {
             Id = book.Id,
@@ -224,7 +224,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<string>> GetAuthor()
         {
-            List<string> authors = _bookDbSet.Select(x => x.Author).ToList();
+            List<string> authors = _bookDbSet.Where(book => book.OrderId == null).Select(x => x.Author).ToList();
             authors = authors.DistinctBy(a => a.First()).ToList();
             return authors;
         }

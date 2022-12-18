@@ -14,22 +14,19 @@
 	<div class="col">
 		<h3>Books</h3>
 	</div>
-</div>
-
-<div>
-
 	<div class="col text-left">
 
 		@if (User.IsInRole(BookshopRoles.Administrator))
 		{
-			<a asp-page="/Book/Add" class="btn">
-				<input class="btn btn-primary" value="Add book" style="width: 130px" name="submit" type="submit">
-			</a>
-
+			<div class="col">
+				<a asp-area="" asp-page="/Book/Add" class="btn btn-primary float-end" type="submit">Add book <i class="fa-solid fa-plus"></i></a>
+			</div>
 		}
 
 	</div>
 </div>
+
+
 <ul class="list-group">
 	<li class="list-group-item d-none d-md-block">
 		<div class="row">

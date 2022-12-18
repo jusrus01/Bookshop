@@ -67,9 +67,6 @@ namespace Bookshop.WebApp.Pages.Supplier
             _mostPopularGenres = allGenres.OrderByDescending(genre => genreCount[genre.Id]).ToList();
             _mostPopularGenresCount = genreCount.OrderByDescending(i => i).ToList();
 
-
-
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             PdfDocument document = new PdfDocument();
             document.Info.Title = "Most Popular Genres Report";
             PdfPage page = document.AddPage();
@@ -90,10 +87,11 @@ namespace Bookshop.WebApp.Pages.Supplier
             }
             gfx.DrawString(DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day, font, XBrushes.Black,
             new XRect(0, 0, page.Width, page.Height), XStringFormats.BottomCenter);
-            string filename = @"Pages\Supplier\Reports\report.pdf";
-            document.Save(filename);
-            Process.Start(new ProcessStartInfo { FileName = filename, UseShellExecute = true, CreateNoWindow = false });
-            return RedirectToPage("List");
+
+            using var memory = new MemoryStream();
+            document.Save(memory, false);
+            document.Close();
+            return File(memory.ToArray(), "application/pdf");
         }
     }
 }

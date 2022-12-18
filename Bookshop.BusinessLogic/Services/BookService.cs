@@ -88,7 +88,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<Paged<PartialBookDto>> GetBooksByTitlePagedAsync(int page, int pageSize, FilterDto filterDto)
         {
-            return await _bookDbSet.Where(book => book.OrderId == null).Where(x => x.OrderId != null).Where(x => x.Title.Contains(filterDto.Title)).OrderByDescending(book => book.Id)
+            return await _bookDbSet.Where(book => book.OrderId == null).Where(x => x.Title.Contains(filterDto.Title)).OrderByDescending(book => book.Id)
             .ToPagedAsync(book => new PartialBookDto
             {
                 Id = book.Id,

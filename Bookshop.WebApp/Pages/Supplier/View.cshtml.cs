@@ -6,11 +6,10 @@ using Bookshop.WebApp.Attributes;
 using Bookshop.WebApp.PageModels;
 using Bookshop.WebApp.ViewModels.Suppliers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bookshop.WebApp.Pages.Supplier
 {
-    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Administrator)]
+    [AuthorizeAnyOfTheRoles(BookshopRoles.Manager, BookshopRoles.Client, BookshopRoles.Administrator)]
     public class ViewModel : BookshopPageModel
     {
         private readonly ISupplierService _supplierService;

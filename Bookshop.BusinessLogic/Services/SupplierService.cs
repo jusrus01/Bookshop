@@ -134,11 +134,12 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task UpdateSupplierAsync(SupplierDto supplierDto)
         {
-            var remove = await _supplierDbSet.FindAsync(supplierDto.Id);
-            _supplierDbSet.Remove(remove);
-            await _uow.SaveChangesAsync();
-            supplierDto.Id = 0;
-            _supplierDbSet.Add(_mapper.Map<Supplier>(supplierDto));
+            //var remove = await _supplierDbSet.FindAsync(supplierDto.Id);
+            //_supplierDbSet.Remove(remove);
+            //await _uow.SaveChangesAsync();
+            //supplierDto.Id = 0;
+            //_supplierDbSet.Add(_mapper.Map<Supplier>(supplierDto));
+            _supplierDbSet.Update(_mapper.Map<Supplier>(supplierDto));
             await _uow.SaveChangesAsync();
         }
 

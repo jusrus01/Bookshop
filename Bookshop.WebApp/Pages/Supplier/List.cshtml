@@ -15,7 +15,7 @@
             <h3>Suppliers</h3>
             </div>
             <div class="col text-end">
-        @if(User.IsInRole(BookshopRoles.Manager))
+        @if(User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
         {
             <form action="/Supplier/Add">
                 <input class="btn btn-primary" value="Add supplier" style="width: 130px" type="submit">
@@ -31,15 +31,15 @@
                 Name
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 Email address
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 Phone number
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
                 Address
             </div>
 
@@ -56,31 +56,31 @@
                 @supplier.Name
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @supplier.Email
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @supplier.PhoneNumber
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 @supplier.Address
             </div>
 
             <div class="col">
                     @if (User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
                     {
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/View" asp-route-supplierId="@supplier.Id">
+                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/View" asp-route-supplierId="@supplier.Id">
                             <i class="fa-sharp fa-solid fa-eye"></i>
                         </a>
-                        <a style="margin-right: 10px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit" asp-route-supplierId="@supplier.Id">
+                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit" asp-route-supplierId="@supplier.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     }
                     @if (User.IsInRole(BookshopRoles.Administrator))
                     {
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="margin-right: 10px">
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="margin-right: 1px">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     }

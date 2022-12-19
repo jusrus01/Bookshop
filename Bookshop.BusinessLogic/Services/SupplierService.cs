@@ -19,6 +19,7 @@ namespace Bookshop.BusinessLogic.Services
         private readonly DbSet<City> _citiesDbSet;
         private readonly DbSet<Genre> _genresDbSet;
         private readonly DbSet<Book> _booksDbSet;
+        private readonly DbSet<Storage> _storageDbSet;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -33,6 +34,8 @@ namespace Bookshop.BusinessLogic.Services
             _citiesDbSet = uow.GetDbSet<City>();
             _genresDbSet = uow.GetDbSet<Genre>();
             _booksDbSet = uow.GetDbSet<Book>();
+            _storageDbSet = uow.GetDbSet<Storage>();
+            //_storageSupplierDbSet = uow.GetDbSet<StorageSupplier>();
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -71,7 +74,6 @@ namespace Bookshop.BusinessLogic.Services
                     CityId = dbSuppliers[i].CityId
                 });
             }
-
             return suppliers;
         }
 
@@ -94,14 +96,19 @@ namespace Bookshop.BusinessLogic.Services
             return cities;
         }
 
-        public async Task AddAsync(SupplierDto supplierDto)
+        public async Task AddAsync(SupplierDto supplierDto, List<int> storagesIdx)
         {
-            await CreateNewSupplier(supplierDto);
+            await CreateNewSupplier(supplierDto, storagesIdx);
         }
 
-        public async Task CreateNewSupplier(SupplierDto supplierDto)
+        public async Task CreateNewSupplier(SupplierDto supplierDto, List<int> storagesIdx)
         {
             var supplier = _mapper.Map<Supplier>(supplierDto);
+            foreach (var idx in storagesIdx)
+            {
+                var storage = await _storageDbSet.FindAsync(idx);
+                supplier.Storages.Add(storage);
+            }
             _supplierDbSet.Add(supplier);
             await _uow.SaveChangesAsync();
         }
@@ -132,20 +139,26 @@ namespace Bookshop.BusinessLogic.Services
             return _mapper.Map<SupplierDto>(supplier);
         }
 
-        public async Task UpdateSupplierAsync(SupplierDto supplierDto)
+        public async Task UpdateSupplierAsync(SupplierDto supplierDto, List<int> storagesIdx)
         {
-            //var remove = await _supplierDbSet.FindAsync(supplierDto.Id);
-            //_supplierDbSet.Remove(remove);
-            //await _uow.SaveChangesAsync();
-            //supplierDto.Id = 0;
-            //_supplierDbSet.Add(_mapper.Map<Supplier>(supplierDto));
-            _supplierDbSet.Update(_mapper.Map<Supplier>(supplierDto));
+            var supplier = _mapper.Map<Supplier>(supplierDto);
+            foreach (int idx in storagesIdx)
+            {
+                var storage = await FindValue(idx);
+                supplier.Storages.Add(storage);
+            }
+            _supplierDbSet.Update(supplier);
             await _uow.SaveChangesAsync();
+        }
+
+        private async Task<Storage> FindValue(int storageIdx)
+        {
+            return await _storageDbSet.FindAsync(storageIdx);
         }
 
         public List<GenreDto> GetAllGenres()
         {
-            List<Genre> dbGenres =  _genresDbSet.ToList();
+            List<Genre> dbGenres = _genresDbSet.ToList();
 
             List<GenreDto> genres = new List<GenreDto>();
 
@@ -187,5 +200,40 @@ namespace Bookshop.BusinessLogic.Services
 
             return books;
         }
+
+        public List<StorageDto> GetAllStorages()
+        {
+            List<Storage> dbStorages = _storageDbSet.ToList();
+
+            List<StorageDto> storages = new List<StorageDto>();
+
+            for (int i = 0; i < dbStorages.Count; i++)
+            {
+                storages.Add(new StorageDto
+                {
+                    Id = dbStorages[i].Id,
+                    Address = dbStorages[i].Address,
+                    PhoneNumber = dbStorages[i].PhoneNumber,
+                    Email = dbStorages[i].Email,
+                    EmployeeCount = dbStorages[i].EmployeeCount,
+                    Capacity = dbStorages[i].Capacity,
+                    BookCount = dbStorages[i].BookCount
+                });
+            }
+            return storages;
+        }
+
+        public async Task<List<StorageDto>> GetStoragesBySupplierId(int id)
+        {
+            var supplier = await _supplierDbSet.Include(x => x.Storages).FirstAsync(x => x.Id == id);
+            List<StorageDto> storages = new List<StorageDto>();
+            foreach (var storage in supplier.Storages)
+            {
+                storages.Add(_mapper.Map<StorageDto>(storage));
+            }
+            return storages;
+        }
     }
+
+
 }

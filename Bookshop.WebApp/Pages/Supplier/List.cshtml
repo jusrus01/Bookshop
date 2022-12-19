@@ -43,38 +43,39 @@
                 Address
             </div>
 
-            <div class="col-md-2">
+            <div class="col" style="margin-left: 13%">
+                Actions
             </div>
         </div>
     </li>
         
-            @foreach (var supplier in Model.Paged.Items)
+            @foreach (var item in Model.Paged.Items.Select((supplier,i) => (i, supplier)))
             {
            <li class="list-group-item d-none d-md-block">
              <div class="row">
             <div class="col-md-2">
-                @supplier.Name
+                @item.supplier.Name
             </div>
 
             <div class="col-md-2">
-                @supplier.Email
+                @item.supplier.Email
             </div>
 
             <div class="col-md-2">
-                @supplier.PhoneNumber
+                @item.supplier.PhoneNumber
             </div>
 
-            <div class="col-md-3">
-                @supplier.Address
+            <div class="col-md-2">
+                @item.supplier.Address
             </div>
 
             <div class="col">
                     @if (User.IsInRole(BookshopRoles.Manager) || User.IsInRole(BookshopRoles.Administrator))
                     {
-                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/View" asp-route-supplierId="@supplier.Id">
+                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/View" asp-route-supplierId="@item.supplier.Id">
                             <i class="fa-sharp fa-solid fa-eye"></i>
                         </a>
-                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit" asp-route-supplierId="@supplier.Id">
+                        <a style="margin-right: 1px" class="btn btn-primary" asp-area="" asp-page="/Supplier/Edit" asp-route-supplierId="@item.supplier.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     }
@@ -84,7 +85,7 @@
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     }
-             <a class="btn btn-primary" asp-area="" asp-page="/Supplier/Report" asp-route-supplierId="@supplier.Id">
+             <a class="btn btn-primary" asp-area="" asp-page="/Supplier/Report" asp-route-supplierId="@item.supplier.Id">
                 <i class="fa-solid fa-file"></i>
               </a>
             </div>
@@ -103,7 +104,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <form method="post">
-                                        <input type="hidden" name="supplierId" value="@supplier.Id"/>
+                                        <input type="hidden" name="supplierId" value="@item.supplier.Id"/>
                                     <input type="submit" class="btn btn-danger" onclick="close()" value="Remove"/>
                                     </form>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">Cancel</button>

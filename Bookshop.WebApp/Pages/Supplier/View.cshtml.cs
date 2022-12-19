@@ -23,6 +23,7 @@ namespace Bookshop.WebApp.Pages.Supplier
 
         public SupplierViewModel _supplier { get; set; }
         public string _city { get; set; }
+        public int _sum { get; set; }
         public async Task<IActionResult> OnGetAsync(int supplierId)
         {
             var supplier = await _supplierService.GetSupplierById(supplierId);
@@ -36,6 +37,14 @@ namespace Bookshop.WebApp.Pages.Supplier
                     break;
                 }
             }
+
+                var storages_by_id = await _supplierService.GetStoragesBySupplierId(supplierId);
+                int sum = 0;
+                foreach (var strg in storages_by_id)
+                {
+                    sum += strg.BookCount;
+                }
+            _sum = sum;
             return Page();
 
         }

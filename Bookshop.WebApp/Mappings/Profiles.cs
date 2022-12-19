@@ -3,6 +3,7 @@ using AutoMapper;
 using Bookshop.Contracts.DataTransferObjects.Books;
 using Bookshop.Contracts.DataTransferObjects.Clients;
 using Bookshop.Contracts.DataTransferObjects.Orders;
+using Bookshop.Contracts.DataTransferObjects.Suppliers;
 using Bookshop.Contracts.Generics;
 using Bookshop.DataLayer.Models;
 using Bookshop.WebApp.ViewModels.Books;
@@ -60,6 +61,9 @@ namespace Bookshop.WebApp.Mappings
             CreateMap<Bookshop.Contracts.DataTransferObjects.Suppliers.SupplierDto, Supplier>();
             CreateMap<Order, OrderDto>();
             CreateMap<OrderDto, CreateOrderViewModel>();
+            CreateMap<StorageDto, Storage>();
+            CreateMap<Storage, StorageDto>();
+
         }
     }
 }

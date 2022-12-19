@@ -11,16 +11,18 @@ namespace Bookshop.Contracts.Services
         public Task<List<CityDto>> GetCitiesList();
         public Task<List<SupplierDto>> GetSuppliersList();
 
-        public Task AddAsync(SupplierDto supplierDto);
+        public Task AddAsync(SupplierDto supplierDto, List<int> storagesIdx);
 
-        public Task CreateNewSupplier(SupplierDto supplierDto);
+        public Task CreateNewSupplier(SupplierDto supplierDto, List<int> storagesIdx);
         public Task DeleteSupplier(int? id);
 
         public Task<SupplierDto> GetSupplierById(int supplierID);
-        public Task UpdateSupplierAsync(SupplierDto supplierDto);
+        public Task UpdateSupplierAsync(SupplierDto supplierDto, List<int> storagesIdx);
 
         public List<GenreDto> GetAllGenres();
         public List<SupplierBookDto> GetAllBooks();
+        public List<StorageDto> GetAllStorages();
+        public Task<List<StorageDto>> GetStoragesBySupplierId(int id);
 
 
     }

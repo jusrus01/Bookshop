@@ -27,8 +27,11 @@ namespace Bookshop.WebApp.Pages.Supplier
         public SupplierViewModel supplier { get; set; }
 
         public List<SelectListItem> cities { get; set; }
+        public List<Storage> storages { get; set; }
         public async Task<IActionResult> OnGet()
         {
+            var list = _supplierService.GetAllStorages();
+            storages = _mapper.Map<List<Storage>>( _supplierService.GetAllStorages());
             var dbCities = await _supplierService.GetCitiesList();
             cities = new List<SelectListItem>();
             foreach (var c in dbCities)
@@ -38,7 +41,7 @@ namespace Bookshop.WebApp.Pages.Supplier
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int a, int b, int c)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +50,11 @@ namespace Bookshop.WebApp.Pages.Supplier
 
             try
             {
-                await _supplierService.AddAsync(_mapper.Map<SupplierDto>(supplier));
+                List<int> storageIdxArray = new List<int>();
+                if (a > 0) storageIdxArray.Add(a);
+                if (b > 0) storageIdxArray.Add(b);
+                if (c > 0) storageIdxArray.Add(c);
+                await _supplierService.AddAsync(_mapper.Map<SupplierDto>(supplier), storageIdxArray);
             }
             catch (Exception e)
             {

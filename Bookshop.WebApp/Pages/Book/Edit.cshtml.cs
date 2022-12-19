@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
 using Bookshop.Contracts.Constants;
 using Bookshop.Contracts.DataTransferObjects.Books;
@@ -22,7 +23,7 @@ namespace Bookshop.WebApp.Pages.Book
         public List<SelectListItem> Genres { get; set; }
         public List<SelectListItem> Suppliers { get; set; }
 
-        public EditModel(IBookService bookService, IMapper mapper) : base(null)
+        public EditModel(IBookService bookService, IMapper mapper, INotyfService notyfService) : base(notyfService)
         {
             _bookService = bookService;
             _mapper = mapper;
@@ -86,7 +87,7 @@ namespace Bookshop.WebApp.Pages.Book
             }
             catch (Exception e)
             {
-                return PageWithError(e.Message);
+                return await PageWithErrorAsync(e.Message, () => OnGetAsync(Book.Id));
             }
 
             return RedirectToPage("List");

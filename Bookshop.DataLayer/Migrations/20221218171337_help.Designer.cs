@@ -4,6 +4,7 @@ using Bookshop.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookshop.DataLayer.Migrations
 {
     [DbContext(typeof(BookshopDbContext))]
-    partial class BookshopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221218171337_help")]
+    partial class help
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(134));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 157, DateTimeKind.Utc).AddTicks(9752));
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -74,7 +76,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(267));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 157, DateTimeKind.Utc).AddTicks(9873));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -92,7 +94,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("LastLogin")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 19, 18, 22, 643, DateTimeKind.Local).AddTicks(2222));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 19, 13, 37, 158, DateTimeKind.Local).AddTicks(2181));
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -162,7 +164,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(332));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 157, DateTimeKind.Utc).AddTicks(9969));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -175,8 +177,7 @@ namespace Bookshop.DataLayer.Migrations
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
@@ -264,7 +265,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(550));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 158, DateTimeKind.Utc).AddTicks(131));
 
                     b.Property<DateTime>("ExpectedDelivery")
                         .HasColumnType("datetime2");
@@ -308,7 +309,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(646));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 158, DateTimeKind.Utc).AddTicks(226));
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -340,7 +341,7 @@ namespace Bookshop.DataLayer.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 18, 22, 643, DateTimeKind.Utc).AddTicks(746));
+                        .HasDefaultValue(new DateTime(2022, 12, 18, 17, 13, 37, 158, DateTimeKind.Utc).AddTicks(345));
 
                     b.Property<int>("Score")
                         .HasMaxLength(10)

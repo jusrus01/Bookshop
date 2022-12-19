@@ -183,30 +183,9 @@ namespace Bookshop.BusinessLogic.Services
             return newBook;
         }
 
-        public async Task<Book> SetBookValue(BookDto book)
-        {
-            return new Book
-            {
-                Id = book.Id,
-                ISBN = book.ISBN,
-                Title = book.Title,
-                Author = book.Author,
-                Year = book.Year,
-                Pages = book.Pages,
-                Description = book.Description,
-                Price = book.Price,
-                Discount = book.Discount,
-                GenreId = _genreDbSet.Where(b => b.Name == book.Genre).First().Id,
-                SupplierId = _supplierDbSet.Where(b => b.Name == book.Supplier).First().Id,
-                Created = DateTime.Now
-            };
-        }
-
-
-
         public async Task<List<GenreDto>> GetGenres()
         {
-            List<Genre> dbGenre = _genreDbSet.ToList();
+            List<Genre> dbGenre = await _genreDbSet.ToListAsync();
 
             List<GenreDto> genres = new List<GenreDto>();
 
@@ -224,14 +203,14 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<string>> GetAuthor()
         {
-            List<string> authors = _bookDbSet.Where(book => book.OrderId == null).Select(x => x.Author).ToList();
+            List<string> authors = await _bookDbSet.Where(book => book.OrderId == null).Select(x => x.Author).ToListAsync();
             authors = authors.DistinctBy(a => a.First()).ToList();
             return authors;
         }
 
         public async Task<List<BookCommentDto>> GetComments(int bookId)
         {
-            List<Rating> dbRates = _ratingDbSet.Where(x => x.BookId == bookId).ToList();
+            List<Rating> dbRates = await _ratingDbSet.Where(x => x.BookId == bookId).ToListAsync();
 
             List<BookCommentDto> comments = new List<BookCommentDto>();
 
@@ -250,7 +229,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<SupplierDto>> GetSupplier()
         {
-            List<Supplier> dbSuppliers = _supplierDbSet.ToList();
+            List<Supplier> dbSuppliers = await _supplierDbSet.ToListAsync();
 
             List<SupplierDto> suppliers = new List<SupplierDto>();
 

@@ -110,36 +110,5 @@ namespace Bookshop.WebApp.Pages.Orders
 
             return RedirectToPage("List");
         }
-
-        public async void OnGet()
-        {
-            List<BookDto> books = await _orderService.GetBooks();
-            List<SelectListItem> bookList = new List<SelectListItem>();
-
-            List<PaymentMethod> payments = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>().ToList();
-            List<SelectListItem> paymentsList = new List<SelectListItem>();
-
-            List<OrderMethod> ordersMethods = Enum.GetValues(typeof(OrderMethod)).Cast<OrderMethod>().ToList();
-            List<SelectListItem> ordersMethodsList = new List<SelectListItem>();
-
-            for (int i = 0; i < books.Count; i++)
-            {
-                bookList.Add(new SelectListItem { Text = books[i].Title, Value = books[i].Id.ToString() });
-            }
-
-            for (int i = 0; i < payments.Count; i++)
-            {
-                paymentsList.Add(new SelectListItem { Text = payments[i].ToString(), Value = payments[i].ToString() });
-            }
-
-            for (int i = 0; i < ordersMethods.Count; i++)
-            {
-                ordersMethodsList.Add(new SelectListItem { Text = ordersMethods[i].ToString(), Value = ordersMethods[i].ToString() });
-            }
-
-            this.Books = bookList;
-            this.Payments = paymentsList;
-            this.OrderMethods = ordersMethodsList;
-        }
     }
 }

@@ -38,7 +38,7 @@ namespace Bookshop.WebApp.Pages.Book
             _uow = uow;
         }
 
-        public async void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             List<GenreDto> genres = await _bookService.GetGenres();
             List<SupplierDto> suppliers = await _bookService.GetSupplier();
@@ -58,6 +58,7 @@ namespace Bookshop.WebApp.Pages.Book
 
             this.Genres = genreList;
             this.Suppliers = supplierList;
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -73,7 +74,7 @@ namespace Bookshop.WebApp.Pages.Book
             }
             catch (Exception e)
             {
-                return PageWithError(e.Message);
+                return await PageWithErrorAsync(e.Message, OnGetAsync);
             }
 
             return RedirectToPage("List");

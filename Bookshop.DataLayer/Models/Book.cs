@@ -1,7 +1,5 @@
 ﻿using Bookshop.DataLayer.Contracts;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.InteropServices;
 
 namespace Bookshop.DataLayer.Models
 {
@@ -9,7 +7,7 @@ namespace Bookshop.DataLayer.Models
     {
         public int Id { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(40)]
         public string ISBN { get; set; }
 
         [Required]

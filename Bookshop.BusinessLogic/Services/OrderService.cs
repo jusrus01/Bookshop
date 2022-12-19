@@ -237,7 +237,7 @@ namespace Bookshop.BusinessLogic.Services
 
         public async Task<List<BookDto>> GetBooks()
         {
-            List<Book> dbBook = _bookDbSet.ToList();
+            List<Book> dbBook = await _bookDbSet.ToListAsync();
 
             List<BookDto> books = new List<BookDto>();
 

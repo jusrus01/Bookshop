@@ -1,4 +1,4 @@
-﻿using Bookshop.DataLayer.Contracts;
+﻿ using Bookshop.DataLayer.Contracts;
 
 namespace Bookshop.DataLayer.Models
 {

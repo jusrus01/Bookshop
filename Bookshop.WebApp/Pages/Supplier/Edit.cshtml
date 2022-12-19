@@ -33,6 +33,12 @@
             }
         </select>
         <br/>
+        <label>Storages:</label>
+        <br />
+                <input type="checkbox" name="a" value="@Model.storages[0].Id"><label>@Model.storages[0].Address storage</label><br />
+                <input type="checkbox" name="b" value="@Model.storages[1].Id"><label>@Model.storages[1].Address storage</label><br />
+                <input type="checkbox" name="c" value="@Model.storages[2].Id"><label>@Model.storages[2].Address storage</label><br />
+        <br/>
         <div class="text-center">
             <div class="mt-4">
                 <input class="btn btn-primary" type="submit" value="Save"/>

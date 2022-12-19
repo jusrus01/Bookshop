@@ -10,6 +10,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Bookshop.WebApp.ViewModels.Suppliers;
 using Bookshop.WebApp.PageModels;
 using Bookshop.Contracts.Generics;
+using Bookshop.DataLayer.Models;
 
 namespace Bookshop.WebApp.Pages.Supplier
 {
@@ -30,6 +31,7 @@ namespace Bookshop.WebApp.Pages.Supplier
             _mapper = mapper;
             _supplierService = supplierService;
         }
+
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 1)
         {

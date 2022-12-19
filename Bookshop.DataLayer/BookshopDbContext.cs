@@ -28,6 +28,7 @@ namespace Bookshop.DataLayer
 
         public DbSet<OrderState> OrderStates { get; set; }
 
+
         public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -20,6 +20,6 @@
 <form method="post">
     <input type="hidden" name="supplierId" value="@Model._supplier.Id"/>
     <label>Choose an amount of most popular genres to generate: </label>
-    <input type="text" name="mostPopularGenresAmount" value="1"/>
+    <input type="number" min="1" name="mostPopularGenresAmount" value="1"/>
     <input type="submit" value="Download the report in PDF" class="btn btn-primary"/>
 </form>

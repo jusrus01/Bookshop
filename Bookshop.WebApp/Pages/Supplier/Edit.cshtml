@@ -12,21 +12,21 @@
     <div class="col-md-4">
         <h3 style="text-align: center">Edit supplier</h3>
         <form method="post">
-        <input type="hidden" asp-for="_supplier.Id" value="@Model._supplier.Id"/>
+        <input type="hidden" asp-for="_supplier.Id" value="@Model._supplier.Id" required/>
         <label>Name</label>
-        <input class="form-control" asp-for="_supplier.Name" value="@Model._supplier.Name"/>
+        <input class="form-control" asp-for="_supplier.Name" value="@Model._supplier.Name" required/>
 
         <label>Email</label>
-        <input class="form-control" asp-for="_supplier.Email" value="@Model._supplier.Email" />
+        <input class="form-control" asp-for="_supplier.Email" value="@Model._supplier.Email" required/>
 
         <label>Phone number</label>
-        <input class="form-control" asp-for="_supplier.PhoneNumber" value="@Model._supplier.PhoneNumber"/>
+        <input class="form-control" asp-for="_supplier.PhoneNumber" value="@Model._supplier.PhoneNumber"required/>
         
         <label>Address</label>
-        <input class="form-control" asp-for="_supplier.Address" value="@Model._supplier.Address"/>
+        <input class="form-control" asp-for="_supplier.Address" value="@Model._supplier.Address" required/>
 
         <label>City</label>
-        <select asp-for="_supplier.CityId" placeholder="City" class="form-control" asp-for="@Model._supplier.CityId">
+        <select asp-for="_supplier.CityId" placeholder="City" class="form-control" asp-for="@Model._supplier.CityId" required>
             @foreach (SelectListItem option in @Model._cities)
             {
                 <option value="@option.Value">@option.Text</option>
